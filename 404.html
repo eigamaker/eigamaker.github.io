@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <script>
+        // URLのクエリパラメータを取得
+        const currentUrl = new URL(window.location.href);
+        const path = currentUrl.pathname; // 例: /join
+        const params = currentUrl.search; // 例: ?token=abc123
+        const token = new URLSearchParams(params).get("token");
+
+        if (path === "/join" && token) {
+            // トークンがある場合、リダイレクトロジックを実行
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            if (/android/i.test(userAgent)) {
+                // Androidデバイスの場合
+                window.location.href = `intent://join?token=${token}#Intent;scheme=https;package=com.example.profilecode;end`;
+            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                // iOSデバイスの場合
+                window.location.href = `profilecode.codes://join?token=${token}`;
+            } else {
+                // その他のデバイスの場合、ストアへのリンクを表示
+                const appStoreLink = "https://apps.apple.com/app/id123456789"; // iOSアプリストアURL
+                const playStoreLink = "https://play.google.com/store/apps/details?id=com.example.profilecode"; // AndroidストアURL
+
+                document.body.innerHTML = `
+                    <h1>Install Profilecode</h1>
+                    <p>Please install the app to continue:</p>
+                    <a href="${appStoreLink}">Download for iOS</a>
+                    <br>
+                    <a href="${playStoreLink}">Download for Android</a>
+                `;
+            }
+        } else {
+            // トークンがない場合、ウェルカムメッセージを表示
+            document.body.innerHTML = "<h1>Welcome to Profilecode!</h1>";
+        }
+    </script>
+</head>
+<body>
+    <h1>Redirecting...</h1>
+</body>
+</html>
