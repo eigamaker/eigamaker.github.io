@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <script>
+        window.onload = function () {
+            const userAgent = navigator.userAgent;
+
+            if (/iPhone|iPad|iPod/i.test(userAgent)) {
+                window.location.href = 'https://apps.apple.com/'; // App Store URL
+            } else if (/Android/i.test(userAgent)) {
+                window.location.href = 'https://play.google.com/store'; // Google Play URL
+            } else {
+                window.location.href = 'https://profilecode.codes'; // デフォルトURL
+            }
+        };
+    </script>
+</head>
+<body>
+    <p>Redirecting...</p>
+</body>
+</html>
