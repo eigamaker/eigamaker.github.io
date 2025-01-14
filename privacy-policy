@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        p, li {
+            color: #34495e;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Privacy Policy</h1>
+<p><strong>Version:</strong> 1.1</p>
+<p><strong>Last Updated:</strong> January 14, 2025</p>
+
+<h2>1. Introduction</h2>
+<p>Welcome to profilecode. Your privacy is critically important to us. This Privacy Policy outlines how we collect, use, and protect your personal information when you use our service, hosted on <strong>profilecode.codes</strong>.</p>
+
+<h2>2. Information We Collect</h2>
+
+<h3>a. Information You Provide</h3>
+<ul>
+    <li><strong>Account Information:</strong> Your name, email address, and password are collected during signup.</li>
+    <li><strong>Optional Profile Data:</strong> Additional information like age, gender, or preferences that you choose to provide.</li>
+</ul>
+
+<h3>b. Automatically Collected Information</h3>
+<ul>
+    <li><strong>Usage Data:</strong> Pages visited, time spent, and actions taken on the platform.</li>
+    <li><strong>Device Data:</strong> IP address, browser type, and operating system.</li>
+</ul>
+
+<h2>3. How We Use Your Information</h2>
+<p>We use your data to:</p>
+<ul>
+    <li>Provide, maintain, and improve our service.</li>
+    <li>Personalize your experience.</li>
+    <li>Ensure compliance with applicable laws.</li>
+</ul>
+
+<h2>4. Data Sharing</h2>
+<p>We do not sell or share your data with third parties, except:</p>
+<ul>
+    <li><strong>Service Providers:</strong> For hosting, analytics, or customer support.</li>
+    <li><strong>Legal Authorities:</strong> When required by law.</li>
+</ul>
+
+<h2>5. Your Rights</h2>
+<p>Under GDPR or other applicable laws, you have rights including:</p>
+<ul>
+    <li><strong>Access:</strong> Request a copy of your data.</li>
+    <li><strong>Correction:</strong> Update inaccurate or incomplete data.</li>
+    <li><strong>Deletion:</strong> Request data deletion.</li>
+    <li><strong>Portability:</strong> Receive your data in a machine-readable format.</li>
+</ul>
+
+<h2>6. Data Retention</h2>
+<p>We retain your data only as long as necessary to fulfill the purposes described in this policy.</p>
+
+<h2>7. Changes to This Policy</h2>
+<p>This Privacy Policy may be updated. Changes will be communicated through our platform or email notifications.</p>
+
+</body>
+</html>

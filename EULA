@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>End User License Agreement (EULA)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        p, li {
+            color: #34495e;
+        }
+    </style>
+</head>
+<body>
+
+<h1>End User License Agreement (EULA)</h1>
+
+<h2>1. Overview</h2>
+<p>This End User License Agreement ("Agreement") is a binding legal agreement between you and profilecode, governing your use of the application hosted at <strong>profilecode.codes</strong>.</p>
+
+<h2>2. License Grant</h2>
+<p>profilecode grants you a limited, non-exclusive, non-transferable license to access and use the platform for personal, non-commercial purposes.</p>
+
+<h2>3. User Responsibilities</h2>
+<p>By using profilecode, you agree to:</p>
+<ul>
+    <li>Comply with all applicable laws and regulations.</li>
+    <li>Not attempt to reverse-engineer or tamper with the platform.</li>
+    <li>Avoid sharing your account credentials with others.</li>
+</ul>
+
+<h2>4. Restrictions</h2>
+<ul>
+    <li>Use the service for any illegal activities.</li>
+    <li>Distribute or sublicense the application.</li>
+</ul>
+
+<h2>5. Intellectual Property</h2>
+<p>All content, features, and intellectual property related to profilecode remain the property of profilecode. Unauthorized use is prohibited.</p>
+
+<h2>6. Termination</h2>
+<p>profilecode reserves the right to terminate or suspend your account for any violation of this Agreement.</p>
+
+<h2>7. Disclaimer of Warranties</h2>
+<p>The service is provided "as is" without any warranties of any kind.</p>
+
+<h2>8. Limitation of Liability</h2>
+<p>To the fullest extent permitted by law, profilecode shall not be liable for any indirect or consequential damages resulting from your use of the platform.</p>
+
+<h2>9. Governing Law</h2>
+<p>This Agreement shall be governed by and construed in accordance with the laws of your country of residence.</p>
+
+<h2>10. Changes to This Agreement</h2>
+<p>ProfileCode may update this Agreement. Continued use of the service constitutes acceptance of any updates.</p>
+
+</body>
+</html>
