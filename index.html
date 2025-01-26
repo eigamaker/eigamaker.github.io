@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profilecode</title>
+    <script>
+        // リンクハンドリングスクリプト
+        document.addEventListener("DOMContentLoaded", function () {
+            // URLのクエリパラメータを取得
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get("token");
+
+            // トークンが存在しない場合は通常のウェルカムページを表示
+            if (!token) {
+                document.getElementById("message").innerText = "Welcome to Profilecode!";
+                return;
+            }
+
+            // デバイスの種類を判定
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            if (/android/i.test(userAgent)) {
+                // Androidデバイスの場合
+                window.location.href = `intent://join?token=${token}#Intent;scheme=https;package=com.example.profilecode;end`;
+            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                // iOSデバイスの場合
+                window.location.href = `profilecode.codes://join?token=${token}`;
+            } else {
+                // その他（デスクトップなど）の場合、ストアへのリンクを表示
+                const appStoreLink = "https://apps.apple.com/app/id123456789"; // iOSアプリストアURL
+                const playStoreLink = "https://play.google.com/store/apps/details?id=com.example.profilecode"; // AndroidストアURL
+
+                document.getElementById("message").innerHTML = `
+                    Please install the app to continue:
+                    <br><a href="${appStoreLink}">Download for iOS</a>
+                    <br><a href="${playStoreLink}">Download for Android</a>
+                `;
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1 id="message"></h1>
+</body>
+</html>
