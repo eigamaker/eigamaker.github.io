@@ -1,34 +1,79 @@
-<form id="inquiry-form">
-  <input type="email" name="email" required />
-  <select name="inquiry_type">
-    <option value="delete_account">アカウント削除</option>
-    <option value="question">質問</option>
-  </select>
-  <textarea name="message" required></textarea>
-  <button type="submit">送信</button>
-</form>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script>
-  const supabase = supabase.createClient('https://xxx.supabase.co', 'your-anon-key');
-
-  document.getElementById('inquiry-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const form = e.target;
-    const email = form.email.value;
-    const inquiry_type = form.inquiry_type.value;
-    const message = form.message.value;
-
-    const { error } = await supabase.from('web_user_inquiries').insert([
-      { email, inquiry_type, message }
-    ]);
-
-    if (error) {
-      alert("送信に失敗しました: " + error.message);
-    } else {
-      alert("お問い合わせが送信されました。");
-      form.reset();
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>お問い合わせフォーム | Profilecode</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
     }
-  });
-</script>
+    label, input, select, textarea {
+      display: block;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    button {
+      background-color: #007BFF;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>お問い合わせフォーム</h1>
+  <p>アカウント削除やご質問はこちらからご連絡ください。</p>
+
+  <form id="inquiry-form">
+    <label for="email">メールアドレス</label>
+    <input type="email" name="email" required />
+
+    <label for="inquiry_type">お問い合わせの種類</label>
+    <select name="inquiry_type">
+      <option value="delete_account">アカウント削除</option>
+      <option value="question">質問</option>
+    </select>
+
+    <label for="message">内容</label>
+    <textarea name="message" rows="5" required></textarea>
+
+    <button type="submit">送信</button>
+  </form>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const supabase = supabase.createClient('https://jehpkwqaphfcxnuzpavi.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImplaHBrd3FhcGhmY3hudXpwYXZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjg1NDA3MTMsImV4cCI6MjA0NDExNjcxM30.A5xe0cFzRPjNIIGcTINjK1Yi9K0O7Aw67RDxbLyVstY');
+
+    document.getElementById('inquiry-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const form = e.target;
+      const email = form.email.value.trim();
+      const inquiry_type = form.inquiry_type.value;
+      const message = form.message.value.trim();
+
+      if (!email || !message) {
+        alert("すべての項目を入力してください。");
+        return;
+      }
+
+      const { error } = await supabase.from('web_user_inquiries').insert([
+        { email, inquiry_type, message }
+      ]);
+
+      if (error) {
+        alert("送信に失敗しました: " + error.message);
+      } else {
+        alert("お問い合わせが送信されました。ありがとうございます。");
+        form.reset();
+      }
+    });
+  </script>
+</body>
+</html>
