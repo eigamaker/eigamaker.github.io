@@ -25,6 +25,15 @@
       font-size: 16px;
       cursor: pointer;
     }
+    #success-message {
+      display: none;
+      padding: 20px;
+      background-color: #e7f8e6;
+      border: 1px solid #33a837;
+      color: #256c20;
+      margin-top: 20px;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
@@ -47,9 +56,17 @@
     <button type="submit">Submit</button>
   </form>
 
+  <div id="success-message">
+    ✅ Your inquiry has been submitted. Thank you!<br />
+    We will get back to you as soon as possible.
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
-    const supabase = supabase.createClient('https://jehpkwqaphfcxnuzpavi.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImplaHBrd3FhcGhmY3hudXpwYXZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjg1NDA3MTMsImV4cCI6MjA0NDExNjcxM30.A5xe0cFzRPjNIIGcTINjK1Yi9K0O7Aw67RDxbLyVstY');
+    const supabaseClient = supabase.createClient(
+      'https://your-project-https://jehpkwqaphfcxnuzpavi.supabase.co.supabase.co',   // ← Replace with your Supabase URL
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImplaHBrd3FhcGhmY3hudXpwYXZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjg1NDA3MTMsImV4cCI6MjA0NDExNjcxM30.A5xe0cFzRPjNIIGcTINjK1Yi9K0O7Aw67RDxbLyVstY'                          // ← Replace with your Supabase anon key
+    );
 
     document.getElementById('inquiry-form').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -64,15 +81,21 @@
         return;
       }
 
-      const { error } = await supabase.from('web_user_inquiries').insert([
-        { email, inquiry_type, message }
-      ]);
+      try {
+        const { error } = await supabaseClient.from('web_user_inquiries').insert([
+          { email, inquiry_type, message }
+        ]);
 
-      if (error) {
-        alert("Failed to submit: " + error.message);
-      } else {
-        alert("Your inquiry has been submitted. Thank you!");
-        form.reset();
+        if (error) {
+          console.error("Supabase error:", error);
+          alert("Submission failed: " + error.message);
+        } else {
+          form.style.display = "none";
+          document.getElementById("success-message").style.display = "block";
+        }
+      } catch (err) {
+        console.error("Unexpected error:", err);
+        alert("Something went wrong.");
       }
     });
   </script>
