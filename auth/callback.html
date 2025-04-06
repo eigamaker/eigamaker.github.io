@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Authentication Callback</title>
+    <script>
+        // URLからトークンを取得
+        const urlParams = new URLSearchParams(window.location.search);
+        const accessToken = urlParams.get('access_token');
+        const refreshToken = urlParams.get('refresh_token');
+        const type = urlParams.get('type');
+
+        // トークンが存在する場合、アプリにリダイレクト
+        if (accessToken && type === 'recovery') {
+            // アプリのディープリンクにリダイレクト
+            window.location.href = 'intent://reset-password/#Intent;scheme=com.profilecode.profilecode;package=com.profilecode.profilecode;end';
+        } else {
+            // エラーメッセージを表示
+            document.body.innerHTML = '<h1>Authentication Error</h1><p>Invalid or missing tokens.</p>';
+        }
+    </script>
+</head>
+<body>
+    <h1>Redirecting...</h1>
+</body>
+</html> 

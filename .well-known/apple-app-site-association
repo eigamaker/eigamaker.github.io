@@ -1,0 +1,11 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "YOUR_TEAM_ID.com.profilecode.profilecode",
+                "paths": ["/auth/callback", "/reset-password"]
+            }
+        ]
+    }
+} 
