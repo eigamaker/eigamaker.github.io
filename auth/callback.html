@@ -3,8 +3,8 @@
 <head>
     <title>Authentication Callback</title>
     <script>
-        // URLからトークンを取得
-        const urlParams = new URLSearchParams(window.location.search);
+        // URLのフラグメント(#の後ろ)からトークンを取得
+        const urlParams = new URLSearchParams(window.location.hash.substring(1));
         const accessToken = urlParams.get('access_token');
         const refreshToken = urlParams.get('refresh_token');
         const type = urlParams.get('type');
