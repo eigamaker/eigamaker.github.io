@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profilecode</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // URLのクエリパラメータを取得
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get("token");
+
+            // ストアのリンクを定義
+            const playStoreLink = "https://play.google.com/store/apps/details?id=com.profilecode.profilecode";
+
+            // トークンが存在しない場合は通常のウェルカムページを表示
+            if (!token) {
+                document.getElementById("message").innerText = "Welcome to Profilecode!";
+                return;
+            }
+
+            // デバイスの種類を判定
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            if (/android/i.test(userAgent)) {
+                // Androidデバイスの場合、アプリがインストールされていれば開き、未インストールなら Play Store に遷移
+                window.location.href = `intent://join?token=${token}#Intent;scheme=https;package=com.profilecode.profilecode;S.browser_fallback_url=${encodeURIComponent(playStoreLink)};end`;
+            } else {
+                // その他のデバイス（PC、iOS など）の場合、Play Store のリンクを表示
+                document.getElementById("message").innerHTML = `
+                    <p>To continue, please install the Profilecode app:</p>
+                    <a href="${playStoreLink}" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Download for Android</a>
+                `;
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1 id="message"></h1>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Authentication Callback</title>
+    <script>
+        // URLからトークンを取得
+        const urlParams = new URLSearchParams(window.location.search);
+        const accessToken = urlParams.get('access_token');
+        const refreshToken = urlParams.get('refresh_token');
+        const type = urlParams.get('type');
+
+        // トークンが存在する場合、アプリにリダイレクト
+        if (accessToken && type === 'recovery') {
+            // Androidインテントを使用してアプリを起動
+            const intentUrl = `intent://reset-password/#Intent;scheme=com.profilecode.profilecode;package=com.profilecode.profilecode;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.profilecode.profilecode;end`;
+            
+            // アプリを起動
+            window.location.href = intentUrl;
+            
+            // アプリが起動しない場合のフォールバック
+            setTimeout(() => {
+                window.location.href = 'https://play.google.com/store/apps/details?id=com.profilecode.profilecode';
+            }, 2000);
+        } else {
+            // エラーメッセージを表示
+            document.body.innerHTML = '<h1>Authentication Error</h1><p>Invalid or missing tokens.</p>';
+        }
+    </script>
+</head>
+<body>
+    <h1>Redirecting to app...</h1>
+    <p>If you are not redirected automatically, <a href="intent://reset-password/#Intent;scheme=com.profilecode.profilecode;package=com.profilecode.profilecode;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.profilecode.profilecode;end">click here</a> to open the app.</p>
+</body>
+</html> 
