@@ -27,7 +27,9 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // URLのクエリパラメータを取得
+            // URLのパスとクエリパラメータを取得
+            const currentUrl = new URL(window.location.href);
+            const path = currentUrl.pathname;
             const urlParams = new URLSearchParams(window.location.search);
             const token = urlParams.get("token");
 
