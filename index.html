@@ -33,38 +33,34 @@
             const path = currentUrl.pathname;
             const urlParams = new URLSearchParams(window.location.search);
             const token = urlParams.get("token");
+            const type = urlParams.get("type");
+            const accessToken = urlParams.get("access_token");
 
             // ストアのリンクを定義
             const playStoreLink = "https://play.google.com/store/apps/details?id=com.profilecode.profilecode";
-
-            // トークンが存在しない場合は通常のウェルカムページを表示
-            if (!token) {
-                document.getElementById("message").innerHTML = `
-                    <h1>Welcome to Profilecode!</h1>
-                    <p>Download the app to get started:</p>
-                    <a href="${playStoreLink}" class="download-button">Download for Android</a>
-                `;
-                return;
-            }
 
             // デバイスの種類を判定
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
             if (/android/i.test(userAgent)) {
-                // Androidデバイスの場合、アプリがインストールされていれば開き、未インストールなら Play Store に遷移
-                window.location.href = `intent://join?token=${token}#Intent;scheme=https;package=com.profilecode.profilecode;S.browser_fallback_url=${encodeURIComponent(playStoreLink)};end`;
+                if (path === "/join" && token) {
+                    // Sharelinkの場合
+                    window.location.href = `intent://join?token=${token}#Intent;scheme=https;package=com.profilecode.profilecode;S.browser_fallback_url=${encodeURIComponent(playStoreLink)};end`;
+                } else if (type === 'recovery' && accessToken) {
+                    // パスワード変更の場合
+                    window.location.href = `intent://reset-password/?access_token=${accessToken}&type=${type}#Intent;scheme=https;package=com.profilecode.profilecode;S.browser_fallback_url=${encodeURIComponent(playStoreLink)};end`;
+                } else {
+                    // その他の場合、直接Play Storeに遷移
+                    window.location.href = playStoreLink;
+                }
             } else {
-                // その他のデバイス（PC、iOSなど）の場合、ストアへのリンクを表示
-                document.getElementById("message").innerHTML = `
-                    <h1>Install Profilecode</h1>
-                    <p>To continue, please install the Profilecode app:</p>
-                    <a href="${playStoreLink}" class="download-button">Download for Android</a>
-                `;
+                // その他のデバイス（PC、iOSなど）の場合、直接Play Storeに遷移
+                window.location.href = playStoreLink;
             }
         };
     </script>
 </head>
 <body>
-    <div id="message">Redirecting...</div>
+    <div>Redirecting to Play Store...</div>
 </body>
 </html>
