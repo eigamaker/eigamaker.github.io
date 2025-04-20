@@ -3,44 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
-    <script>
-        // URLのクエリパラメータを取得
-        const currentUrl = new URL(window.location.href);
-        const path = currentUrl.pathname; // 例: /join
-        const params = currentUrl.search; // 例: ?token=abc123
-        const token = new URLSearchParams(params).get("token");
-
-        if (path === "/join" && token) {
-            // トークンがある場合、リダイレクトロジックを実行
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
-            if (/android/i.test(userAgent)) {
-                // Androidデバイスの場合
-                window.location.href = `intent://join?token=${token}#Intent;scheme=https;package=com.example.profilecode;end`;
-            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                // iOSデバイスの場合
-                window.location.href = `profilecode.codes://join?token=${token}`;
-            } else {
-                // その他のデバイスの場合、ストアへのリンクを表示
-                const appStoreLink = "https://apps.apple.com/app/id123456789"; // iOSアプリストアURL
-                const playStoreLink = "https://play.google.com/store/apps/details?id=com.example.profilecode"; // AndroidストアURL
-
-                document.body.innerHTML = `
-                    <h1>Install Profilecode</h1>
-                    <p>Please install the app to continue:</p>
-                    <a href="${appStoreLink}">Download for iOS</a>
-                    <br>
-                    <a href="${playStoreLink}">Download for Android</a>
-                `;
-            }
-        } else {
-            // トークンがない場合、ウェルカムメッセージを表示
-            document.body.innerHTML = "<h1>Welcome to Profilecode!</h1>";
+    <title>Page Not Found - Profilecode</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
         }
-    </script>
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>Redirecting...</h1>
+    <h1>404 - Page Not Found</h1>
+    <p>The page you are looking for does not exist.</p>
+    <p><a href="/">Return to Home</a></p>
 </body>
 </html>
