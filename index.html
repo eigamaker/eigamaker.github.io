@@ -17,11 +17,14 @@
 
             // ストアのリンクを定義
             const playStoreLink = "https://play.google.com/store/apps/details?id=com.profilecode.profilecode";
+            const appStoreLink = "https://apps.apple.com/jp/app/profilecode-codes/id6747016000";
 
             // デバイスの種類を判定
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            const isAndroid = /android/i.test(userAgent);
+            const isIOS = /iphone|ipad|ipod/i.test(userAgent);
 
-            if (/android/i.test(userAgent)) {
+            if (isAndroid) {
                 if (path === "/join" && token) {
                     // Sharelinkの場合
                     window.location.href = `intent://join?token=${token}#Intent;scheme=https;package=com.profilecode.profilecode;S.browser_fallback_url=${encodeURIComponent(playStoreLink)};end`;
@@ -32,6 +35,9 @@
                     // その他の場合、直接Play Storeに遷移
                     window.location.href = playStoreLink;
                 }
+            } else if (isIOS) {
+                // iOSはApp Storeへ遷移
+                window.location.href = appStoreLink;
             } else {
                 // その他のデバイス（PC、iOSなど）の場合、直接Play Storeに遷移
                 window.location.href = playStoreLink;
