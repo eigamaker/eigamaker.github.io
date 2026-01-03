@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <script>
+        // /joinへのアクセスをlink.profilecode.codesにリダイレクト
+        (function() {
+            const currentUrl = new URL(window.location.href);
+            const queryString = currentUrl.search;
+            const hash = currentUrl.hash;
+            
+            // link.profilecode.codes/joinにリダイレクト（クエリパラメータとハッシュを保持）
+            window.location.href = `https://link.profilecode.codes/join${queryString}${hash}`;
+        })();
+    </script>
+</head>
+<body>
+    <p>アプリを開いています...</p>
+</body>
+</html>
+
