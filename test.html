@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>性格診断 - Profilecode</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+        .progress-text {
+            text-align: center;
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+        .question-section {
+            display: none;
+        }
+        .question-section.active {
+            display: block;
+        }
+        .question-text {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #333;
+            line-height: 1.8;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .option-btn {
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1em;
+            text-align: center;
+        }
+        .option-btn:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateY(-2px);
+        }
+        .option-btn.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .nav-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+        }
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .btn-prev {
+            background: #f0f0f0;
+            color: #333;
+        }
+        .btn-prev:hover:not(:disabled) {
+            background: #e0e0e0;
+        }
+        .btn-next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-next:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .result-section {
+            display: none;
+        }
+        .result-section.active {
+            display: block;
+        }
+        .result-title {
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .result-card {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        .result-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+        .result-card p {
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+        .result-card ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .result-card li {
+            margin-bottom: 5px;
+        }
+        .reference-result {
+            background: #fff9e6;
+            border-left: 4px solid #ffa500;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .reference-result h4 {
+            margin-bottom: 10px;
+            color: #ff8c00;
+        }
+        .trademark-notice {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 10px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 5px;
+        }
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 40px;
+        }
+        .action-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+        .btn-app {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-app:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .btn-retry {
+            background: #f0f0f0;
+            color: #333;
+        }
+        .btn-retry:hover {
+            background: #e0e0e0;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            .question-text {
+                font-size: 1.2em;
+            }
+            .option-btn {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 進捗バー -->
+        <div class="progress-text" id="progressText">質問 1 / 30</div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 3.33%"></div>
+        </div>
+
+        <!-- 質問セクション -->
+        <div class="question-section active" id="questionSection">
+            <div class="question-text" id="questionText"></div>
+            <div class="options" id="options"></div>
+            <div class="nav-buttons">
+                <button class="nav-btn btn-prev" id="btnPrev" onclick="test.previousQuestion()" disabled>前へ</button>
+                <button class="nav-btn btn-next" id="btnNext" onclick="test.nextQuestion()" disabled>次へ</button>
+            </div>
+        </div>
+
+        <!-- 結果セクション -->
+        <div class="result-section" id="resultSection">
+            <h1 class="result-title">診断結果</h1>
+            <div id="results"></div>
+            <div class="action-buttons">
+                <a href="https://apps.apple.com/jp/app/profilecode-codes/id6747016000" class="action-btn btn-app" target="_blank">アプリで詳しく見る</a>
+                <button class="action-btn btn-retry" onclick="test.resetAndRestart()">もう一度診断する</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/questions.js"></script>
+    <script src="js/calculators/profilecode-calculator.js"></script>
+    <script src="js/calculators/four-indicator-calculator.js"></script>
+    <script src="js/personality-test.js"></script>
+    <script>
+        let test = new PersonalityTest();
+        let currentAnswer = null;
+
+        // 質問を表示
+        function displayQuestion() {
+            const question = test.getCurrentQuestion();
+            if (!question) {
+                showResults();
+                return;
+            }
+
+            document.getElementById('questionText').textContent = question.question;
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = option.text;
+                btn.onclick = () => selectOption(index, option.value);
+                optionsDiv.appendChild(btn);
+            });
+
+            // 進捗を更新
+            const progress = test.getProgress();
+            document.getElementById('progressText').textContent = `質問 ${progress.current} / ${progress.total}`;
+            document.getElementById('progressFill').style.width = `${progress.percentage}%`;
+
+            // 前へボタンの状態
+            document.getElementById('btnPrev').disabled = test.currentQuestionIndex === 0;
+
+            // 既に回答済みの場合は選択状態を復元
+            const existingAnswer = test.answers.find(a => a.questionId === question.id);
+            if (existingAnswer) {
+                const optionIndex = question.options.findIndex(o => o.value === existingAnswer.value);
+                if (optionIndex !== -1) {
+                    selectOption(optionIndex, existingAnswer.value, true);
+                }
+            } else {
+                currentAnswer = null;
+                document.getElementById('btnNext').disabled = true;
+            }
+        }
+
+        // オプションを選択
+        function selectOption(index, value, silent = false) {
+            currentAnswer = value;
+            
+            // UIを更新
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach((btn, i) => {
+                if (i === index) {
+                    btn.classList.add('selected');
+                } else {
+                    btn.classList.remove('selected');
+                }
+            });
+
+            // 次へボタンを有効化
+            document.getElementById('btnNext').disabled = false;
+
+            if (!silent) {
+                // 回答を保存
+                test.saveAnswer(value);
+            }
+        }
+
+        // 次の質問へ
+        PersonalityTest.prototype.nextQuestion = function() {
+            if (currentAnswer === null) return;
+            
+            if (this.currentQuestionIndex < this.questions.length - 1) {
+                this.currentQuestionIndex++;
+                displayQuestion();
+            } else {
+                // 最後の質問の場合は結果を表示
+                showResults();
+            }
+        };
+
+        // 前の質問へ
+        PersonalityTest.prototype.previousQuestion = function() {
+            if (this.currentQuestionIndex > 0) {
+                this.currentQuestionIndex--;
+                displayQuestion();
+            }
+        };
+
+        // 結果を表示
+        function showResults() {
+            document.getElementById('questionSection').classList.remove('active');
+            document.getElementById('resultSection').classList.add('active');
+
+            const results = test.calculateResults();
+            const resultsDiv = document.getElementById('results');
+
+            // Profilecode診断結果（メイン）
+            const profilecodeCard = document.createElement('div');
+            profilecodeCard.className = 'result-card';
+            profilecodeCard.innerHTML = `
+                <h3>【Profilecode診断結果】</h3>
+                <h4>キャリア適性: ${results.profilecode.career.typeInfo.name}</h4>
+                <p>${results.profilecode.career.typeInfo.description}</p>
+                <p><strong>適性職種:</strong> ${results.profilecode.career.typeInfo.jobTypes.join('、')}</p>
+                <p><strong>働き方:</strong> ${results.profilecode.career.typeInfo.workStyle}</p>
+                <p><strong>価値観:</strong> ${results.profilecode.career.typeInfo.values}</p>
+                
+                <h4 style="margin-top: 30px;">学習スタイル: ${results.profilecode.learning.typeInfo.name}</h4>
+                <p>${results.profilecode.learning.typeInfo.description}</p>
+                <p><strong>最適な学習方法:</strong> ${results.profilecode.learning.typeInfo.methods.join('、')}</p>
+                <p><strong>効果的な環境:</strong> ${results.profilecode.learning.typeInfo.environment}</p>
+                <p><strong>学習のコツ:</strong> ${results.profilecode.learning.typeInfo.tips}</p>
+            `;
+            resultsDiv.appendChild(profilecodeCard);
+
+            // 4指標診断結果（参考）
+            const fourIndicatorCard = document.createElement('div');
+            fourIndicatorCard.className = 'reference-result';
+            fourIndicatorCard.innerHTML = `
+                <h4>【参考診断: 4指標タイプ診断】</h4>
+                <p><strong>タイプ:</strong> ${results.fourIndicator.type} (${results.fourIndicator.typeName})</p>
+                <p><strong>スコア:</strong> E:${Math.round(results.fourIndicator.scores.E)} I:${Math.round(results.fourIndicator.scores.I)} | 
+                S:${Math.round(results.fourIndicator.scores.S)} N:${Math.round(results.fourIndicator.scores.N)} | 
+                T:${Math.round(results.fourIndicator.scores.T)} F:${Math.round(results.fourIndicator.scores.F)} | 
+                J:${Math.round(results.fourIndicator.scores.J)} P:${Math.round(results.fourIndicator.scores.P)}</p>
+                <p class="trademark-notice">⚠️ ${results.fourIndicator.trademark}</p>
+            `;
+            resultsDiv.appendChild(fourIndicatorCard);
+        }
+
+        // リセットして再開
+        PersonalityTest.prototype.resetAndRestart = function() {
+            this.reset();
+            currentAnswer = null;
+            document.getElementById('resultSection').classList.remove('active');
+            document.getElementById('questionSection').classList.add('active');
+            document.getElementById('results').innerHTML = '';
+            displayQuestion();
+        };
+
+        // 初期化
+        test.loadAnswers();
+        displayQuestion();
+    </script>
+</body>
+</html>
+
