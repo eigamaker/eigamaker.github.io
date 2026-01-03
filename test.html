@@ -126,6 +126,36 @@
         .result-section.active {
             display: block;
         }
+        .result-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .result-tab {
+            padding: 15px 30px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #666;
+            transition: all 0.3s;
+        }
+        .result-tab:hover {
+            color: #667eea;
+        }
+        .result-tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        .result-tab-content {
+            display: none;
+        }
+        .result-tab-content.active {
+            display: block;
+        }
         .result-title {
             font-size: 2em;
             text-align: center;
@@ -236,15 +266,16 @@
             <div class="options" id="options"></div>
             <div class="nav-buttons">
                 <button class="nav-btn btn-prev" id="btnPrev" onclick="test.previousQuestion()" disabled>前へ</button>
-                <button class="nav-btn btn-next" id="btnNext" onclick="test.nextQuestion()" disabled>次へ</button>
             </div>
         </div>
 
         <!-- 結果セクション -->
         <div class="result-section" id="resultSection">
             <h1 class="result-title">診断結果</h1>
+            <div class="result-tabs" id="resultTabs"></div>
             <div id="results"></div>
             <div class="action-buttons">
+                <a href="/" class="action-btn btn-retry">トップに戻る</a>
                 <a href="https://apps.apple.com/jp/app/profilecode-codes/id6747016000" class="action-btn btn-app" target="_blank">アプリで詳しく見る</a>
                 <button class="action-btn btn-retry" onclick="test.resetAndRestart()">もう一度診断する</button>
             </div>
@@ -297,7 +328,6 @@
                 }
             } else {
                 currentAnswer = null;
-                document.getElementById('btnNext').disabled = true;
             }
         }
 
@@ -315,12 +345,19 @@
                 }
             });
 
-            // 次へボタンを有効化
-            document.getElementById('btnNext').disabled = false;
-
             if (!silent) {
                 // 回答を保存
                 test.saveAnswer(value);
+                
+                // 自動で次に進む（最後の質問でない場合）
+                setTimeout(() => {
+                    if (test.currentQuestionIndex < test.questions.length - 1) {
+                        test.nextQuestion();
+                    } else {
+                        // 最後の質問の場合は結果を表示
+                        showResults();
+                    }
+                }, 300); // 少し遅延させて視覚的フィードバックを提供
             }
         }
 
@@ -352,39 +389,127 @@
 
             const results = test.calculateResults();
             const resultsDiv = document.getElementById('results');
+            const tabsDiv = document.getElementById('resultTabs');
+            resultsDiv.innerHTML = '';
+            tabsDiv.innerHTML = '';
+
+            // タブを作成
+            const tabs = [
+                { id: 'profilecode', name: 'Profilecode診断', active: true },
+                { id: 'mbti', name: 'MBTI', active: false }
+            ];
+
+            tabs.forEach((tab, index) => {
+                const tabBtn = document.createElement('button');
+                tabBtn.className = `result-tab ${tab.active ? 'active' : ''}`;
+                tabBtn.textContent = tab.name;
+                tabBtn.onclick = () => switchTab(tab.id);
+                tabsDiv.appendChild(tabBtn);
+            });
 
             // Profilecode診断結果（メイン）
-            const profilecodeCard = document.createElement('div');
-            profilecodeCard.className = 'result-card';
-            profilecodeCard.innerHTML = `
-                <h3>【Profilecode診断結果】</h3>
-                <h4>キャリア適性: ${results.profilecode.career.typeInfo.name}</h4>
-                <p>${results.profilecode.career.typeInfo.description}</p>
-                <p><strong>適性職種:</strong> ${results.profilecode.career.typeInfo.jobTypes.join('、')}</p>
-                <p><strong>働き方:</strong> ${results.profilecode.career.typeInfo.workStyle}</p>
-                <p><strong>価値観:</strong> ${results.profilecode.career.typeInfo.values}</p>
-                
-                <h4 style="margin-top: 30px;">学習スタイル: ${results.profilecode.learning.typeInfo.name}</h4>
-                <p>${results.profilecode.learning.typeInfo.description}</p>
-                <p><strong>最適な学習方法:</strong> ${results.profilecode.learning.typeInfo.methods.join('、')}</p>
-                <p><strong>効果的な環境:</strong> ${results.profilecode.learning.typeInfo.environment}</p>
-                <p><strong>学習のコツ:</strong> ${results.profilecode.learning.typeInfo.tips}</p>
-            `;
-            resultsDiv.appendChild(profilecodeCard);
+            const profilecodeContent = document.createElement('div');
+            profilecodeContent.className = 'result-tab-content active';
+            profilecodeContent.id = 'tab-profilecode';
+            profilecodeContent.innerHTML = generateProfilecodeResult(results.profilecode);
+            resultsDiv.appendChild(profilecodeContent);
 
-            // 4指標診断結果（参考）
-            const fourIndicatorCard = document.createElement('div');
-            fourIndicatorCard.className = 'reference-result';
-            fourIndicatorCard.innerHTML = `
-                <h4>【参考診断: 4指標タイプ診断】</h4>
-                <p><strong>タイプ:</strong> ${results.fourIndicator.type} (${results.fourIndicator.typeName})</p>
-                <p><strong>スコア:</strong> E:${Math.round(results.fourIndicator.scores.E)} I:${Math.round(results.fourIndicator.scores.I)} | 
-                S:${Math.round(results.fourIndicator.scores.S)} N:${Math.round(results.fourIndicator.scores.N)} | 
-                T:${Math.round(results.fourIndicator.scores.T)} F:${Math.round(results.fourIndicator.scores.F)} | 
-                J:${Math.round(results.fourIndicator.scores.J)} P:${Math.round(results.fourIndicator.scores.P)}</p>
-                <p class="trademark-notice">⚠️ ${results.fourIndicator.trademark}</p>
+            // MBTI診断結果（参考）
+            const mbtiContent = document.createElement('div');
+            mbtiContent.className = 'result-tab-content';
+            mbtiContent.id = 'tab-mbti';
+            mbtiContent.innerHTML = generateMBTIResult(results.fourIndicator);
+            resultsDiv.appendChild(mbtiContent);
+        }
+
+        // タブ切り替え
+        function switchTab(tabId) {
+            // タブボタンの状態を更新
+            document.querySelectorAll('.result-tab').forEach((tab, index) => {
+                if ((tabId === 'profilecode' && index === 0) || (tabId === 'mbti' && index === 1)) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+
+            // コンテンツの表示を切り替え
+            document.querySelectorAll('.result-tab-content').forEach(content => {
+                if (content.id === `tab-${tabId}`) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+        }
+
+        // Profilecode診断結果を生成
+        function generateProfilecodeResult(profilecodeResults) {
+            const career = profilecodeResults.career;
+            const learning = profilecodeResults.learning;
+            
+            return `
+                <div class="result-card">
+                    <h3>キャリア適性: ${career.typeInfo.name}</h3>
+                    <p style="font-size: 1.1em; margin-bottom: 20px;">${career.typeInfo.description}</p>
+                    
+                    <h4 style="margin-top: 25px; color: #667eea;">適性職種</h4>
+                    <ul style="margin-left: 20px; margin-bottom: 20px;">
+                        ${career.typeInfo.jobTypes.map(job => `<li>${job}</li>`).join('')}
+                    </ul>
+                    
+                    <h4 style="margin-top: 25px; color: #667eea;">働き方の特徴</h4>
+                    <p style="margin-bottom: 20px;">${career.typeInfo.workStyle}</p>
+                    
+                    <h4 style="margin-top: 25px; color: #667eea;">重視する価値観</h4>
+                    <p style="margin-bottom: 20px;">${career.typeInfo.values}</p>
+                    
+                    <h4 style="margin-top: 25px; color: #667eea;">キャリアアドバイス</h4>
+                    <p style="margin-bottom: 20px;">${career.typeInfo.advice || 'あなたの特性を活かして、自分らしいキャリアを築いていきましょう。'}</p>
+                </div>
+                
+                <div class="result-card" style="margin-top: 30px;">
+                    <h3>学習スタイル: ${learning.typeInfo.name}</h3>
+                    <p style="font-size: 1.1em; margin-bottom: 20px;">${learning.typeInfo.description}</p>
+                    
+                    <h4 style="margin-top: 25px; color: #667eea;">最適な学習方法</h4>
+                    <ul style="margin-left: 20px; margin-bottom: 20px;">
+                        ${learning.typeInfo.methods.map(method => `<li>${method}</li>`).join('')}
+                    </ul>
+                    
+                    <h4 style="margin-top: 25px; color: #667eea;">効果的な学習環境</h4>
+                    <p style="margin-bottom: 20px;">${learning.typeInfo.environment}</p>
+                    
+                    <h4 style="margin-top: 25px; color: #667eea;">学習のコツ</h4>
+                    <p style="margin-bottom: 20px;">${learning.typeInfo.tips}</p>
+                    
+                    <h4 style="margin-top: 25px; color: #667eea;">学習アドバイス</h4>
+                    <p style="margin-bottom: 20px;">${learning.typeInfo.advice || 'あなたの学習スタイルに合わせた方法で、効率的にスキルアップしていきましょう。'}</p>
+                </div>
             `;
-            resultsDiv.appendChild(fourIndicatorCard);
+        }
+
+        // MBTI診断結果を生成
+        function generateMBTIResult(mbtiResults) {
+            return `
+                <div class="reference-result">
+                    <h4>MBTI診断結果</h4>
+                    <p style="font-size: 1.3em; font-weight: bold; margin: 20px 0;">タイプ: ${mbtiResults.type} (${mbtiResults.typeName})</p>
+                    
+                    <h4 style="margin-top: 25px; color: #ff8c00;">4つの指標</h4>
+                    <div style="margin: 20px 0;">
+                        <p><strong>外向性(E) / 内向性(I):</strong> E: ${Math.round(mbtiResults.scores.E)} vs I: ${Math.round(mbtiResults.scores.I)}</p>
+                        <p><strong>感覚(S) / 直観(N):</strong> S: ${Math.round(mbtiResults.scores.S)} vs N: ${Math.round(mbtiResults.scores.N)}</p>
+                        <p><strong>思考(T) / 感情(F):</strong> T: ${Math.round(mbtiResults.scores.T)} vs F: ${Math.round(mbtiResults.scores.F)}</p>
+                        <p><strong>判断(J) / 知覚(P):</strong> J: ${Math.round(mbtiResults.scores.J)} vs P: ${Math.round(mbtiResults.scores.P)}</p>
+                    </div>
+                    
+                    <h4 style="margin-top: 25px; color: #ff8c00;">タイプの特徴</h4>
+                    <p style="margin: 20px 0;">${mbtiResults.typeDescription || 'このタイプの詳細な特徴については、アプリで詳しく確認できます。'}</p>
+                    
+                    <p class="trademark-notice" style="margin-top: 30px;">⚠️ ${mbtiResults.trademark}</p>
+                </div>
+            `;
         }
 
         // リセットして再開
