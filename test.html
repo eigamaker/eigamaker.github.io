@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>性格診断 - Profilecode</title>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8RSCZGH62Y"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8RSCZGH62Y');
+    </script>
     <style>
         * {
             margin: 0;
@@ -275,9 +284,9 @@
             <div class="result-tabs" id="resultTabs"></div>
             <div id="results"></div>
             <div class="action-buttons">
-                <a href="/" class="action-btn btn-retry">トップに戻る</a>
-                <a href="https://apps.apple.com/jp/app/profilecode-codes/id6747016000" class="action-btn btn-app" target="_blank">アプリで詳しく見る</a>
-                <button class="action-btn btn-retry" onclick="test.resetAndRestart()">もう一度診断する</button>
+                <a href="/" class="action-btn btn-retry" onclick="gtag('event', 'back_to_top', {'event_category': 'ナビゲーション', 'event_label': 'トップに戻る'});">トップに戻る</a>
+                <a href="https://apps.apple.com/jp/app/profilecode-codes/id6747016000" class="action-btn btn-app" target="_blank" onclick="gtag('event', 'app_link_clicked', {'event_category': 'コンバージョン', 'event_label': 'App Store', 'value': 1});">アプリで詳しく見る</a>
+                <button class="action-btn btn-retry" onclick="gtag('event', 'test_restarted', {'event_category': '診断', 'event_label': '再診断'}); test.resetAndRestart();">もう一度診断する</button>
             </div>
         </div>
     </div>
@@ -388,6 +397,31 @@
             document.getElementById('resultSection').classList.add('active');
 
             const results = test.calculateResults();
+            
+            // 診断完了イベント
+            gtag('event', 'test_completed', {
+                'event_category': '診断',
+                'event_label': '性格診断',
+                'value': 1,
+                'total_questions': test.questions.length,
+                'answered_questions': test.answers.length
+            });
+            
+            // 結果表示イベント（Profilecode診断）
+            gtag('event', 'result_viewed', {
+                'event_category': '診断',
+                'event_label': 'Profilecode診断',
+                'result_type': results.profilecode.career.type,
+                'career_type': results.profilecode.career.typeInfo.name,
+                'learning_type': results.profilecode.learning.typeInfo.name
+            });
+            
+            // 結果表示イベント（MBTI）
+            gtag('event', 'result_viewed', {
+                'event_category': '診断',
+                'event_label': 'MBTI',
+                'mbti_type': results.fourIndicator.type
+            });
             const resultsDiv = document.getElementById('results');
             const tabsDiv = document.getElementById('resultTabs');
             resultsDiv.innerHTML = '';
@@ -522,8 +556,22 @@
             displayQuestion();
         };
 
+        // 診断開始イベント（初回のみ）
+        let testStartedTracked = false;
+        
         // 初期化
         test.loadAnswers();
+        
+        // 診断開始をトラッキング（初回質問表示時）
+        if (test.answers.length === 0 && !testStartedTracked) {
+            gtag('event', 'test_started', {
+                'event_category': '診断',
+                'event_label': '性格診断',
+                'value': 1
+            });
+            testStartedTracked = true;
+        }
+        
         displayQuestion();
     </script>
 </body>
