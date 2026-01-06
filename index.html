@@ -6,6 +6,10 @@
     <title>Profilecode - あなたのプロフィールを診断</title>
     <meta name="description" content="Profilecodeは、あなたの性格を診断し、より深い自己理解を提供します。MBTI診断や16PF診断を利用できます。">
     
+    <!-- i18n scripts -->
+    <script src="js/translations.js"></script>
+    <script src="js/i18n.js"></script>
+    
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-8RSCZGH62Y"></script>
     <script>
@@ -142,6 +146,33 @@
         .footer a:hover {
             text-decoration: underline;
         }
+        .lang-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .lang-btn {
+            padding: 8px 16px;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            background: white;
+            color: #667eea;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .lang-btn:hover {
+            background: #f8f9ff;
+        }
+        .lang-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            position: relative;
+        }
         @media (max-width: 600px) {
             .container {
                 padding: 40px 20px;
@@ -163,16 +194,21 @@
 </head>
 <body>
     <div class="container">
-        <h1>Profilecode</h1>
-        <p class="subtitle">あなたのプロフィールを診断</p>
-        <p class="description">
+        <div class="lang-switcher">
+            <button class="lang-btn" data-lang="ja" onclick="switchLanguage('ja')">日本語</button>
+            <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">English</button>
+        </div>
+        
+        <h1 data-i18n="title">Profilecode</h1>
+        <p class="subtitle" data-i18n="subtitle">あなたのプロフィールを診断</p>
+        <p class="description" data-i18n="description">
             Profilecodeは、科学的に検証された性格診断ツールです。<br>
             MBTI診断や16PF診断を通じて、より深い自己理解を提供します。
         </p>
         
         <div class="buttons">
-            <a href="/test.html" class="btn btn-primary">ウェブ診断を始める</a>
-            <a href="https://apps.apple.com/jp/app/profilecode-codes/id6747016000" class="btn btn-secondary">アプリをダウンロード</a>
+            <a href="/test.html" class="btn btn-primary" data-i18n="startTest">ウェブ診断を始める</a>
+            <a href="https://apps.apple.com/jp/app/profilecode-codes/id6747016000" class="btn btn-secondary" data-i18n="downloadApp">アプリをダウンロード</a>
         </div>
         
         <div class="store-badges">
@@ -185,28 +221,65 @@
         </div>
         
         <div class="features">
-            <h2>主な機能</h2>
+            <h2 data-i18n="features">主な機能</h2>
             <div class="feature-grid">
                 <div class="feature">
-                    <h3>MBTI診断</h3>
-                    <p>16の性格タイプからあなたのタイプを診断します。</p>
+                    <h3 data-i18n="featureMBTI">MBTI診断</h3>
+                    <p data-i18n="featureMBTIDesc">16の性格タイプからあなたのタイプを診断します。</p>
                 </div>
                 <div class="feature">
-                    <h3>16PF診断</h3>
-                    <p>16の性格因子から詳細な分析を提供します。</p>
+                    <h3 data-i18n="feature16PF">16PF診断</h3>
+                    <p data-i18n="feature16PFDesc">16の性格因子から詳細な分析を提供します。</p>
                 </div>
                 <div class="feature">
-                    <h3>結果の共有</h3>
-                    <p>診断結果を他のユーザーと共有できます。</p>
+                    <h3 data-i18n="featureShare">結果の共有</h3>
+                    <p data-i18n="featureShareDesc">診断結果を他のユーザーと共有できます。</p>
                 </div>
             </div>
         </div>
         
         <div class="footer">
-            <a href="/privacy-policy.html">プライバシーポリシー</a>
-            <a href="/eula.html">利用規約</a>
-            <a href="/contact">お問い合わせ</a>
+            <a href="/privacy-policy.html" data-i18n="privacyPolicy">プライバシーポリシー</a>
+            <a href="/eula.html" data-i18n="eula">利用規約</a>
+            <a href="/contact" data-i18n="contact">お問い合わせ</a>
         </div>
     </div>
+    
+    <script>
+        // 言語切り替え関数
+        function switchLanguage(lang) {
+            i18n.setLanguage(lang);
+            updatePageContent();
+        }
+        
+        // ページコンテンツを更新
+        function updatePageContent() {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                const translation = i18n.t(key);
+                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                    element.placeholder = translation;
+                } else {
+                    element.innerHTML = translation;
+                }
+            });
+            
+            // 言語ボタンの状態を更新
+            i18n.updateLanguageButtons();
+            
+            // HTMLのlang属性を更新
+            document.documentElement.lang = i18n.getCurrentLanguage();
+        }
+        
+        // 言語変更イベントをリッスン
+        document.addEventListener('languageChanged', function() {
+            updatePageContent();
+        });
+        
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePageContent();
+        });
+    </script>
 </body>
 </html>
