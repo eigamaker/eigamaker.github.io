@@ -7,6 +7,8 @@ class PersonalityTest {
     this.questions = sharedQuestions;
     this.profilecodeCalculator = new ProfilecodeCalculator();
     this.fourIndicatorCalculator = new FourIndicatorCalculator();
+    this.sixteenFactorCalculator = new SixteenFactorCalculator();
+    this.discCalculator = new DISCCalculator();
   }
 
   // 現在の質問を取得
@@ -61,15 +63,29 @@ class PersonalityTest {
       this.questions
     );
 
-    // 4指標診断（参考）
-    const fourIndicatorResults = this.fourIndicatorCalculator.calculate(
+    // MBTI診断（参考）
+    const mbtiResults = this.fourIndicatorCalculator.calculate(
+      this.answers,
+      this.questions
+    );
+
+    // 16PF診断（参考）
+    const sixteenFactorResults = this.sixteenFactorCalculator.calculate(
+      this.answers,
+      this.questions
+    );
+
+    // DISC診断（参考）
+    const discResults = this.discCalculator.calculate(
       this.answers,
       this.questions
     );
 
     return {
       profilecode: profilecodeResults,
-      fourIndicator: fourIndicatorResults
+      mbti: mbtiResults,
+      sixteenFactor: sixteenFactorResults,
+      disc: discResults
     };
   }
 
