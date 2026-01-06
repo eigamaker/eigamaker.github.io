@@ -9,6 +9,10 @@ class FourIndicatorCalculator {
       T: 0, F: 0,
       J: 0, P: 0
     };
+    const lang = typeof i18n !== 'undefined' ? i18n.getCurrentLanguage() : 'ja';
+    const mbtiTranslations = (typeof resultTranslations !== 'undefined' && resultTranslations[lang] && resultTranslations[lang].mbti)
+      ? resultTranslations[lang].mbti
+      : null;
 
     answers.forEach(answer => {
       const question = questions.find(q => q.id === answer.questionId);
@@ -185,4 +189,3 @@ class FourIndicatorCalculator {
     };
   }
 }
-
