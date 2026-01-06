@@ -294,6 +294,8 @@
     <script src="js/questions.js"></script>
     <script src="js/calculators/profilecode-calculator.js"></script>
     <script src="js/calculators/four-indicator-calculator.js"></script>
+    <script src="js/calculators/sixteen-factor-calculator.js"></script>
+    <script src="js/calculators/disc-calculator.js"></script>
     <script src="js/personality-test.js"></script>
     <script>
         let test = new PersonalityTest();
@@ -420,7 +422,20 @@
             gtag('event', 'result_viewed', {
                 'event_category': '診断',
                 'event_label': 'MBTI',
-                'mbti_type': results.fourIndicator.type
+                'mbti_type': results.mbti.type
+            });
+            
+            // 結果表示イベント（16PF）
+            gtag('event', 'result_viewed', {
+                'event_category': '診断',
+                'event_label': '16PF'
+            });
+            
+            // 結果表示イベント（DISC）
+            gtag('event', 'result_viewed', {
+                'event_category': '診断',
+                'event_label': 'DISC',
+                'disc_style': results.disc.primaryStyle
             });
             const resultsDiv = document.getElementById('results');
             const tabsDiv = document.getElementById('resultTabs');
@@ -430,7 +445,9 @@
             // タブを作成
             const tabs = [
                 { id: 'profilecode', name: 'Profilecode診断', active: true },
-                { id: 'mbti', name: 'MBTI', active: false }
+                { id: 'mbti', name: 'MBTI', active: false },
+                { id: 'sixteenFactor', name: '16PF', active: false },
+                { id: 'disc', name: 'DISC', active: false }
             ];
 
             tabs.forEach((tab, index) => {
@@ -452,15 +469,36 @@
             const mbtiContent = document.createElement('div');
             mbtiContent.className = 'result-tab-content';
             mbtiContent.id = 'tab-mbti';
-            mbtiContent.innerHTML = generateMBTIResult(results.fourIndicator);
+            mbtiContent.innerHTML = generateMBTIResult(results.mbti);
             resultsDiv.appendChild(mbtiContent);
+
+            // 16PF診断結果（参考）
+            const sixteenFactorContent = document.createElement('div');
+            sixteenFactorContent.className = 'result-tab-content';
+            sixteenFactorContent.id = 'tab-sixteenFactor';
+            sixteenFactorContent.innerHTML = generateSixteenFactorResult(results.sixteenFactor);
+            resultsDiv.appendChild(sixteenFactorContent);
+
+            // DISC診断結果（参考）
+            const discContent = document.createElement('div');
+            discContent.className = 'result-tab-content';
+            discContent.id = 'tab-disc';
+            discContent.innerHTML = generateDISCRresult(results.disc);
+            resultsDiv.appendChild(discContent);
         }
 
         // タブ切り替え
         function switchTab(tabId) {
             // タブボタンの状態を更新
+            const tabIndexMap = {
+                'profilecode': 0,
+                'mbti': 1,
+                'sixteenFactor': 2,
+                'disc': 3
+            };
+            
             document.querySelectorAll('.result-tab').forEach((tab, index) => {
-                if ((tabId === 'profilecode' && index === 0) || (tabId === 'mbti' && index === 1)) {
+                if (index === tabIndexMap[tabId]) {
                     tab.classList.add('active');
                 } else {
                     tab.classList.remove('active');
@@ -539,9 +577,93 @@
                     </div>
                     
                     <h4 style="margin-top: 25px; color: #ff8c00;">タイプの特徴</h4>
-                    <p style="margin: 20px 0;">${mbtiResults.typeDescription || 'このタイプの詳細な特徴については、アプリで詳しく確認できます。'}</p>
+                    <p style="margin: 20px 0; line-height: 1.8;">${mbtiResults.typeDescription || 'このタイプの詳細な特徴については、アプリで詳しく確認できます。'}</p>
+                    
+                    <h4 style="margin-top: 25px; color: #ff8c00;">このタイプの強み</h4>
+                    <p style="margin: 20px 0; line-height: 1.8;">${mbtiResults.strengths || 'このタイプの強みについては、アプリで詳しく確認できます。'}</p>
+                    
+                    <h4 style="margin-top: 25px; color: #ff8c00;">このタイプの成長のヒント</h4>
+                    <p style="margin: 20px 0; line-height: 1.8;">${mbtiResults.growthTips || 'このタイプの成長のヒントについては、アプリで詳しく確認できます。'}</p>
                     
                     <p class="trademark-notice" style="margin-top: 30px;">⚠️ ${mbtiResults.trademark}</p>
+                </div>
+            `;
+        }
+
+        // 16PF診断結果を生成
+        function generateSixteenFactorResult(sixteenFactorResults) {
+            const factorsList = sixteenFactorResults.topFactors.map(factor => 
+                `<li><strong>${factor.name}:</strong> ${factor.score}点 - ${factor.description}</li>`
+            ).join('');
+
+            return `
+                <div class="reference-result">
+                    <h4>16PF診断結果</h4>
+                    <p style="margin: 20px 0; line-height: 1.8;">16の性格因子から、あなたの性格特性を分析しました。</p>
+                    
+                    <h4 style="margin-top: 25px; color: #ff8c00;">主要な性格因子（上位5つ）</h4>
+                    <ul style="margin: 20px 0; line-height: 1.8;">
+                        ${factorsList}
+                    </ul>
+                    
+                    <h4 style="margin-top: 25px; color: #ff8c00;">全16因子のスコア</h4>
+                    <div style="margin: 20px 0;">
+                        ${Object.entries(sixteenFactorResults.factors).map(([factor, score]) => {
+                            const factorName = sixteenFactorResults.topFactors.find(f => f.factor === factor)?.name || factor;
+                            return `<p><strong>${factorName}:</strong> ${Math.round(score)}点</p>`;
+                        }).join('')}
+                    </div>
+                    
+                    <h4 style="margin-top: 25px; color: #ff8c00;">診断結果の解釈</h4>
+                    <p style="margin: 20px 0; line-height: 1.8;">16PF診断では、16の性格因子から包括的に性格を分析します。各因子のスコアが高いほど、その特性が強いことを示します。詳細な解釈については、アプリで確認できます。</p>
+                    
+                    <p class="trademark-notice" style="margin-top: 30px;">⚠️ ${sixteenFactorResults.trademark}</p>
+                </div>
+            `;
+        }
+
+        // DISC診断結果を生成
+        function generateDISCRresult(discResults) {
+            const stylesList = discResults.allStyles.map(style => 
+                `<li><strong>${style.name}:</strong> ${style.score}点</li>`
+            ).join('');
+
+            return `
+                <div class="reference-result">
+                    <h4>DISC診断結果</h4>
+                    <p style="font-size: 1.3em; font-weight: bold; margin: 20px 0;">主要スタイル: ${discResults.styleInfo.name}</p>
+                    <p style="margin: 20px 0; line-height: 1.8;">${discResults.styleInfo.description}</p>
+                    
+                    <h4 style="margin-top: 25px; color: #ff8c00;">4つのスタイルのスコア</h4>
+                    <ul style="margin: 20px 0; line-height: 1.8;">
+                        ${stylesList}
+                    </ul>
+                    
+                    <h4 style="margin-top: 25px; color: #ff8c00;">このスタイルの特徴</h4>
+                    <p style="margin: 20px 0; line-height: 1.8;"><strong>特性:</strong> ${discResults.styleInfo.traits.join('、')}</p>
+                    
+                    <h4 style="margin-top: 25px; color: #ff8c00;">強み</h4>
+                    <ul style="margin: 20px 0; line-height: 1.8;">
+                        ${discResults.styleInfo.strengths.map(s => `<li>${s}</li>`).join('')}
+                    </ul>
+                    
+                    <h4 style="margin-top: 25px; color: #ff8c00;">注意点</h4>
+                    <ul style="margin: 20px 0; line-height: 1.8;">
+                        ${discResults.styleInfo.weaknesses.map(w => `<li>${w}</li>`).join('')}
+                    </ul>
+                    
+                    <h4 style="margin-top: 25px; color: #ff8c00;">働き方</h4>
+                    <p style="margin: 20px 0; line-height: 1.8;">${discResults.styleInfo.workStyle}</p>
+                    
+                    <h4 style="margin-top: 25px; color: #ff8c00;">コミュニケーションスタイル</h4>
+                    <p style="margin: 20px 0; line-height: 1.8;">${discResults.styleInfo.communication}</p>
+                    
+                    ${discResults.secondaryStyleInfo ? `
+                    <h4 style="margin-top: 25px; color: #ff8c00;">二次スタイル</h4>
+                    <p style="margin: 20px 0; line-height: 1.8;">${discResults.secondaryStyleInfo.name}: ${discResults.secondaryStyleInfo.description}</p>
+                    ` : ''}
+                    
+                    <p class="trademark-notice" style="margin-top: 30px;">⚠️ ${discResults.trademark}</p>
                 </div>
             `;
         }

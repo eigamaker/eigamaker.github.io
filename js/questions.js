@@ -27,6 +27,11 @@ const sharedQuestions = [
         dimension: 'warmth',
         weight: 0.5,
         value: 1
+      },
+      disc: {
+        dimension: 'I',
+        weight: 0.7,
+        value: 1 // 影響型（チームワーク重視）
       }
     }
   },
@@ -54,6 +59,11 @@ const sharedQuestions = [
         dimension: 'reasoning',
         weight: 0.7,
         value: 1
+      },
+      disc: {
+        dimension: 'C',
+        weight: 0.8,
+        value: 1 // 慎重型（分析的）
       }
     }
   },
@@ -77,9 +87,14 @@ const sharedQuestions = [
         value: 1 // 感覚型
       },
       sixteenFactor: {
-        dimension: 'practical',
+        dimension: 'rule_consciousness',
         weight: 0.8,
         value: 1
+      },
+      disc: {
+        dimension: 'S',
+        weight: 0.6,
+        value: 1 // 安定型（実務的）
       }
     }
   },
@@ -103,9 +118,14 @@ const sharedQuestions = [
         value: -1 // 直観型
       },
       sixteenFactor: {
-        dimension: 'imagination',
+        dimension: 'abstractedness',
         weight: 0.9,
         value: 1
+      },
+      disc: {
+        dimension: 'D',
+        weight: 0.7,
+        value: 1 // 主導型（創造的）
       }
     }
   },
@@ -132,6 +152,11 @@ const sharedQuestions = [
         dimension: 'warmth',
         weight: 1.0,
         value: 1
+      },
+      disc: {
+        dimension: 'I',
+        weight: 0.9,
+        value: 1 // 影響型（共感的）
       }
     }
   },
@@ -184,6 +209,11 @@ const sharedQuestions = [
         dimension: 'self_reliance',
         weight: 0.7,
         value: 1
+      },
+      disc: {
+        dimension: 'S',
+        weight: 0.7,
+        value: 1 // 安定型（一人でリフレッシュ）
       }
     }
   },
@@ -207,9 +237,14 @@ const sharedQuestions = [
         value: 1 // 感覚型
       },
       sixteenFactor: {
-        dimension: 'practical',
+        dimension: 'rule_consciousness',
         weight: 0.9,
         value: 1
+      },
+      disc: {
+        dimension: 'S',
+        weight: 0.6,
+        value: 1 // 安定型（実践的）
       }
     }
   },
@@ -236,6 +271,11 @@ const sharedQuestions = [
         dimension: 'warmth',
         weight: 0.8,
         value: 1
+      },
+      disc: {
+        dimension: 'I',
+        weight: 0.9,
+        value: 1 // 影響型（チームワーク）
       }
     }
   },
@@ -259,9 +299,14 @@ const sharedQuestions = [
         value: -1 // 直観型
       },
       sixteenFactor: {
-        dimension: 'imagination',
+        dimension: 'abstractedness',
         weight: 0.7,
         value: 1
+      },
+      disc: {
+        dimension: 'D',
+        weight: 0.6,
+        value: -1 // 主導型（直感重視）
       }
     }
   },
@@ -288,6 +333,11 @@ const sharedQuestions = [
         dimension: 'warmth',
         weight: 0.8,
         value: 1
+      },
+      disc: {
+        dimension: 'I',
+        weight: 0.7,
+        value: 1 // 影響型（深い関係）
       }
     }
   },
@@ -314,6 +364,11 @@ const sharedQuestions = [
         dimension: 'emotional_stability',
         weight: 0.7,
         value: 1
+      },
+      disc: {
+        dimension: 'S',
+        weight: 0.8,
+        value: 1 // 安定型（安定重視）
       }
     }
   },
@@ -337,9 +392,14 @@ const sharedQuestions = [
         value: 1 // 感覚型
       },
       sixteenFactor: {
-        dimension: 'imagination',
+        dimension: 'abstractedness',
         weight: 0.6,
         value: 1
+      },
+      disc: {
+        dimension: 'C',
+        weight: 0.7,
+        value: 1 // 慎重型（視覚的学習）
       }
     }
   },
@@ -366,6 +426,11 @@ const sharedQuestions = [
         dimension: 'warmth',
         weight: 0.9,
         value: 1
+      },
+      disc: {
+        dimension: 'I',
+        weight: 0.8,
+        value: 1 // 影響型（社会的貢献）
       }
     }
   },
@@ -392,6 +457,11 @@ const sharedQuestions = [
         dimension: 'warmth',
         weight: 0.8,
         value: 1
+      },
+      disc: {
+        dimension: 'I',
+        weight: 0.9,
+        value: 1 // 影響型（社会的サポート）
       }
     }
   },
@@ -418,6 +488,11 @@ const sharedQuestions = [
         dimension: 'reasoning',
         weight: 0.8,
         value: 1
+      },
+      disc: {
+        dimension: 'C',
+        weight: 0.8,
+        value: 1 // 慎重型（専門性）
       }
     }
   },
@@ -441,9 +516,14 @@ const sharedQuestions = [
         value: -1 // 知覚型
       },
       sixteenFactor: {
-        dimension: 'openness',
+        dimension: 'openness_to_change',
         weight: 0.7,
         value: 1
+      },
+      disc: {
+        dimension: 'D',
+        weight: 0.7,
+        value: 1 // 主導型（柔軟性）
       }
     }
   },
@@ -470,6 +550,11 @@ const sharedQuestions = [
         dimension: 'reasoning',
         weight: 0.9,
         value: 1
+      },
+      disc: {
+        dimension: 'C',
+        weight: 0.9,
+        value: 1 // 慎重型（論理的）
       }
     }
   },
@@ -493,9 +578,14 @@ const sharedQuestions = [
         value: -1 // 直観型
       },
       sixteenFactor: {
-        dimension: 'openness',
+        dimension: 'openness_to_change',
         weight: 0.9,
         value: 1
+      },
+      disc: {
+        dimension: 'D',
+        weight: 0.8,
+        value: 1 // 主導型（挑戦的）
       }
     }
   },
@@ -522,6 +612,11 @@ const sharedQuestions = [
         dimension: 'self_reliance',
         weight: 0.8,
         value: 1
+      },
+      disc: {
+        dimension: 'S',
+        weight: 0.7,
+        value: 1 // 安定型（一人で集中）
       }
     }
   },
@@ -548,6 +643,11 @@ const sharedQuestions = [
         dimension: 'perfectionism',
         weight: 0.7,
         value: 1
+      },
+      disc: {
+        dimension: 'C',
+        weight: 0.8,
+        value: 1 // 慎重型（体系的）
       }
     }
   },
@@ -574,6 +674,11 @@ const sharedQuestions = [
         dimension: 'dominance',
         weight: 0.9,
         value: 1
+      },
+      disc: {
+        dimension: 'D',
+        weight: 1.0,
+        value: 1 // 主導型（リーダーシップ）
       }
     }
   },
@@ -600,6 +705,11 @@ const sharedQuestions = [
         dimension: 'liveliness',
         weight: 0.8,
         value: 1
+      },
+      disc: {
+        dimension: 'I',
+        weight: 0.7,
+        value: 1 // 影響型（活動的）
       }
     }
   },
@@ -626,6 +736,11 @@ const sharedQuestions = [
         dimension: 'perfectionism',
         weight: 0.8,
         value: 1
+      },
+      disc: {
+        dimension: 'C',
+        weight: 0.9,
+        value: 1 // 慎重型（詳細確認）
       }
     }
   },
@@ -652,6 +767,11 @@ const sharedQuestions = [
         dimension: 'warmth',
         weight: 0.8,
         value: 1
+      },
+      disc: {
+        dimension: 'I',
+        weight: 0.9,
+        value: 1 // 影響型（広い人間関係）
       }
     }
   },
@@ -678,6 +798,11 @@ const sharedQuestions = [
         dimension: 'self_reliance',
         weight: 0.8,
         value: 1
+      },
+      disc: {
+        dimension: 'S',
+        weight: 0.7,
+        value: 1 // 安定型（自分のペース）
       }
     }
   },
@@ -701,9 +826,14 @@ const sharedQuestions = [
         value: -1 // 知覚型
       },
       sixteenFactor: {
-        dimension: 'openness',
+        dimension: 'openness_to_change',
         weight: 0.8,
         value: 1
+      },
+      disc: {
+        dimension: 'D',
+        weight: 0.7,
+        value: 1 // 主導型（失敗から学ぶ）
       }
     }
   },
@@ -730,6 +860,11 @@ const sharedQuestions = [
         dimension: 'emotional_stability',
         weight: 0.7,
         value: 1
+      },
+      disc: {
+        dimension: 'S',
+        weight: 0.8,
+        value: 1 // 安定型（対立回避）
       }
     }
   },
@@ -756,6 +891,11 @@ const sharedQuestions = [
         dimension: 'liveliness',
         weight: 0.7,
         value: 1
+      },
+      disc: {
+        dimension: 'D',
+        weight: 0.8,
+        value: 1 // 主導型（迅速判断）
       }
     }
   },
@@ -779,9 +919,14 @@ const sharedQuestions = [
         value: 0 // バランス
       },
       sixteenFactor: {
-        dimension: 'openness',
+        dimension: 'openness_to_change',
         weight: 0.8,
         value: 1
+      },
+      disc: {
+        dimension: 'I',
+        weight: 0.7,
+        value: 1 // 影響型（統合的学習）
       }
     }
   }
