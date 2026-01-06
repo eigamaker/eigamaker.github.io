@@ -121,6 +121,20 @@ class SixteenFactorCalculator {
   }
 
   calculate(answers, questions) {
+    const lang = typeof i18n !== 'undefined' ? i18n.getCurrentLanguage() : 'ja';
+    const sixteenFactorTranslations = (typeof resultTranslations !== 'undefined' && resultTranslations[lang] && resultTranslations[lang].sixteenFactor)
+      ? resultTranslations[lang].sixteenFactor
+      : null;
+    const translatedFactors = sixteenFactorTranslations && sixteenFactorTranslations.factors
+      ? sixteenFactorTranslations.factors
+      : null;
+    const getFactorInfo = (factorKey) => (translatedFactors && translatedFactors[factorKey])
+      ? translatedFactors[factorKey]
+      : this.factors[factorKey];
+    const sixteenFactorTrademark = sixteenFactorTranslations && sixteenFactorTranslations.trademark
+      ? sixteenFactorTranslations.trademark
+      : '16PF®は16 Personality Factor®の商標です。本サービスは16PF®の公式サービスではありません。';
+
     const scores = {};
     
     // 各因子のスコアを初期化
@@ -158,23 +172,23 @@ class SixteenFactorCalculator {
       factors: normalizedScores,
       topFactors: sortedFactors.map(([factor, score]) => ({
         factor: factor,
-        name: this.factors[factor].name,
-        description: this.factors[factor].description,
+        name: getFactorInfo(factor).name,
+        description: getFactorInfo(factor).description,
         score: Math.round(score),
-        high: this.factors[factor].high,
-        low: this.factors[factor].low,
-        advice: this.factors[factor].advice
+        high: getFactorInfo(factor).high,
+        low: getFactorInfo(factor).low,
+        advice: getFactorInfo(factor).advice
       })),
       allFactors: Object.entries(normalizedScores).map(([factor, score]) => ({
         factor: factor,
-        name: this.factors[factor].name,
-        description: this.factors[factor].description,
+        name: getFactorInfo(factor).name,
+        description: getFactorInfo(factor).description,
         score: Math.round(score),
-        high: this.factors[factor].high,
-        low: this.factors[factor].low,
-        advice: this.factors[factor].advice
+        high: getFactorInfo(factor).high,
+        low: getFactorInfo(factor).low,
+        advice: getFactorInfo(factor).advice
       })),
-      trademark: '16PF®は16 Personality Factor®の商標です。本サービスは16PF®の公式サービスではありません。'
+      trademark: sixteenFactorTrademark
     };
   }
 }
