@@ -99,6 +99,13 @@
             display: flex;
             justify-content: space-between;
             gap: 20px;
+            flex-wrap: wrap;
+        }
+        .nav-buttons .btn-group {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+            justify-content: flex-end;
         }
         .nav-btn {
             padding: 15px 30px;
@@ -316,6 +323,49 @@
             margin-top: 5px;
             font-weight: bold;
         }
+        
+        /* レーダーチャート風の表示 */
+        .radar-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .radar-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #dee2e6;
+            text-align: center;
+        }
+        .radar-item.high {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+        }
+        .radar-item.medium {
+            border-color: #FFC107;
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+        }
+        .radar-item.low {
+            border-color: #2196F3;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        }
+        .radar-score {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin: 15px 0;
+        }
+        .radar-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .radar-description {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+        }
             border-radius: 5px;
         }
         .action-buttons {
@@ -377,7 +427,11 @@
             <div class="question-text" id="questionText"></div>
             <div class="options" id="options"></div>
             <div class="nav-buttons">
-                <button class="nav-btn btn-prev" id="btnPrev" onclick="test.previousQuestion()" disabled>前へ</button>
+                <button class="nav-btn btn-prev" id="btnPrev" onclick="test.previousQuestion(); displayQuestion();" disabled>前へ</button>
+                <div style="display: flex; gap: 10px; flex: 1; justify-content: flex-end;">
+                    <button class="nav-btn btn-prev" onclick="if(confirm('診断を最初からやり直しますか？')) { test.reset(); currentAnswer = null; displayQuestion(); }" style="flex: 0 0 auto;">やり直す</button>
+                    <a href="/" class="nav-btn btn-prev" style="flex: 0 0 auto; text-decoration: none; display: inline-block;">トップに戻る</a>
+                </div>
             </div>
         </div>
 
@@ -501,7 +555,18 @@
             document.getElementById('questionSection').classList.remove('active');
             document.getElementById('resultSection').classList.add('active');
 
-            const results = test.calculateResults();
+            let results;
+            try {
+                results = test.calculateResults();
+                // デバッグ: 結果が正しく計算されているか確認
+                console.log('診断結果:', results);
+                console.log('16PF結果:', results.sixteenFactor);
+                console.log('DISC結果:', results.disc);
+            } catch (error) {
+                console.error('診断結果の計算エラー:', error);
+                alert('診断結果の計算中にエラーが発生しました。ページを再読み込みしてください。');
+                return;
+            }
             
             // 診断完了イベント
             gtag('event', 'test_completed', {
@@ -749,6 +814,11 @@
 
         // 16PF診断結果を生成
         function generateSixteenFactorResult(sixteenFactorResults) {
+            if (!sixteenFactorResults || !sixteenFactorResults.topFactors || !sixteenFactorResults.allFactors) {
+                console.error('16PF結果が不正です:', sixteenFactorResults);
+                return '<div class="reference-result"><p>16PF診断結果の計算中にエラーが発生しました。ページを再読み込みしてください。</p></div>';
+            }
+            
             const topFactorsList = sixteenFactorResults.topFactors.map(factor => {
                 const isHigh = factor.score >= 60;
                 const barClass = factor.score >= 60 ? 'high' : factor.score >= 40 ? 'medium' : 'low';
@@ -782,7 +852,24 @@
                         ${topFactorsList}
                     </ul>
                     
-                    <h4 style="margin-top: 25px; color: #ff8c00;">全16因子のスコア</h4>
+                    <h4 style="margin-top: 25px; color: #ff8c00;">全16因子のスコア（レーダーチャート風）</h4>
+                    <div class="radar-container">
+                        ${sixteenFactorResults.allFactors.map(factor => {
+                            const radarClass = factor.score >= 60 ? 'high' : factor.score >= 40 ? 'medium' : 'low';
+                            return `
+                                <div class="radar-item ${radarClass}">
+                                    <div class="radar-name">${factor.name}</div>
+                                    <div class="radar-score">${factor.score}</div>
+                                    <div class="radar-description">${factor.description}</div>
+                                    <div class="bar-container" style="margin-top: 15px;">
+                                        <div class="bar-fill ${radarClass}" style="width: ${factor.score}%;">${factor.score}点</div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                    
+                    <h4 style="margin-top: 25px; color: #ff8c00;">全16因子のスコア（バーグラフ）</h4>
                     <div class="bar-chart" style="margin: 20px 0;">
                         ${sixteenFactorResults.allFactors.map(factor => {
                             const barClass = factor.score >= 60 ? 'high' : factor.score >= 40 ? 'medium' : 'low';
@@ -810,6 +897,10 @@
 
         // DISC診断結果を生成
         function generateDISCRresult(discResults) {
+            if (!discResults || !discResults.allStyles || !discResults.styleInfo) {
+                return '<div class="reference-result"><p>DISC診断結果の計算中にエラーが発生しました。</p></div>';
+            }
+            
             const stylesList = discResults.allStyles.map(style => 
                 `<li><strong>${style.name}:</strong> ${style.score}点</li>`
             ).join('');
