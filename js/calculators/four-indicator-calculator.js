@@ -57,7 +57,7 @@ class FourIndicatorCalculator {
       (scores.T > scores.F ? 'T' : 'F') +
       (scores.J > scores.P ? 'J' : 'P');
 
-    const typeNames = {
+    let typeNames = {
       'ENFP': 'キャンペーナー',
       'ENFJ': '教師',
       'ENTP': '討論者',
@@ -77,7 +77,7 @@ class FourIndicatorCalculator {
     };
 
     // タイプの詳細説明
-    const typeDescriptions = {
+    let typeDescriptions = {
       'ENFP': '創造的で熱心なキャンペーナー（Campaigner）。ENFPは自由な発想と情熱で、新しい可能性を探求し、人々とつながることを好むタイプです。創造性とコミュニケーション能力に優れ、周囲を巻き込む力があります。楽観的で、未来への希望を持ち、人々にインスピレーションを与えることができます。柔軟性が高く、変化を恐れず、常に新しい挑戦を求めます。内面的な価値観を大切にし、自分らしさを追求します。',
       'ENFJ': 'カリスマ的な教師タイプ（Protagonist）。ENFJは人々の成長を支援し、チームを導くことを得意とするリーダータイプです。共感力が高く、他者の可能性を引き出すことができます。明確なビジョンを持ち、そのビジョンを他者と共有することで、チーム全体を目標達成に導きます。協調性と組織力に優れ、人々の調和を保つことができます。他者の成功を自分の成功として喜び、チーム全体の成長を重視します。',
       'ENTP': '論理的で創造的な討論者（Debater）。ENTPは新しいアイデアを生み出し、議論を楽しむタイプです。創造的思考と論理的思考を兼ね備え、既存の枠組みに疑問を投げかけることで、イノベーションを起こします。挑戦を好み、リスクを恐れず、常に新しい可能性を探求します。適応力が高く、変化する環境に柔軟に対応できます。知識欲が強く、複雑な問題を解決することを楽しみます。',
@@ -97,7 +97,7 @@ class FourIndicatorCalculator {
     };
 
     // タイプの強み
-    const typeStrengths = {
+    let typeStrengths = {
       'ENFP': '創造性、熱意、コミュニケーション能力、柔軟性、人々とのつながり',
       'ENFJ': 'リーダーシップ、共感力、他者の成長支援、チームワーク、ビジョン',
       'ENTP': '創造的思考、論理的思考、議論力、適応性、イノベーション',
@@ -117,7 +117,7 @@ class FourIndicatorCalculator {
     };
 
     // 成長のヒント
-    const typeGrowthTips = {
+    let typeGrowthTips = {
       'ENFP': '長期的な目標設定と計画性を意識し、細部への注意力を高めましょう。感情的な判断を避け、論理的な分析も取り入れると良いでしょう。',
       'ENFJ': '自分のニーズも大切にし、完璧主義を避けましょう。時には一人の時間を取って、自分自身をケアすることも重要です。',
       'ENTP': '感情的な側面も考慮し、他者の気持ちに配慮しましょう。計画性を高め、長期的な視点を持つと良いでしょう。',
@@ -137,7 +137,7 @@ class FourIndicatorCalculator {
     };
 
     // キャリアアドバイス
-    const typeCareerAdvice = {
+    let typeCareerAdvice = {
       'ENFP': '創造性を活かせる職種（デザイナー、マーケター、起業家、コーチ）や、人とのつながりが重要な職種が適しています。自由度の高い環境で、新しいアイデアを形にできる環境を選びましょう。',
       'ENFJ': 'リーダーシップが求められる職種（マネージャー、教師、人事、コーチ）や、他者の成長を支援できる職種が適しています。チームを導き、人々の成長を支援できる環境を選びましょう。',
       'ENTP': '創造的で論理的な思考が求められる職種（エンジニア、コンサルタント、起業家、研究者）が適しています。新しいアイデアを試し、議論を楽しめる環境を選びましょう。',
@@ -157,7 +157,7 @@ class FourIndicatorCalculator {
     };
 
     // 人間関係での活用
-    const typeRelationships = {
+    let typeRelationships = {
       'ENFP': '熱意と創造性で人々を鼓舞し、新しい可能性を探求する姿勢が魅力的です。感情的なつながりを大切にし、他者の成長を支援することで、深い関係を築けます。',
       'ENFJ': '共感力とリーダーシップで、チームの調和を保ちながら目標達成を導きます。他者の成長を支援し、ビジョンを共有することで、強い結束を生み出せます。',
       'ENTP': '創造的で論理的な議論を通じて、新しいアイデアを生み出します。挑戦を恐れず、既存の枠組みに疑問を投げかけることで、イノベーションを起こせます。',
@@ -176,16 +176,28 @@ class FourIndicatorCalculator {
       'ISTJ': '責任感と信頼性で、安定した関係を築きます。一貫性と組織性を示すことで、信頼できる存在として機能できます。'
     };
 
+    if (mbtiTranslations) {
+      typeNames = mbtiTranslations.typeNames || typeNames;
+      typeDescriptions = mbtiTranslations.typeDescriptions || typeDescriptions;
+      typeStrengths = mbtiTranslations.typeStrengths || typeStrengths;
+      typeGrowthTips = mbtiTranslations.typeGrowthTips || typeGrowthTips;
+      typeCareerAdvice = mbtiTranslations.typeCareerAdvice || typeCareerAdvice;
+      typeRelationships = mbtiTranslations.typeRelationships || typeRelationships;
+    }
+
+    const mbtiFallbacks = mbtiTranslations && mbtiTranslations.fallbacks ? mbtiTranslations.fallbacks : null;
     return {
       type: type,
       typeName: typeNames[type] || type,
-      typeDescription: typeDescriptions[type] || 'このタイプの詳細な特徴については、アプリで詳しく確認できます。',
-      strengths: typeStrengths[type] || 'このタイプの強みについては、アプリで詳しく確認できます。',
-      growthTips: typeGrowthTips[type] || 'このタイプの成長のヒントについては、アプリで詳しく確認できます。',
-      careerAdvice: typeCareerAdvice[type] || 'このタイプのキャリアアドバイスについては、アプリで詳しく確認できます。',
-      relationships: typeRelationships[type] || 'このタイプの人間関係での活用については、アプリで詳しく確認できます。',
+      typeDescription: typeDescriptions[type] || (mbtiFallbacks ? mbtiFallbacks.typeDescription : null),
+      strengths: typeStrengths[type] || (mbtiFallbacks ? mbtiFallbacks.strengths : null),
+      growthTips: typeGrowthTips[type] || (mbtiFallbacks ? mbtiFallbacks.growthTips : null),
+      careerAdvice: typeCareerAdvice[type] || (mbtiFallbacks ? mbtiFallbacks.careerAdvice : null),
+      relationships: typeRelationships[type] || (mbtiFallbacks ? mbtiFallbacks.relationships : null),
       scores: scores,
-      trademark: 'MBTI®はMyers-Briggs Type Indicator®の商標です。本サービスはMBTI®の公式サービスではありません。'
+      trademark: mbtiTranslations && mbtiTranslations.trademark
+        ? mbtiTranslations.trademark
+        : 'MBTI®はMyers-Briggs Type Indicator®の商標です。本サービスはMBTI®の公式サービスではありません。'
     };
   }
 }

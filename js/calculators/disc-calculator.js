@@ -64,6 +64,18 @@ class DISCCalculator {
       C: 0  // Conscientiousness（慎重性）
     };
 
+    const lang = typeof i18n !== 'undefined' ? i18n.getCurrentLanguage() : 'ja';
+    const discTranslations = (typeof resultTranslations !== 'undefined' && resultTranslations[lang] && resultTranslations[lang].disc)
+      ? resultTranslations[lang].disc
+      : null;
+    const translatedStyles = discTranslations && discTranslations.styles ? discTranslations.styles : null;
+    const getStyleInfo = (styleKey) => (translatedStyles && translatedStyles[styleKey])
+      ? translatedStyles[styleKey]
+      : this.styles[styleKey];
+    const discTrademark = discTranslations && discTranslations.trademark
+      ? discTranslations.trademark
+      : 'DISC®はDISC Assessment®の商標です。本サービスはDISC®の公式サービスではありません。';
+
     answers.forEach(answer => {
       const question = questions.find(q => q.id === answer.questionId);
       if (!question || !question.mappings || !question.mappings.disc) return;
@@ -100,14 +112,14 @@ class DISCCalculator {
       scores: normalizedScores,
       primaryStyle: primaryStyle,
       secondaryStyle: secondaryStyle,
-      styleInfo: this.styles[primaryStyle],
-      secondaryStyleInfo: this.styles[secondaryStyle],
+      styleInfo: getStyleInfo(primaryStyle),
+      secondaryStyleInfo: getStyleInfo(secondaryStyle),
       allStyles: sortedStyles.map(([style, score]) => ({
         style: style,
-        name: this.styles[style].name,
+        name: getStyleInfo(style).name,
         score: Math.round(score)
       })),
-      trademark: 'DISC®はDISC Assessment®の商標です。本サービスはDISC®の公式サービスではありません。'
+      trademark: discTrademark
     };
   }
 }
