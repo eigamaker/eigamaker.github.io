@@ -213,6 +213,109 @@
             margin-top: 10px;
             padding: 10px;
             background: #fff;
+        }
+        
+        /* バーグラフスタイル */
+        .bar-chart {
+            margin: 20px 0;
+        }
+        .bar-item {
+            margin-bottom: 15px;
+        }
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+        .bar-label-name {
+            font-weight: 600;
+        }
+        .bar-label-value {
+            color: #667eea;
+            font-weight: bold;
+        }
+        .bar-container {
+            width: 100%;
+            height: 25px;
+            background-color: #f0f0f0;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            color: white;
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+        .bar-fill.low {
+            background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);
+        }
+        .bar-fill.medium {
+            background: linear-gradient(90deg, #FFC107 0%, #ff9800 100%);
+        }
+        .bar-fill.high {
+            background: linear-gradient(90deg, #f44336 0%, #d32f2f 100%);
+        }
+        
+        /* DISC円グラフ風 */
+        .disc-chart {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+        .disc-item {
+            text-align: center;
+            margin: 15px;
+            flex: 1;
+            min-width: 150px;
+        }
+        .disc-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: white;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .disc-circle.D {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+        }
+        .disc-circle.I {
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+        }
+        .disc-circle.S {
+            background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+        }
+        .disc-circle.C {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+        }
+        .disc-label {
+            font-weight: bold;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+        .disc-score {
+            font-size: 1.2em;
+            color: #667eea;
+            margin-top: 5px;
+            font-weight: bold;
+        }
             border-radius: 5px;
         }
         .action-buttons {
@@ -569,11 +672,55 @@
                     <p style="font-size: 1.3em; font-weight: bold; margin: 20px 0;">タイプ: ${mbtiResults.type} (${mbtiResults.typeName})</p>
                     
                     <h4 style="margin-top: 25px; color: #ff8c00;">4つの指標</h4>
-                    <div style="margin: 20px 0;">
-                        <p><strong>外向性(E) / 内向性(I):</strong> E: ${Math.round(mbtiResults.scores.E)} vs I: ${Math.round(mbtiResults.scores.I)}</p>
-                        <p><strong>感覚(S) / 直観(N):</strong> S: ${Math.round(mbtiResults.scores.S)} vs N: ${Math.round(mbtiResults.scores.N)}</p>
-                        <p><strong>思考(T) / 感情(F):</strong> T: ${Math.round(mbtiResults.scores.T)} vs F: ${Math.round(mbtiResults.scores.F)}</p>
-                        <p><strong>判断(J) / 知覚(P):</strong> J: ${Math.round(mbtiResults.scores.J)} vs P: ${Math.round(mbtiResults.scores.P)}</p>
+                    <div class="bar-chart" style="margin: 20px 0;">
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span class="bar-label-name">外向性(E) / 内向性(I)</span>
+                                <span class="bar-label-value">E: ${Math.round(mbtiResults.scores.E)} | I: ${Math.round(mbtiResults.scores.I)}</span>
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="width: ${(mbtiResults.scores.E / (mbtiResults.scores.E + mbtiResults.scores.I)) * 100}%;">E</div>
+                            </div>
+                            <div class="bar-container" style="margin-top: 5px;">
+                                <div class="bar-fill" style="width: ${(mbtiResults.scores.I / (mbtiResults.scores.E + mbtiResults.scores.I)) * 100}%;">I</div>
+                            </div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span class="bar-label-name">感覚(S) / 直観(N)</span>
+                                <span class="bar-label-value">S: ${Math.round(mbtiResults.scores.S)} | N: ${Math.round(mbtiResults.scores.N)}</span>
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="width: ${(mbtiResults.scores.S / (mbtiResults.scores.S + mbtiResults.scores.N)) * 100}%;">S</div>
+                            </div>
+                            <div class="bar-container" style="margin-top: 5px;">
+                                <div class="bar-fill" style="width: ${(mbtiResults.scores.N / (mbtiResults.scores.S + mbtiResults.scores.N)) * 100}%;">N</div>
+                            </div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span class="bar-label-name">思考(T) / 感情(F)</span>
+                                <span class="bar-label-value">T: ${Math.round(mbtiResults.scores.T)} | F: ${Math.round(mbtiResults.scores.F)}</span>
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="width: ${(mbtiResults.scores.T / (mbtiResults.scores.T + mbtiResults.scores.F)) * 100}%;">T</div>
+                            </div>
+                            <div class="bar-container" style="margin-top: 5px;">
+                                <div class="bar-fill" style="width: ${(mbtiResults.scores.F / (mbtiResults.scores.T + mbtiResults.scores.F)) * 100}%;">F</div>
+                            </div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span class="bar-label-name">判断(J) / 知覚(P)</span>
+                                <span class="bar-label-value">J: ${Math.round(mbtiResults.scores.J)} | P: ${Math.round(mbtiResults.scores.P)}</span>
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="width: ${(mbtiResults.scores.J / (mbtiResults.scores.J + mbtiResults.scores.P)) * 100}%;">J</div>
+                            </div>
+                            <div class="bar-container" style="margin-top: 5px;">
+                                <div class="bar-fill" style="width: ${(mbtiResults.scores.P / (mbtiResults.scores.J + mbtiResults.scores.P)) * 100}%;">P</div>
+                            </div>
+                        </div>
                     </div>
                     
                     <h4 style="margin-top: 25px; color: #ff8c00;">タイプの特徴</h4>
@@ -604,26 +751,23 @@
         function generateSixteenFactorResult(sixteenFactorResults) {
             const topFactorsList = sixteenFactorResults.topFactors.map(factor => {
                 const isHigh = factor.score >= 60;
+                const barClass = factor.score >= 60 ? 'high' : factor.score >= 40 ? 'medium' : 'low';
                 return `
-                    <li style="margin-bottom: 20px;">
-                        <strong>${factor.name}:</strong> ${factor.score}点
-                        <p style="margin: 10px 0 5px 0; font-size: 0.95em;">${factor.description}</p>
-                        <p style="margin: 5px 0; padding: 10px; background-color: #f5f5f5; border-radius: 5px; font-size: 0.9em;">
+                    <div style="margin-bottom: 25px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                        <div class="bar-label" style="margin-bottom: 10px;">
+                            <span class="bar-label-name" style="font-size: 1.1em;">${factor.name}</span>
+                            <span class="bar-label-value" style="font-size: 1.1em;">${factor.score}点</span>
+                        </div>
+                        <div class="bar-container" style="margin-bottom: 10px;">
+                            <div class="bar-fill ${barClass}" style="width: ${factor.score}%;">${factor.score}</div>
+                        </div>
+                        <p style="margin: 10px 0 5px 0; font-size: 0.95em; color: #666;">${factor.description}</p>
+                        <p style="margin: 10px 0; padding: 10px; background-color: #fff; border-radius: 5px; font-size: 0.9em; border-left: 3px solid ${isHigh ? '#4CAF50' : '#2196F3'};">
                             ${isHigh ? factor.high : factor.low}
                         </p>
-                        <p style="margin: 5px 0; padding: 10px; background-color: #e8f4f8; border-radius: 5px; font-size: 0.9em;">
+                        <p style="margin: 10px 0; padding: 10px; background-color: #e8f4f8; border-radius: 5px; font-size: 0.9em;">
                             <strong>アドバイス:</strong> ${factor.advice}
                         </p>
-                    </li>
-                `;
-            }).join('');
-
-            const allFactorsList = sixteenFactorResults.allFactors.map(factor => {
-                const isHigh = factor.score >= 60;
-                return `
-                    <div style="margin-bottom: 15px; padding: 10px; border-left: 3px solid ${isHigh ? '#4CAF50' : '#2196F3'};">
-                        <p><strong>${factor.name}:</strong> ${factor.score}点</p>
-                        <p style="font-size: 0.9em; margin-top: 5px;">${factor.description}</p>
                     </div>
                 `;
             }).join('');
@@ -639,8 +783,21 @@
                     </ul>
                     
                     <h4 style="margin-top: 25px; color: #ff8c00;">全16因子のスコア</h4>
-                    <div style="margin: 20px 0;">
-                        ${allFactorsList}
+                    <div class="bar-chart" style="margin: 20px 0;">
+                        ${sixteenFactorResults.allFactors.map(factor => {
+                            const barClass = factor.score >= 60 ? 'high' : factor.score >= 40 ? 'medium' : 'low';
+                            return `
+                                <div class="bar-item">
+                                    <div class="bar-label">
+                                        <span class="bar-label-name">${factor.name}</span>
+                                        <span class="bar-label-value">${factor.score}点</span>
+                                    </div>
+                                    <div class="bar-container">
+                                        <div class="bar-fill ${barClass}" style="width: ${factor.score}%;">${factor.score}</div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
                     </div>
                     
                     <h4 style="margin-top: 25px; color: #ff8c00;">診断結果の活用方法</h4>
@@ -664,9 +821,31 @@
                     <p style="margin: 20px 0; line-height: 1.8;">${discResults.styleInfo.description}</p>
                     
                     <h4 style="margin-top: 25px; color: #ff8c00;">4つのスタイルのスコア</h4>
-                    <ul style="margin: 20px 0; line-height: 1.8;">
-                        ${stylesList}
-                    </ul>
+                    <div class="disc-chart">
+                        ${discResults.allStyles.map(style => `
+                            <div class="disc-item">
+                                <div class="disc-circle ${style.style}">${style.style}</div>
+                                <div class="disc-label">${style.name}</div>
+                                <div class="disc-score">${style.score}点</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="bar-chart" style="margin: 20px 0;">
+                        ${discResults.allStyles.map(style => {
+                            const barClass = style.score >= 70 ? 'high' : style.score >= 50 ? 'medium' : 'low';
+                            return `
+                                <div class="bar-item">
+                                    <div class="bar-label">
+                                        <span class="bar-label-name">${style.name}</span>
+                                        <span class="bar-label-value">${style.score}点</span>
+                                    </div>
+                                    <div class="bar-container">
+                                        <div class="bar-fill ${barClass}" style="width: ${style.score}%;">${style.score}</div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
                     
                     <h4 style="margin-top: 25px; color: #ff8c00;">このスタイルの特徴</h4>
                     <p style="margin: 20px 0; line-height: 1.8;"><strong>特性:</strong> ${discResults.styleInfo.traits.join('、')}</p>
