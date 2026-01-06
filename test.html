@@ -585,6 +585,16 @@
                     <h4 style="margin-top: 25px; color: #ff8c00;">このタイプの成長のヒント</h4>
                     <p style="margin: 20px 0; line-height: 1.8;">${mbtiResults.growthTips || 'このタイプの成長のヒントについては、アプリで詳しく確認できます。'}</p>
                     
+                    ${mbtiResults.careerAdvice ? `
+                    <h4 style="margin-top: 25px; color: #ff8c00;">キャリアアドバイス</h4>
+                    <p style="margin: 20px 0; line-height: 1.8;">${mbtiResults.careerAdvice}</p>
+                    ` : ''}
+                    
+                    ${mbtiResults.relationships ? `
+                    <h4 style="margin-top: 25px; color: #ff8c00;">人間関係での活用</h4>
+                    <p style="margin: 20px 0; line-height: 1.8;">${mbtiResults.relationships}</p>
+                    ` : ''}
+                    
                     <p class="trademark-notice" style="margin-top: 30px;">⚠️ ${mbtiResults.trademark}</p>
                 </div>
             `;
@@ -592,30 +602,49 @@
 
         // 16PF診断結果を生成
         function generateSixteenFactorResult(sixteenFactorResults) {
-            const factorsList = sixteenFactorResults.topFactors.map(factor => 
-                `<li><strong>${factor.name}:</strong> ${factor.score}点 - ${factor.description}</li>`
-            ).join('');
+            const topFactorsList = sixteenFactorResults.topFactors.map(factor => {
+                const isHigh = factor.score >= 60;
+                return `
+                    <li style="margin-bottom: 20px;">
+                        <strong>${factor.name}:</strong> ${factor.score}点
+                        <p style="margin: 10px 0 5px 0; font-size: 0.95em;">${factor.description}</p>
+                        <p style="margin: 5px 0; padding: 10px; background-color: #f5f5f5; border-radius: 5px; font-size: 0.9em;">
+                            ${isHigh ? factor.high : factor.low}
+                        </p>
+                        <p style="margin: 5px 0; padding: 10px; background-color: #e8f4f8; border-radius: 5px; font-size: 0.9em;">
+                            <strong>アドバイス:</strong> ${factor.advice}
+                        </p>
+                    </li>
+                `;
+            }).join('');
+
+            const allFactorsList = sixteenFactorResults.allFactors.map(factor => {
+                const isHigh = factor.score >= 60;
+                return `
+                    <div style="margin-bottom: 15px; padding: 10px; border-left: 3px solid ${isHigh ? '#4CAF50' : '#2196F3'};">
+                        <p><strong>${factor.name}:</strong> ${factor.score}点</p>
+                        <p style="font-size: 0.9em; margin-top: 5px;">${factor.description}</p>
+                    </div>
+                `;
+            }).join('');
 
             return `
                 <div class="reference-result">
                     <h4>16PF診断結果</h4>
-                    <p style="margin: 20px 0; line-height: 1.8;">16の性格因子から、あなたの性格特性を分析しました。</p>
+                    <p style="margin: 20px 0; line-height: 1.8;">16の性格因子から、あなたの性格特性を包括的に分析しました。各因子のスコアは0-100点で表示され、60点以上は高スコア、40点以下は低スコアと解釈されます。</p>
                     
                     <h4 style="margin-top: 25px; color: #ff8c00;">主要な性格因子（上位5つ）</h4>
-                    <ul style="margin: 20px 0; line-height: 1.8;">
-                        ${factorsList}
+                    <ul style="margin: 20px 0; line-height: 1.8; list-style: none; padding: 0;">
+                        ${topFactorsList}
                     </ul>
                     
                     <h4 style="margin-top: 25px; color: #ff8c00;">全16因子のスコア</h4>
                     <div style="margin: 20px 0;">
-                        ${Object.entries(sixteenFactorResults.factors).map(([factor, score]) => {
-                            const factorName = sixteenFactorResults.topFactors.find(f => f.factor === factor)?.name || factor;
-                            return `<p><strong>${factorName}:</strong> ${Math.round(score)}点</p>`;
-                        }).join('')}
+                        ${allFactorsList}
                     </div>
                     
-                    <h4 style="margin-top: 25px; color: #ff8c00;">診断結果の解釈</h4>
-                    <p style="margin: 20px 0; line-height: 1.8;">16PF診断では、16の性格因子から包括的に性格を分析します。各因子のスコアが高いほど、その特性が強いことを示します。詳細な解釈については、アプリで確認できます。</p>
+                    <h4 style="margin-top: 25px; color: #ff8c00;">診断結果の活用方法</h4>
+                    <p style="margin: 20px 0; line-height: 1.8;">16PF診断の結果は、自己理解を深め、キャリア選択や人間関係の構築に活用できます。各因子の特徴を理解し、自分の強みを活かしながら、成長の機会を見つけていきましょう。詳細な解釈や、より深い分析については、アプリで確認できます。</p>
                     
                     <p class="trademark-notice" style="margin-top: 30px;">⚠️ ${sixteenFactorResults.trademark}</p>
                 </div>
@@ -658,9 +687,25 @@
                     <h4 style="margin-top: 25px; color: #ff8c00;">コミュニケーションスタイル</h4>
                     <p style="margin: 20px 0; line-height: 1.8;">${discResults.styleInfo.communication}</p>
                     
+                    ${discResults.styleInfo.careerAdvice ? `
+                    <h4 style="margin-top: 25px; color: #ff8c00;">キャリアアドバイス</h4>
+                    <p style="margin: 20px 0; line-height: 1.8;">${discResults.styleInfo.careerAdvice}</p>
+                    ` : ''}
+                    
+                    ${discResults.styleInfo.relationships ? `
+                    <h4 style="margin-top: 25px; color: #ff8c00;">人間関係での活用</h4>
+                    <p style="margin: 20px 0; line-height: 1.8;">${discResults.styleInfo.relationships}</p>
+                    ` : ''}
+                    
+                    ${discResults.styleInfo.growthTips ? `
+                    <h4 style="margin-top: 25px; color: #ff8c00;">成長のヒント</h4>
+                    <p style="margin: 20px 0; line-height: 1.8;">${discResults.styleInfo.growthTips}</p>
+                    ` : ''}
+                    
                     ${discResults.secondaryStyleInfo ? `
                     <h4 style="margin-top: 25px; color: #ff8c00;">二次スタイル</h4>
-                    <p style="margin: 20px 0; line-height: 1.8;">${discResults.secondaryStyleInfo.name}: ${discResults.secondaryStyleInfo.description}</p>
+                    <p style="margin: 20px 0; line-height: 1.8;"><strong>${discResults.secondaryStyleInfo.name}:</strong> ${discResults.secondaryStyleInfo.description}</p>
+                    <p style="margin: 20px 0; line-height: 1.8;">二次スタイルは、主要スタイルを補完する特性を示します。主要スタイルと組み合わせることで、より包括的な行動パターンを理解できます。</p>
                     ` : ''}
                     
                     <p class="trademark-notice" style="margin-top: 30px;">⚠️ ${discResults.trademark}</p>
