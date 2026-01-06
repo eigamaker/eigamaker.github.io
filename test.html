@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>性格診断 - Profilecode</title>
     
+    <!-- i18n scripts -->
+    <script src="js/translations.js"></script>
+    <script src="js/i18n.js"></script>
+    
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-8RSCZGH62Y"></script>
     <script>
@@ -93,6 +97,18 @@
         .option-btn.selected {
             border-color: #667eea;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .option-btn.neutral {
+            border-color: #999;
+        }
+        .option-btn.neutral:hover {
+            border-color: #666;
+            background: #f5f5f5;
+        }
+        .option-btn.neutral.selected {
+            border-color: #999;
+            background: linear-gradient(135deg, #999 0%, #777 100%);
             color: white;
         }
         .nav-buttons {
@@ -401,6 +417,34 @@
         .btn-retry:hover {
             background: #e0e0e0;
         }
+        .lang-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+        .lang-btn {
+            padding: 8px 16px;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            background: white;
+            color: #667eea;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .lang-btn:hover {
+            background: #f8f9ff;
+        }
+        .lang-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            position: relative;
+        }
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
@@ -416,6 +460,11 @@
 </head>
 <body>
     <div class="container">
+        <div class="lang-switcher">
+            <button class="lang-btn" data-lang="ja" onclick="switchLanguage('ja')">日本語</button>
+            <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">English</button>
+        </div>
+        
         <!-- 進捗バー -->
         <div class="progress-text" id="progressText">質問 1 / 30</div>
         <div class="progress-bar">
@@ -427,23 +476,23 @@
             <div class="question-text" id="questionText"></div>
             <div class="options" id="options"></div>
             <div class="nav-buttons">
-                <button class="nav-btn btn-prev" id="btnPrev" onclick="test.previousQuestion(); displayQuestion();" disabled>前へ</button>
+                <button class="nav-btn btn-prev" id="btnPrev" onclick="test.previousQuestion(); displayQuestion();" disabled data-i18n="prev">前へ</button>
                 <div style="display: flex; gap: 10px; flex: 1; justify-content: flex-end;">
-                    <button class="nav-btn btn-prev" onclick="if(confirm('診断を最初からやり直しますか？')) { test.reset(); currentAnswer = null; displayQuestion(); }" style="flex: 0 0 auto;">やり直す</button>
-                    <a href="/" class="nav-btn btn-prev" style="flex: 0 0 auto; text-decoration: none; display: inline-block;">トップに戻る</a>
+                    <button class="nav-btn btn-prev" id="btnReset" onclick="resetTest()" style="flex: 0 0 auto;" data-i18n="reset">やり直す</button>
+                    <a href="/" class="nav-btn btn-prev" style="flex: 0 0 auto; text-decoration: none; display: inline-block;" data-i18n="backToTop">トップに戻る</a>
                 </div>
             </div>
         </div>
 
         <!-- 結果セクション -->
         <div class="result-section" id="resultSection">
-            <h1 class="result-title">診断結果</h1>
+            <h1 class="result-title" data-i18n="results">診断結果</h1>
             <div class="result-tabs" id="resultTabs"></div>
             <div id="results"></div>
             <div class="action-buttons">
-                <a href="/" class="action-btn btn-retry" onclick="gtag('event', 'back_to_top', {'event_category': 'ナビゲーション', 'event_label': 'トップに戻る'});">トップに戻る</a>
-                <a href="https://apps.apple.com/jp/app/profilecode-codes/id6747016000" class="action-btn btn-app" target="_blank" onclick="gtag('event', 'app_link_clicked', {'event_category': 'コンバージョン', 'event_label': 'App Store', 'value': 1});">アプリで詳しく見る</a>
-                <button class="action-btn btn-retry" onclick="gtag('event', 'test_restarted', {'event_category': '診断', 'event_label': '再診断'}); test.resetAndRestart();">もう一度診断する</button>
+                <a href="/" class="action-btn btn-retry" onclick="gtag('event', 'back_to_top', {'event_category': 'ナビゲーション', 'event_label': 'トップに戻る'});" data-i18n="backToTopButton">トップに戻る</a>
+                <a href="https://apps.apple.com/jp/app/profilecode-codes/id6747016000" class="action-btn btn-app" target="_blank" onclick="gtag('event', 'app_link_clicked', {'event_category': 'コンバージョン', 'event_label': 'App Store', 'value': 1});" data-i18n="viewInApp">アプリで詳しく見る</a>
+                <button class="action-btn btn-retry" onclick="gtag('event', 'test_restarted', {'event_category': '診断', 'event_label': '再診断'}); test.resetAndRestart();" data-i18n="retakeTest">もう一度診断する</button>
             </div>
         </div>
     </div>
@@ -457,6 +506,62 @@
     <script>
         let test = new PersonalityTest();
         let currentAnswer = null;
+        
+        // 言語切り替え関数
+        function switchLanguage(lang) {
+            i18n.setLanguage(lang);
+            // 質問データを再読み込み
+            sharedQuestions = getSharedQuestions();
+            test.questions = sharedQuestions;
+            updatePageContent();
+            // 現在の質問を再表示
+            if (document.getElementById('questionSection').classList.contains('active')) {
+                displayQuestion();
+            }
+        }
+        
+        // リセット関数
+        function resetTest() {
+            const confirmText = i18n.getCurrentLanguage() === 'ja' 
+                ? '診断を最初からやり直しますか？' 
+                : 'Do you want to reset the assessment from the beginning?';
+            if (confirm(confirmText)) {
+                test.reset();
+                currentAnswer = null;
+                displayQuestion();
+            }
+        }
+        
+        // ページコンテンツを更新
+        function updatePageContent() {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                const translation = i18n.t(key);
+                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                    element.placeholder = translation;
+                } else {
+                    element.textContent = translation;
+                }
+            });
+            
+            // 言語ボタンの状態を更新
+            i18n.updateLanguageButtons();
+            
+            // HTMLのlang属性を更新
+            document.documentElement.lang = i18n.getCurrentLanguage();
+        }
+        
+        // 言語変更イベントをリッスン
+        document.addEventListener('languageChanged', function() {
+            updatePageContent();
+            // 質問データを再読み込み
+            sharedQuestions = getSharedQuestions();
+            test.questions = sharedQuestions;
+            // 現在の質問を再表示
+            if (document.getElementById('questionSection').classList.contains('active')) {
+                displayQuestion();
+            }
+        });
 
         // 質問を表示
         function displayQuestion() {
@@ -474,14 +579,22 @@
             question.options.forEach((option, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
+                // 「どちらでもない」の場合は特別なクラスを追加
+                if (option.value === 0) {
+                    btn.classList.add('neutral');
+                }
                 btn.textContent = option.text;
                 btn.onclick = () => selectOption(index, option.value);
+                btn.setAttribute('data-value', option.value);
                 optionsDiv.appendChild(btn);
             });
 
             // 進捗を更新
             const progress = test.getProgress();
-            document.getElementById('progressText').textContent = `質問 ${progress.current} / ${progress.total}`;
+            document.getElementById('progressText').textContent = i18n.t('questionProgress', {
+                current: progress.current,
+                total: progress.total
+            });
             document.getElementById('progressFill').style.width = `${progress.percentage}%`;
 
             // 前へボタンの状態
@@ -508,6 +621,11 @@
             buttons.forEach((btn, i) => {
                 if (i === index) {
                     btn.classList.add('selected');
+                    // 選択時のアニメーション効果
+                    btn.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        btn.style.transform = '';
+                    }, 150);
                 } else {
                     btn.classList.remove('selected');
                 }
@@ -518,6 +636,8 @@
                 test.saveAnswer(value);
                 
                 // 自動で次に進む（最後の質問でない場合）
+                // 「どちらでもない」を選んだ場合は少し長めの遅延を設ける
+                const delay = value === 0 ? 500 : 300;
                 setTimeout(() => {
                     if (test.currentQuestionIndex < test.questions.length - 1) {
                         test.nextQuestion();
@@ -525,12 +645,13 @@
                         // 最後の質問の場合は結果を表示
                         showResults();
                     }
-                }, 300); // 少し遅延させて視覚的フィードバックを提供
+                }, delay);
             }
         }
 
         // 次の質問へ
         PersonalityTest.prototype.nextQuestion = function() {
+            // currentAnswerがnullの場合は次に進めない（0は有効な回答）
             if (currentAnswer === null) return;
             
             if (this.currentQuestionIndex < this.questions.length - 1) {
@@ -612,10 +733,10 @@
 
             // タブを作成
             const tabs = [
-                { id: 'profilecode', name: 'Profilecode診断', active: true },
-                { id: 'mbti', name: 'MBTI', active: false },
-                { id: 'sixteenFactor', name: '16PF', active: false },
-                { id: 'disc', name: 'DISC', active: false }
+                { id: 'profilecode', name: i18n.t('tabProfilecode'), active: true },
+                { id: 'mbti', name: i18n.t('tabMBTI'), active: false },
+                { id: 'sixteenFactor', name: i18n.t('tab16PF'), active: false },
+                { id: 'disc', name: i18n.t('tabDISC'), active: false }
             ];
 
             tabs.forEach((tab, index) => {
@@ -998,6 +1119,9 @@
         
         // 初期化
         test.loadAnswers();
+        
+        // ページコンテンツを初期化
+        updatePageContent();
         
         // 診断開始をトラッキング（初回質問表示時）
         if (test.answers.length === 0 && !testStartedTracked) {

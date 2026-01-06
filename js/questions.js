@@ -1,15 +1,21 @@
 // 共有質問データ（統一質問セット）
 // 1つの質問セットで複数の診断タイプの結果を計算
 
-const sharedQuestions = [
+// 質問データを取得する関数（多言語対応）
+function getSharedQuestions() {
+  const lang = typeof i18n !== 'undefined' ? i18n.getCurrentLanguage() : 'ja';
+  const t = typeof i18n !== 'undefined' ? (key) => i18n.t(key) : (key) => translations['ja'][key] || key;
+  
+  return [
   {
     id: 1,
-    question: "新しいプロジェクトに取り組むとき、まず何をしますか？",
+    question: t('question1'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -37,12 +43,13 @@ const sharedQuestions = [
   },
   {
     id: 2,
-    question: "データを集めて分析してから判断することを好みますか？",
+    question: t('question2'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -69,12 +76,13 @@ const sharedQuestions = [
   },
   {
     id: 3,
-    question: "実際に手を動かして学ぶことを好みますか？",
+    question: t('question3'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -100,12 +108,13 @@ const sharedQuestions = [
   },
   {
     id: 4,
-    question: "創造的な仕事に興味がありますか？",
+    question: t('question4'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -131,12 +140,13 @@ const sharedQuestions = [
   },
   {
     id: 5,
-    question: "相手の気持ちを理解し、共感を示すことを大切にしますか？",
+    question: t('question5'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -162,12 +172,13 @@ const sharedQuestions = [
   },
   {
     id: 6,
-    question: "計画を立ててから行動することを好みますか？",
+    question: t('question6'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -188,12 +199,13 @@ const sharedQuestions = [
   },
   {
     id: 7,
-    question: "ストレスを感じたとき、一人で時間を取ってリフレッシュしますか？",
+    question: t('question7'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -219,12 +231,13 @@ const sharedQuestions = [
   },
   {
     id: 8,
-    question: "新しいスキルを学ぶとき、理論書を読むより実践から始めますか？",
+    question: t('question8'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -250,12 +263,13 @@ const sharedQuestions = [
   },
   {
     id: 9,
-    question: "チームで働くことを好みますか？",
+    question: t('question9'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -281,12 +295,13 @@ const sharedQuestions = [
   },
   {
     id: 10,
-    question: "直感を信じて判断することが多いですか？",
+    question: t('question10'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -312,12 +327,13 @@ const sharedQuestions = [
   },
   {
     id: 11,
-    question: "深い1対1の関係を大切にしますか？",
+    question: t('question11'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -343,12 +359,13 @@ const sharedQuestions = [
   },
   {
     id: 12,
-    question: "安定した環境で働くことを好みますか？",
+    question: t('question12'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -374,12 +391,13 @@ const sharedQuestions = [
   },
   {
     id: 13,
-    question: "視覚的な資料（図表、映像）で学ぶことを好みますか？",
+    question: t('question13'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -405,12 +423,13 @@ const sharedQuestions = [
   },
   {
     id: 14,
-    question: "人々の役に立つ仕事に興味がありますか？",
+    question: t('question14'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -436,12 +455,13 @@ const sharedQuestions = [
   },
   {
     id: 15,
-    question: "ストレスを感じたとき、人と話すことでリフレッシュしますか？",
+    question: t('question15'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -467,12 +487,13 @@ const sharedQuestions = [
   },
   {
     id: 16,
-    question: "専門性を深めることを好みますか？",
+    question: t('question16'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -498,12 +519,13 @@ const sharedQuestions = [
   },
   {
     id: 17,
-    question: "柔軟に対応できる環境を好みますか？",
+    question: t('question17'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -529,12 +551,13 @@ const sharedQuestions = [
   },
   {
     id: 18,
-    question: "論理的に説明することを好みますか？",
+    question: t('question18'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -560,12 +583,13 @@ const sharedQuestions = [
   },
   {
     id: 19,
-    question: "新しいことに挑戦することを好みますか？",
+    question: t('question19'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -591,12 +615,13 @@ const sharedQuestions = [
   },
   {
     id: 20,
-    question: "一人で集中して作業することを好みますか？",
+    question: t('question20'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -622,12 +647,13 @@ const sharedQuestions = [
   },
   {
     id: 21,
-    question: "体系的に学ぶことを好みますか？",
+    question: t('question21'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -653,12 +679,13 @@ const sharedQuestions = [
   },
   {
     id: 22,
-    question: "リーダーシップを発揮することを好みますか？",
+    question: t('question22'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -684,12 +711,13 @@ const sharedQuestions = [
   },
   {
     id: 23,
-    question: "ストレスを感じたとき、運動や趣味でリフレッシュしますか？",
+    question: t('question23'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -715,12 +743,13 @@ const sharedQuestions = [
   },
   {
     id: 24,
-    question: "詳細を確認してから判断することを好みますか？",
+    question: t('question24'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -746,12 +775,13 @@ const sharedQuestions = [
   },
   {
     id: 25,
-    question: "広い人間関係を築くことを好みますか？",
+    question: t('question25'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -777,12 +807,13 @@ const sharedQuestions = [
   },
   {
     id: 26,
-    question: "自分のペースで働くことを好みますか？",
+    question: t('question26'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -808,12 +839,13 @@ const sharedQuestions = [
   },
   {
     id: 27,
-    question: "失敗から学ぶことを好みますか？",
+    question: t('question27'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -839,12 +871,13 @@ const sharedQuestions = [
   },
   {
     id: 28,
-    question: "対立を避けることを好みますか？",
+    question: t('question28'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -870,12 +903,13 @@ const sharedQuestions = [
   },
   {
     id: 29,
-    question: "迅速に判断することを好みますか？",
+    question: t('question29'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -901,12 +935,13 @@ const sharedQuestions = [
   },
   {
     id: 30,
-    question: "複数の方法を組み合わせて学ぶことを好みますか？",
+    question: t('question30'),
     options: [
-      { text: '強く同意', value: 2 },
-      { text: '同意', value: 1 },
-      { text: '反対', value: -1 },
-      { text: '強く反対', value: -2 }
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
     ],
     mappings: {
       profilecode: {
@@ -930,5 +965,20 @@ const sharedQuestions = [
       }
     }
   }
-];
+  ];
+}
+
+// 後方互換性のため、グローバル変数としても提供
+let sharedQuestions = getSharedQuestions();
+
+// 言語変更時に質問データを更新
+if (typeof document !== 'undefined') {
+  document.addEventListener('languageChanged', function() {
+    sharedQuestions = getSharedQuestions();
+    // PersonalityTestインスタンスが存在する場合は質問を更新
+    if (typeof test !== 'undefined' && test) {
+      test.questions = sharedQuestions;
+    }
+  });
+}
 
