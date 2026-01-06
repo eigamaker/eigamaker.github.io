@@ -22,12 +22,15 @@ const translations = {
     english: "English",
     
     // test.html
+    testTitle: "性格診断 - Profilecode",
     questionProgress: "質問 {current} / {total}",
     prev: "前へ",
     reset: "やり直す",
+    resetConfirm: "診断を最初からやり直しますか？",
     backToTop: "トップに戻る",
     next: "次へ",
     results: "診断結果",
+    resultsError: "診断結果の計算中にエラーが発生しました。ページを再読み込みしてください。",
     tabProfilecode: "Profilecode診断",
     tabMBTI: "MBTI",
     tab16PF: "16PF",
@@ -51,6 +54,10 @@ const translations = {
     learningEnvironment: "効果的な学習環境",
     learningTips: "学習のコツ",
     learningAdvice: "学習アドバイス",
+    careerAdviceFallback: "あなたの特性を活かして、自分らしいキャリアを築いていきましょう。",
+    learningAdviceFallback: "あなたの学習スタイルに合わせた方法で、効率的にスキルアップしていきましょう。",
+    adviceLabel: "アドバイス",
+    scoreUnit: "点",
     backToTopButton: "トップに戻る",
     viewInApp: "アプリで詳しく見る",
     retakeTest: "もう一度診断する",
@@ -71,6 +78,11 @@ const translations = {
     strengths: "このタイプの強み",
     growthTips: "このタイプの成長のヒント",
     relationships: "人間関係での活用",
+    mbtiDetailFallback: "このタイプの詳細な特徴については、アプリで詳しく確認できます。",
+    mbtiStrengthsFallback: "このタイプの強みについては、アプリで詳しく確認できます。",
+    mbtiGrowthFallback: "このタイプの成長のヒントについては、アプリで詳しく確認できます。",
+    mbtiCareerFallback: "このタイプのキャリアアドバイスについては、アプリで詳しく確認できます。",
+    mbtiRelationshipsFallback: "このタイプの人間関係での活用については、アプリで詳しく確認できます。",
     
     // 16PF結果
     sixteenFactorResult: "16PF診断結果",
@@ -78,6 +90,9 @@ const translations = {
     allFactorsChart: "全16因子のスコア（レーダーチャート風）",
     allFactorsBar: "全16因子のスコア（バーグラフ）",
     howToUse: "診断結果の活用方法",
+    sixteenFactorOverview: "16の性格因子から、あなたの性格特性を包括的に分析しました。各因子のスコアは0-100点で表示され、60点以上は高スコア、40点以下は低スコアと解釈されます。",
+    sixteenFactorHowToUseDetail: "16PF診断の結果は、自己理解を深め、キャリア選択や人間関係の構築に活用できます。各因子の特徴を理解し、自分の強みを活かしながら、成長の機会を見つけていきましょう。詳細な解釈や、より深い分析については、アプリで確認できます。",
+    sixteenFactorError: "16PF診断結果の計算中にエラーが発生しました。ページを再読み込みしてください。",
     
     // DISC結果
     discResult: "DISC診断結果",
@@ -88,6 +103,8 @@ const translations = {
     weaknesses: "注意点",
     communicationStyle: "コミュニケーションスタイル",
     secondaryStyle: "二次スタイル",
+    discSecondaryStyleNote: "二次スタイルは、主要スタイルを補完する特性を示します。主要スタイルと組み合わせることで、より包括的な行動パターンを理解できます。",
+    discError: "DISC診断結果の計算中にエラーが発生しました。",
     
     // 質問テキスト
     question1: "新しいプロジェクトに取り組むとき、チームメンバーと相談してから始めることを好みますか？",
@@ -143,12 +160,15 @@ const translations = {
     english: "English",
     
     // test.html
+    testTitle: "Personality Assessment - Profilecode",
     questionProgress: "Question {current} / {total}",
     prev: "Previous",
     reset: "Reset",
+    resetConfirm: "Do you want to reset the assessment from the beginning?",
     backToTop: "Back to Top",
     next: "Next",
     results: "Assessment Results",
+    resultsError: "An error occurred while calculating results. Please reload the page.",
     tabProfilecode: "Profilecode Assessment",
     tabMBTI: "MBTI",
     tab16PF: "16PF",
@@ -172,6 +192,10 @@ const translations = {
     learningEnvironment: "Effective Learning Environment",
     learningTips: "Learning Tips",
     learningAdvice: "Learning Advice",
+    careerAdviceFallback: "Use your strengths to build a career that fits who you are.",
+    learningAdviceFallback: "Use methods that fit your learning style to grow efficiently.",
+    adviceLabel: "Advice",
+    scoreUnit: " pts",
     backToTopButton: "Back to Top",
     viewInApp: "View Details in App",
     retakeTest: "Retake Assessment",
@@ -192,6 +216,11 @@ const translations = {
     strengths: "Strengths of This Type",
     growthTips: "Growth Tips for This Type",
     relationships: "Using in Relationships",
+    mbtiDetailFallback: "Detailed characteristics for this type are available in the app.",
+    mbtiStrengthsFallback: "Strengths for this type are available in the app.",
+    mbtiGrowthFallback: "Growth tips for this type are available in the app.",
+    mbtiCareerFallback: "Career advice for this type is available in the app.",
+    mbtiRelationshipsFallback: "Relationship insights for this type are available in the app.",
     
     // 16PF結果
     sixteenFactorResult: "16PF Assessment Results",
@@ -199,6 +228,9 @@ const translations = {
     allFactorsChart: "All 16 Factor Scores (Radar Chart Style)",
     allFactorsBar: "All 16 Factor Scores (Bar Chart)",
     howToUse: "How to Use Assessment Results",
+    sixteenFactorOverview: "We analyzed your personality across 16 factors. Scores are shown from 0 to 100; 60+ is high and 40- is low.",
+    sixteenFactorHowToUseDetail: "Use 16PF results to deepen self-understanding and apply insights to career choices and relationships. Learn each factor's traits, leverage strengths, and find growth opportunities. More detailed interpretation is available in the app.",
+    sixteenFactorError: "An error occurred while calculating 16PF results. Please reload the page.",
     
     // DISC結果
     discResult: "DISC Assessment Results",
@@ -209,6 +241,8 @@ const translations = {
     weaknesses: "Points to Note",
     communicationStyle: "Communication Style",
     secondaryStyle: "Secondary Style",
+    discSecondaryStyleNote: "A secondary style complements the primary style. Combined, they provide a more complete view of behavior patterns.",
+    discError: "An error occurred while calculating DISC results.",
     
     // 質問テキスト
     question1: "When starting a new project, do you prefer to consult with team members before beginning?",
