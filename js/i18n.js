@@ -31,7 +31,6 @@ class I18n {
       this.currentLang = lang;
       localStorage.setItem('preferredLanguage', lang);
       this.loadLanguage();
-      this.updatePageLanguage();
       return true;
     }
     return false;
@@ -69,14 +68,45 @@ class I18n {
 
   // HTMLのlang属性を更新
   updatePageLanguage() {
-    document.documentElement.lang = this.currentLang;
+    if (document.documentElement) {
+      document.documentElement.lang = this.currentLang;
+    }
+  }
+
+  // メタタグを更新
+  updateMetaTags() {
+    if (typeof translations === 'undefined') return;
+    
+    const translation = translations[this.currentLang];
+    if (!translation) return;
+
+    // titleを更新
+    if (translation.pageTitle) {
+      document.title = translation.pageTitle;
+    } else if (translation.testTitle) {
+      document.title = translation.testTitle;
+    } else if (translation.inquiryTitle) {
+      document.title = translation.inquiryTitle;
+    }
+
+    // meta descriptionを更新
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      const desc = translation.metaDescription || translation.testMetaDescription || translation.inquiryMetaDescription;
+      if (desc) {
+        metaDescription.content = desc.replace(/<br\s*\/?>/gi, ' ').trim();
+      }
+    }
   }
 
   // 言語を読み込んでページを更新
   loadLanguage() {
     this.updatePageLanguage();
+    this.updateMetaTags();
     // カスタムイベントを発火して、ページの更新を通知
-    document.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: this.currentLang } }));
+    if (typeof document !== 'undefined') {
+      document.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: this.currentLang } }));
+    }
   }
 
   // 言語切り替えボタンのテキストを更新

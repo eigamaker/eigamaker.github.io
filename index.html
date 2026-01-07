@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -195,8 +195,8 @@
 <body>
     <div class="container">
         <div class="lang-switcher">
-            <button class="lang-btn" data-lang="ja" onclick="switchLanguage('ja')">日本語</button>
-            <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">English</button>
+            <button class="lang-btn" data-lang="ja" onclick="switchLanguage('ja')" data-i18n="japanese">日本語</button>
+            <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')" data-i18n="english">English</button>
         </div>
         
         <h1 data-i18n="title">Profilecode</h1>
@@ -259,6 +259,9 @@
                 const translation = i18n.t(key);
                 if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
                     element.placeholder = translation;
+                } else if (element.tagName === 'BUTTON' && element.classList.contains('lang-btn')) {
+                    // 言語切り替えボタンの場合はテキストのみ更新（data-lang属性は保持）
+                    element.textContent = translation;
                 } else {
                     element.innerHTML = translation;
                 }
@@ -267,8 +270,11 @@
             // 言語ボタンの状態を更新
             i18n.updateLanguageButtons();
             
-            // HTMLのlang属性を更新
+            // HTMLのlang属性を更新（i18n.jsで既に更新されているが、念のため）
             document.documentElement.lang = i18n.getCurrentLanguage();
+            
+            // メタタグを更新
+            i18n.updateMetaTags();
         }
         
         // 言語変更イベントをリッスン
@@ -278,8 +284,17 @@
         
         // 初期化
         document.addEventListener('DOMContentLoaded', function() {
+            // i18nが既に初期化されているので、ページコンテンツを更新
             updatePageContent();
         });
+        
+        // i18nの初期化が完了したらページコンテンツを更新（スクリプトが先に読み込まれた場合）
+        if (typeof i18n !== 'undefined' && document.readyState === 'loading') {
+            // DOMContentLoadedを待つ
+        } else if (typeof i18n !== 'undefined' && document.readyState !== 'loading') {
+            // 既にDOMが読み込まれている場合
+            updatePageContent();
+        }
     </script>
 </body>
 </html>

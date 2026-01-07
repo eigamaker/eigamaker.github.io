@@ -3,6 +3,8 @@ const translations = {
   ja: {
     // index.html
     title: "Profilecode",
+    pageTitle: "Profilecode - あなたのプロフィールを診断",
+    metaDescription: "Profilecodeは、科学的に検証された性格診断ツールです。MBTI診断や16PF診断を通じて、より深い自己理解を提供します。",
     subtitle: "あなたのプロフィールを診断",
     description: "Profilecodeは、科学的に検証された性格診断ツールです。<br>MBTI診断や16PF診断を通じて、より深い自己理解を提供します。",
     startTest: "ウェブ診断を始める",
@@ -23,6 +25,7 @@ const translations = {
     
     // test.html
     testTitle: "性格診断 - Profilecode",
+    testMetaDescription: "Profilecodeの性格診断テストを受けて、あなたの性格タイプを診断します。MBTI、16PF、DISC診断が利用できます。",
     questionProgress: "質問 {current} / {total}",
     prev: "前へ",
     reset: "やり直す",
@@ -136,11 +139,29 @@ const translations = {
     question27: "失敗から学ぶことを好みますか？",
     question28: "対立を避けることを好みますか？",
     question29: "迅速に判断することを好みますか？",
-    question30: "複数の方法を組み合わせて学ぶことを好みますか？"
+    question30: "複数の方法を組み合わせて学ぶことを好みますか？",
+    
+    // inquiry-form.html
+    inquiryTitle: "お問い合わせ | Profilecode",
+    inquiryMetaDescription: "Profilecodeへのお問い合わせフォーム。アカウント削除やご質問はこちらからお願いします。",
+    inquiryHeading: "お問い合わせ",
+    inquiryDescription: "アカウントの削除やご質問がございましたら、以下のフォームをご利用ください。",
+    inquiryEmailLabel: "メールアドレス",
+    inquiryTypeLabel: "お問い合わせ種別",
+    inquiryTypeDelete: "アカウント削除",
+    inquiryTypeQuestion: "一般的な質問",
+    inquiryMessageLabel: "メッセージ",
+    inquirySubmit: "送信",
+    inquirySuccess: "✅ お問い合わせを受け付けました。ありがとうございます！<br />できるだけ早くご返信いたします。",
+    inquiryErrorFillAll: "すべての項目を入力してください。",
+    inquiryErrorSubmit: "送信に失敗しました: ",
+    inquiryErrorGeneral: "エラーが発生しました。"
   },
   en: {
     // index.html
     title: "Profilecode",
+    pageTitle: "Profilecode - Diagnose Your Profile",
+    metaDescription: "Profilecode is a scientifically validated personality assessment tool. Through MBTI and 16PF assessments, we provide deeper self-understanding.",
     subtitle: "Diagnose Your Profile",
     description: "Profilecode is a scientifically validated personality assessment tool.<br>Through MBTI and 16PF assessments, we provide deeper self-understanding.",
     startTest: "Start Web Assessment",
@@ -161,6 +182,7 @@ const translations = {
     
     // test.html
     testTitle: "Personality Assessment - Profilecode",
+    testMetaDescription: "Take Profilecode's personality assessment test to diagnose your personality type. MBTI, 16PF, and DISC assessments are available.",
     questionProgress: "Question {current} / {total}",
     prev: "Previous",
     reset: "Reset",
@@ -274,7 +296,23 @@ const translations = {
     question27: "Do you prefer to learn from failures?",
     question28: "Do you prefer to avoid conflicts?",
     question29: "Do you prefer to make quick decisions?",
-    question30: "Do you prefer to combine multiple methods when learning?"
+    question30: "Do you prefer to combine multiple methods when learning?",
+    
+    // inquiry-form.html
+    inquiryTitle: "Contact Us | Profilecode",
+    inquiryMetaDescription: "Contact form for Profilecode. Please use this form for account deletion or questions.",
+    inquiryHeading: "Contact Us",
+    inquiryDescription: "If you would like to delete your account or have a question, please use the form below.",
+    inquiryEmailLabel: "Email Address",
+    inquiryTypeLabel: "Inquiry Type",
+    inquiryTypeDelete: "Delete Account",
+    inquiryTypeQuestion: "General Question",
+    inquiryMessageLabel: "Message",
+    inquirySubmit: "Submit",
+    inquirySuccess: "✅ Your inquiry has been submitted. Thank you!<br />We will get back to you as soon as possible.",
+    inquiryErrorFillAll: "Please fill out all fields.",
+    inquiryErrorSubmit: "Submission failed: ",
+    inquiryErrorGeneral: "Something went wrong."
   }
 };
 
