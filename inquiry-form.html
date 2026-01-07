@@ -1,15 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contact Us | Profilecode</title>
+  <meta name="description" content="Contact form for Profilecode. Please use this form for account deletion or questions.">
+  
+  <!-- i18n scripts -->
+  <script src="js/translations.js"></script>
+  <script src="js/i18n.js"></script>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       max-width: 600px;
       margin: 50px auto;
       padding: 20px;
+    }
+    .lang-switcher {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    .lang-btn {
+      padding: 8px 16px;
+      border: 2px solid #007BFF;
+      border-radius: 5px;
+      background: white;
+      color: #007BFF;
+      font-size: 0.9em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .lang-btn:hover {
+      background: #f0f7ff;
+    }
+    .lang-btn.active {
+      background: #007BFF;
+      color: white;
+    }
+    body {
+      position: relative;
     }
     label, input, select, textarea {
       display: block;
@@ -37,31 +69,97 @@
   </style>
 </head>
 <body>
-  <h1>Contact Us</h1>
-  <p>If you would like to delete your account or have a question, please use the form below.</p>
+  <div class="lang-switcher">
+    <button class="lang-btn" data-lang="ja" onclick="switchLanguage('ja')" data-i18n="japanese">日本語</button>
+    <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')" data-i18n="english">English</button>
+  </div>
+  
+  <h1 data-i18n="inquiryHeading">Contact Us</h1>
+  <p data-i18n="inquiryDescription">If you would like to delete your account or have a question, please use the form below.</p>
 
   <form id="inquiry-form">
-    <label for="email">Email Address</label>
+    <label for="email" data-i18n="inquiryEmailLabel">Email Address</label>
     <input type="email" name="email" required />
 
-    <label for="inquiry_type">Inquiry Type</label>
-    <select name="inquiry_type">
-      <option value="delete_account">Delete Account</option>
-      <option value="question">General Question</option>
+    <label for="inquiry_type" data-i18n="inquiryTypeLabel">Inquiry Type</label>
+    <select name="inquiry_type" id="inquiry_type">
+      <option value="delete_account" data-i18n="inquiryTypeDelete">Delete Account</option>
+      <option value="question" data-i18n="inquiryTypeQuestion">General Question</option>
     </select>
 
-    <label for="message">Message</label>
+    <label for="message" data-i18n="inquiryMessageLabel">Message</label>
     <textarea name="message" rows="5" required></textarea>
 
-    <button type="submit">Submit</button>
+    <button type="submit" data-i18n="inquirySubmit">Submit</button>
   </form>
 
-  <div id="success-message">
+  <div id="success-message" data-i18n="inquirySuccess">
     ✅ Your inquiry has been submitted. Thank you!<br />
     We will get back to you as soon as possible.
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    // 言語切り替え関数
+    function switchLanguage(lang) {
+      if (typeof i18n !== 'undefined') {
+        i18n.setLanguage(lang);
+        updatePageContent();
+      }
+    }
+    
+    // ページコンテンツを更新
+    function updatePageContent() {
+      if (typeof i18n === 'undefined') return;
+      
+      // select要素のoptionを先に更新
+      document.querySelectorAll('select option[data-i18n]').forEach(option => {
+        const optionKey = option.getAttribute('data-i18n');
+        option.textContent = i18n.t(optionKey);
+      });
+      
+      // その他の要素を更新
+      document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        const translation = i18n.t(key);
+        if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+          element.placeholder = translation;
+        } else if (element.tagName === 'OPTION') {
+          // option要素は既に処理済み
+          return;
+        } else if (element.tagName === 'BUTTON' && element.classList.contains('lang-btn')) {
+          // 言語切り替えボタンの場合はテキストのみ更新
+          element.textContent = translation;
+        } else {
+          element.innerHTML = translation;
+        }
+      });
+      
+      // 言語ボタンの状態を更新
+      i18n.updateLanguageButtons();
+      
+      // HTMLのlang属性を更新
+      document.documentElement.lang = i18n.getCurrentLanguage();
+      
+      // メタタグを更新
+      i18n.updateMetaTags();
+    }
+    
+    // 言語変更イベントをリッスン
+    document.addEventListener('languageChanged', function() {
+      updatePageContent();
+    });
+    
+    // 初期化
+    document.addEventListener('DOMContentLoaded', function() {
+      updatePageContent();
+    });
+    
+    // i18nの初期化が完了したらページコンテンツを更新
+    if (typeof i18n !== 'undefined' && document.readyState !== 'loading') {
+      updatePageContent();
+    }
+  </script>
   <script>
     const supabaseClient = supabase.createClient(
       'https://jehpkwqaphfcxnuzpavi.supabase.co',   // ← Replace with your Supabase URL
@@ -76,8 +174,10 @@
       const inquiry_type = form.inquiry_type.value;
       const message = form.message.value.trim();
 
+      const t = (key) => (typeof i18n !== 'undefined' ? i18n.t(key) : key);
+
       if (!email || !message) {
-        alert("Please fill out all fields.");
+        alert(t('inquiryErrorFillAll'));
         return;
       }
 
@@ -88,14 +188,14 @@
 
         if (error) {
           console.error("Supabase error:", error);
-          alert("Submission failed: " + error.message);
+          alert(t('inquiryErrorSubmit') + error.message);
         } else {
           form.style.display = "none";
           document.getElementById("success-message").style.display = "block";
         }
       } catch (err) {
         console.error("Unexpected error:", err);
-        alert("Something went wrong.");
+        alert(t('inquiryErrorGeneral'));
       }
     });
   </script>

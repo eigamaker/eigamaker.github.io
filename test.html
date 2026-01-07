@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>性格診断 - Profilecode</title>
+    <meta name="description" content="Profilecodeの性格診断テストを受けて、あなたの性格タイプを診断します。MBTI、16PF、DISC診断が利用できます。">
     
     <!-- i18n scripts -->
     <script src="js/translations.js"></script>
@@ -382,8 +383,6 @@
             color: #666;
             margin-top: 10px;
         }
-            border-radius: 5px;
-        }
         .action-buttons {
             display: flex;
             flex-direction: column;
@@ -461,8 +460,8 @@
 <body>
     <div class="container">
         <div class="lang-switcher">
-            <button class="lang-btn" data-lang="ja" onclick="switchLanguage('ja')">日本語</button>
-            <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">English</button>
+            <button class="lang-btn" data-lang="ja" onclick="switchLanguage('ja')" data-i18n="japanese">日本語</button>
+            <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')" data-i18n="english">English</button>
         </div>
         
         <!-- 進捗バー -->
@@ -544,17 +543,21 @@
                 const translation = i18n.t(key);
                 if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
                     element.placeholder = translation;
+                } else if (element.tagName === 'BUTTON' && element.classList.contains('lang-btn')) {
+                    // 言語切り替えボタンの場合はテキストのみ更新（data-lang属性は保持）
+                    element.textContent = translation;
                 } else {
                     element.textContent = translation;
                 }
             });
 
-            document.title = t('testTitle');
+            // メタタグを更新（i18n.jsで自動更新されるが、念のため）
+            i18n.updateMetaTags();
             
             // 言語ボタンの状態を更新
             i18n.updateLanguageButtons();
             
-            // HTMLのlang属性を更新
+            // HTMLのlang属性を更新（i18n.jsで既に更新されているが、念のため）
             document.documentElement.lang = i18n.getCurrentLanguage();
         }
         
@@ -567,6 +570,17 @@
             // 現在の質問を再表示
             if (document.getElementById('questionSection').classList.contains('active')) {
                 displayQuestion();
+            }
+            if (document.getElementById('resultSection').classList.contains('active')) {
+                const activeTab = getActiveResultTabId();
+                let results;
+                try {
+                    results = test.calculateResults();
+                } catch (error) {
+                    console.error('Result recalculation error:', error);
+                    return;
+                }
+                renderResults(results, activeTab);
             }
         });
 
@@ -678,6 +692,62 @@
             }
         };
 
+        function getActiveResultTabId() {
+            const activeContent = document.querySelector('.result-tab-content.active');
+            if (!activeContent) {
+                return 'profilecode';
+            }
+            return activeContent.id.replace('tab-', '');
+        }
+
+        function renderResults(results, activeTabId = 'profilecode') {
+            const resultsDiv = document.getElementById('results');
+            const tabsDiv = document.getElementById('resultTabs');
+            resultsDiv.innerHTML = '';
+            tabsDiv.innerHTML = '';
+
+            const tabs = [
+                { id: 'profilecode', name: i18n.t('tabProfilecode') },
+                { id: 'mbti', name: i18n.t('tabMBTI') },
+                { id: 'sixteenFactor', name: i18n.t('tab16PF') },
+                { id: 'disc', name: i18n.t('tabDISC') }
+            ];
+
+            const normalizedActiveTab = tabs.some(tab => tab.id === activeTabId) ? activeTabId : 'profilecode';
+
+            tabs.forEach((tab) => {
+                const tabBtn = document.createElement('button');
+                tabBtn.className = `result-tab ${tab.id === normalizedActiveTab ? 'active' : ''}`;
+                tabBtn.textContent = tab.name;
+                tabBtn.onclick = () => switchTab(tab.id);
+                tabsDiv.appendChild(tabBtn);
+            });
+
+            const profilecodeContent = document.createElement('div');
+            profilecodeContent.className = `result-tab-content ${normalizedActiveTab === 'profilecode' ? 'active' : ''}`;
+            profilecodeContent.id = 'tab-profilecode';
+            profilecodeContent.innerHTML = generateProfilecodeResult(results.profilecode);
+            resultsDiv.appendChild(profilecodeContent);
+
+            const mbtiContent = document.createElement('div');
+            mbtiContent.className = `result-tab-content ${normalizedActiveTab === 'mbti' ? 'active' : ''}`;
+            mbtiContent.id = 'tab-mbti';
+            mbtiContent.innerHTML = generateMBTIResult(results.mbti);
+            resultsDiv.appendChild(mbtiContent);
+
+            const sixteenFactorContent = document.createElement('div');
+            sixteenFactorContent.className = `result-tab-content ${normalizedActiveTab === 'sixteenFactor' ? 'active' : ''}`;
+            sixteenFactorContent.id = 'tab-sixteenFactor';
+            sixteenFactorContent.innerHTML = generateSixteenFactorResult(results.sixteenFactor);
+            resultsDiv.appendChild(sixteenFactorContent);
+
+            const discContent = document.createElement('div');
+            discContent.className = `result-tab-content ${normalizedActiveTab === 'disc' ? 'active' : ''}`;
+            discContent.id = 'tab-disc';
+            discContent.innerHTML = generateDISCRresult(results.disc);
+            resultsDiv.appendChild(discContent);
+        }
+
         // 結果を表示
         function showResults() {
             document.getElementById('questionSection').classList.remove('active');
@@ -733,54 +803,7 @@
                 'event_label': 'DISC',
                 'disc_style': results.disc.primaryStyle
             });
-            const resultsDiv = document.getElementById('results');
-            const tabsDiv = document.getElementById('resultTabs');
-            resultsDiv.innerHTML = '';
-            tabsDiv.innerHTML = '';
-
-            // タブを作成
-            const tabs = [
-                { id: 'profilecode', name: i18n.t('tabProfilecode'), active: true },
-                { id: 'mbti', name: i18n.t('tabMBTI'), active: false },
-                { id: 'sixteenFactor', name: i18n.t('tab16PF'), active: false },
-                { id: 'disc', name: i18n.t('tabDISC'), active: false }
-            ];
-
-            tabs.forEach((tab, index) => {
-                const tabBtn = document.createElement('button');
-                tabBtn.className = `result-tab ${tab.active ? 'active' : ''}`;
-                tabBtn.textContent = tab.name;
-                tabBtn.onclick = () => switchTab(tab.id);
-                tabsDiv.appendChild(tabBtn);
-            });
-
-            // Profilecode診断結果（メイン）
-            const profilecodeContent = document.createElement('div');
-            profilecodeContent.className = 'result-tab-content active';
-            profilecodeContent.id = 'tab-profilecode';
-            profilecodeContent.innerHTML = generateProfilecodeResult(results.profilecode);
-            resultsDiv.appendChild(profilecodeContent);
-
-            // MBTI診断結果（参考）
-            const mbtiContent = document.createElement('div');
-            mbtiContent.className = 'result-tab-content';
-            mbtiContent.id = 'tab-mbti';
-            mbtiContent.innerHTML = generateMBTIResult(results.mbti);
-            resultsDiv.appendChild(mbtiContent);
-
-            // 16PF診断結果（参考）
-            const sixteenFactorContent = document.createElement('div');
-            sixteenFactorContent.className = 'result-tab-content';
-            sixteenFactorContent.id = 'tab-sixteenFactor';
-            sixteenFactorContent.innerHTML = generateSixteenFactorResult(results.sixteenFactor);
-            resultsDiv.appendChild(sixteenFactorContent);
-
-            // DISC診断結果（参考）
-            const discContent = document.createElement('div');
-            discContent.className = 'result-tab-content';
-            discContent.id = 'tab-disc';
-            discContent.innerHTML = generateDISCRresult(results.disc);
-            resultsDiv.appendChild(discContent);
+            renderResults(results);
         }
 
         // タブ切り替え
