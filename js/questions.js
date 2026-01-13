@@ -964,6 +964,326 @@ function getSharedQuestions() {
         value: 1 // 影響型（統合的学習）
       }
     }
+  },
+  {
+    id: 31,
+    question: t('question31'),
+    options: [
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
+    ],
+    mappings: {
+      profilecode: {
+        decision: { dimension: 'decision_method', weight: 1.0, value: 1 }, // 計画重視
+        career: { dimension: 'job_preference', weight: 0.7, value: 1 } // 成長重視
+      },
+      fourIndicator: {
+        dimension: 'J/P',
+        weight: 0.9,
+        value: 1 // 判断型
+      },
+      sixteenFactor: {
+        dimension: 'perfectionism',
+        weight: 0.8,
+        value: 1
+      },
+      disc: {
+        dimension: 'C',
+        weight: 0.8,
+        value: 1 // 慎重型（計画性）
+      }
+    }
+  },
+  {
+    id: 32,
+    question: t('question32'),
+    options: [
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
+    ],
+    mappings: {
+      profilecode: {
+        communication: { dimension: 'communication_style', weight: 1.0, value: 1 }, // 相談重視
+        decision: { dimension: 'decision_method', weight: 0.9, value: 1 } // 相談重視
+      },
+      fourIndicator: {
+        dimension: 'T/F',
+        weight: 0.7,
+        value: -1 // 感情型
+      },
+      sixteenFactor: {
+        dimension: 'warmth',
+        weight: 0.8,
+        value: 1
+      },
+      disc: {
+        dimension: 'I',
+        weight: 0.8,
+        value: 1 // 影響型（相談重視）
+      }
+    }
+  },
+  {
+    id: 33,
+    question: t('question33'),
+    options: [
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
+    ],
+    mappings: {
+      profilecode: {
+        learning: { dimension: 'learning_method', weight: 1.0, value: 1 }, // 実践的学習
+        decision: { dimension: 'risk_tolerance', weight: 0.8, value: 1 } // リスク許容
+      },
+      fourIndicator: {
+        dimension: 'S/N',
+        weight: 0.7,
+        value: 1 // 感覚型
+      },
+      sixteenFactor: {
+        dimension: 'openness_to_change',
+        weight: 0.9,
+        value: 1
+      },
+      disc: {
+        dimension: 'D',
+        weight: 0.8,
+        value: 1 // 主導型（挑戦的）
+      }
+    }
+  },
+  {
+    id: 34,
+    question: t('question34'),
+    options: [
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
+    ],
+    mappings: {
+      profilecode: {
+        decision: { dimension: 'decision_method', weight: 1.0, value: 1 }, // データ重視
+        communication: { dimension: 'communication_style', weight: 0.7, value: 1 } // 論理的
+      },
+      fourIndicator: {
+        dimension: 'T/F',
+        weight: 0.9,
+        value: 1 // 思考型
+      },
+      sixteenFactor: {
+        dimension: 'reasoning',
+        weight: 0.9,
+        value: 1
+      },
+      disc: {
+        dimension: 'C',
+        weight: 0.9,
+        value: 1 // 慎重型（論理的）
+      }
+    }
+  },
+  {
+    id: 35,
+    question: t('question35'),
+    options: [
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
+    ],
+    mappings: {
+      profilecode: {
+        decision: { dimension: 'decision_method', weight: 1.0, value: 1 }, // 慎重分析
+        learning: { dimension: 'learning_method', weight: 0.6, value: 1 } // 深い学習
+      },
+      fourIndicator: {
+        dimension: 'J/P',
+        weight: 0.6,
+        value: 1 // 判断型
+      },
+      sixteenFactor: {
+        dimension: 'perfectionism',
+        weight: 0.8,
+        value: 1
+      },
+      disc: {
+        dimension: 'C',
+        weight: 0.9,
+        value: 1 // 慎重型（深く考える）
+      }
+    }
+  },
+  {
+    id: 36,
+    question: t('question36'),
+    options: [
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
+    ],
+    mappings: {
+      profilecode: {
+        career: { dimension: 'work_style', weight: 0.9, value: 1 }, // 柔軟性
+        decision: { dimension: 'decision_method', weight: 0.7, value: -1 } // 柔軟な判断
+      },
+      fourIndicator: {
+        dimension: 'J/P',
+        weight: 0.8,
+        value: -1 // 知覚型
+      },
+      sixteenFactor: {
+        dimension: 'openness_to_change',
+        weight: 0.9,
+        value: 1
+      },
+      disc: {
+        dimension: 'D',
+        weight: 0.7,
+        value: 1 // 主導型（柔軟性）
+      }
+    }
+  },
+  {
+    id: 37,
+    question: t('question37'),
+    options: [
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
+    ],
+    mappings: {
+      profilecode: {
+        communication: { dimension: 'communication_style', weight: 1.0, value: 1 }, // 共感的
+        career: { dimension: 'work_style', weight: 0.6, value: 1 } // サポート型
+      },
+      fourIndicator: {
+        dimension: 'T/F',
+        weight: 0.9,
+        value: -1 // 感情型
+      },
+      sixteenFactor: {
+        dimension: 'warmth',
+        weight: 1.0,
+        value: 1
+      },
+      disc: {
+        dimension: 'I',
+        weight: 0.9,
+        value: 1 // 影響型（共感的）
+      }
+    }
+  },
+  {
+    id: 38,
+    question: t('question38'),
+    options: [
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
+    ],
+    mappings: {
+      profilecode: {
+        career: { dimension: 'work_style', weight: 1.0, value: 1 }, // リーダー型
+        decision: { dimension: 'risk_tolerance', weight: 0.8, value: 1 } // リスク許容
+      },
+      fourIndicator: {
+        dimension: 'E/I',
+        weight: 0.8,
+        value: 1 // 外向性
+      },
+      sixteenFactor: {
+        dimension: 'dominance',
+        weight: 0.9,
+        value: 1
+      },
+      disc: {
+        dimension: 'D',
+        weight: 1.0,
+        value: 1 // 主導型（競争的）
+      }
+    }
+  },
+  {
+    id: 39,
+    question: t('question39'),
+    options: [
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
+    ],
+    mappings: {
+      profilecode: {
+        career: { dimension: 'work_style', weight: 0.8, value: 1 }, // 組織的
+        decision: { dimension: 'decision_method', weight: 0.7, value: 1 } // 慎重分析
+      },
+      fourIndicator: {
+        dimension: 'J/P',
+        weight: 0.8,
+        value: 1 // 判断型
+      },
+      sixteenFactor: {
+        dimension: 'perfectionism',
+        weight: 0.9,
+        value: 1
+      },
+      disc: {
+        dimension: 'C',
+        weight: 0.9,
+        value: 1 // 慎重型（丁寧）
+      }
+    }
+  },
+  {
+    id: 40,
+    question: t('question40'),
+    options: [
+      { text: t('stronglyAgree'), value: 2 },
+      { text: t('agree'), value: 1 },
+      { text: t('neutral'), value: 0 },
+      { text: t('disagree'), value: -1 },
+      { text: t('stronglyDisagree'), value: -2 }
+    ],
+    mappings: {
+      profilecode: {
+        stress: { dimension: 'stress_recovery', weight: 1.0, value: 1 }, // バランス重視
+        career: { dimension: 'work_style', weight: 0.5, value: 0 } // バランス
+      },
+      fourIndicator: {
+        dimension: 'J/P',
+        weight: 0.5,
+        value: 0 // バランス
+      },
+      sixteenFactor: {
+        dimension: 'emotional_stability',
+        weight: 0.8,
+        value: 1
+      },
+      disc: {
+        dimension: 'S',
+        weight: 0.8,
+        value: 1 // 安定型（バランス重視）
+      }
+    }
   }
   ];
 }
