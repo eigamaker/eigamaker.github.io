@@ -5,31 +5,62 @@ class I18n {
     this.loadLanguage();
   }
 
+  // サポートされている言語のリスト
+  getSupportedLanguages() {
+    return ['ar', 'de', 'en', 'es', 'fr', 'hi', 'id', 'it', 'ja', 'ko', 'pt', 'zh', 'zh_hant'];
+  }
+
+  getDefaultLanguage() {
+    return 'en';
+  }
+
+  normalizeLanguage(lang) {
+    if (!lang) return null;
+
+    const normalized = String(lang).toLowerCase().replace('_', '-');
+    const langMap = {
+      'zh-cn': 'zh',
+      'zh-hans': 'zh',
+      'zh-tw': 'zh_hant',
+      'zh-hant': 'zh_hant',
+      'zh-hk': 'zh_hant'
+    };
+
+    if (langMap[normalized]) {
+      return langMap[normalized];
+    }
+
+    const baseLang = normalized.split('-')[0];
+    return langMap[baseLang] || baseLang;
+  }
+
   // ブラウザの言語設定を検出
   detectLanguage() {
     // LocalStorageから保存された言語設定を取得
-    const savedLang = localStorage.getItem('preferredLanguage');
-    if (savedLang && (savedLang === 'ja' || savedLang === 'en')) {
+    const supportedLanguages = this.getSupportedLanguages();
+    const savedLang = this.normalizeLanguage(localStorage.getItem('preferredLanguage'));
+    if (savedLang && supportedLanguages.includes(savedLang)) {
       return savedLang;
     }
 
     // ブラウザの言語設定を取得
     const browserLang = navigator.language || navigator.userLanguage;
-    const langCode = browserLang.split('-')[0].toLowerCase();
-
-    // 日本語以外の場合は英語を返す
-    if (langCode === 'ja') {
-      return 'ja';
-    } else {
-      return 'en';
+    const normalizedLang = this.normalizeLanguage(browserLang);
+    if (normalizedLang && supportedLanguages.includes(normalizedLang)) {
+      return normalizedLang;
     }
+
+    // デフォルトは英語
+    return this.getDefaultLanguage();
   }
 
   // 言語を設定
   setLanguage(lang) {
-    if (lang === 'ja' || lang === 'en') {
-      this.currentLang = lang;
-      localStorage.setItem('preferredLanguage', lang);
+    const supportedLanguages = this.getSupportedLanguages();
+    const normalizedLang = this.normalizeLanguage(lang);
+    if (normalizedLang && supportedLanguages.includes(normalizedLang)) {
+      this.currentLang = normalizedLang;
+      localStorage.setItem('preferredLanguage', normalizedLang);
       this.loadLanguage();
       return true;
     }
@@ -43,27 +74,30 @@ class I18n {
 
   // 翻訳を取得
   t(key, params = {}) {
-    const translation = translations[this.currentLang];
-    if (!translation || !translation[key]) {
-      // フォールバック: 英語を試す
-      const fallback = translations['en'];
-      if (fallback && fallback[key]) {
-        let text = fallback[key];
-        // パラメータを置換
-        Object.keys(params).forEach(param => {
-          text = text.replace(`{${param}}`, params[param]);
-        });
-        return text;
-      }
-      return key; // 翻訳が見つからない場合はキーを返す
+    if (typeof translations === 'undefined') {
+      return key;
     }
 
-    let text = translation[key];
-    // パラメータを置換
+    const translation = translations[this.currentLang] || {};
+    const fallback = translations[this.getDefaultLanguage()] || {};
+    const hasTranslation = Object.prototype.hasOwnProperty.call(translation, key);
+    const hasFallback = Object.prototype.hasOwnProperty.call(fallback, key);
+    const text = hasTranslation ? translation[key] : (hasFallback ? fallback[key] : null);
+
+    if (text === null || typeof text === 'undefined') {
+      return key;
+    }
+
+    return this.interpolate(text, params);
+  }
+
+  interpolate(text, params = {}) {
+    let result = String(text);
     Object.keys(params).forEach(param => {
-      text = text.replace(`{${param}}`, params[param]);
+      const escaped = param.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      result = result.replace(new RegExp(`\\{${escaped}\\}`, 'g'), params[param]);
     });
-    return text;
+    return result;
   }
 
   // HTMLのlang属性を更新

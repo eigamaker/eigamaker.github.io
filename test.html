@@ -8,6 +8,8 @@
     
     <!-- i18n scripts -->
     <script src="js/translations.js"></script>
+    <script src="js/translations-id.js"></script>
+    <script src="js/translations-extra.js"></script>
     <script src="js/i18n.js"></script>
     
     <!-- Supabase -->
@@ -637,8 +639,19 @@
 <body>
     <div class="container">
         <div class="lang-switcher">
-            <button class="lang-btn" data-lang="ja" onclick="switchLanguage('ja')" data-i18n="japanese">日本語</button>
-            <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')" data-i18n="english">English</button>
+            <button class="lang-btn" data-lang="ar" onclick="switchLanguage('ar')">العربية</button>
+            <button class="lang-btn" data-lang="de" onclick="switchLanguage('de')">Deutsch</button>
+            <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">English</button>
+            <button class="lang-btn" data-lang="es" onclick="switchLanguage('es')">Español</button>
+            <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">Français</button>
+            <button class="lang-btn" data-lang="hi" onclick="switchLanguage('hi')">हिन्दी</button>
+            <button class="lang-btn" data-lang="id" onclick="switchLanguage('id')">Bahasa Indonesia</button>
+            <button class="lang-btn" data-lang="it" onclick="switchLanguage('it')">Italiano</button>
+            <button class="lang-btn" data-lang="ja" onclick="switchLanguage('ja')">日本語</button>
+            <button class="lang-btn" data-lang="ko" onclick="switchLanguage('ko')">한국어</button>
+            <button class="lang-btn" data-lang="pt" onclick="switchLanguage('pt')">Português</button>
+            <button class="lang-btn" data-lang="zh" onclick="switchLanguage('zh')">简体中文</button>
+            <button class="lang-btn" data-lang="zh_hant" onclick="switchLanguage('zh_hant')">繁體中文</button>
         </div>
         
         <!-- 進捗バー -->
@@ -725,8 +738,12 @@
     </div>
 
     <script src="js/questions.js"></script>
+    <script src="js/questions-loader.js"></script>
     <script src="js/result-translations.js"></script>
+    <script src="js/result-translations-id.js"></script>
     <script src="js/result-details-en.js"></script>
+    <script src="js/result-details-id.js"></script>
+    <script src="js/result-translations-fallback.js"></script>
     <script src="js/calculators/profilecode-calculator.js"></script>
     <script src="js/calculators/four-indicator-calculator.js"></script>
     <script src="js/calculators/sixteen-factor-calculator.js"></script>
@@ -742,16 +759,30 @@
         const joinList = (items) => items.join(getLang() === 'ja' ? '、' : ', ');
         
         // 言語切り替え関数
+        async function refreshQuestionsForLanguage(lang = null) {
+            if (typeof getQuestionsFromCSV === 'function') {
+                try {
+                    const csvQuestions = await getQuestionsFromCSV(lang);
+                    if (csvQuestions && csvQuestions.length > 0) {
+                        sharedQuestions = csvQuestions;
+                        test.questions = csvQuestions;
+                        return csvQuestions;
+                    }
+                } catch (error) {
+                    console.warn('CSV questions load failed:', error);
+                }
+            }
+            // フォールバック（question id 1～40のみ）
+            if (typeof getSharedQuestions === 'function') {
+                sharedQuestions = getSharedQuestions();
+                sharedQuestions = sharedQuestions.filter(q => q.id >= 1 && q.id <= 40);
+            }
+            test.questions = sharedQuestions;
+            return sharedQuestions;
+        }
+
         function switchLanguage(lang) {
             i18n.setLanguage(lang);
-            // 質問データを再読み込み
-            sharedQuestions = getSharedQuestions();
-            test.questions = sharedQuestions;
-            updatePageContent();
-            // 現在の質問を再表示
-            if (document.getElementById('questionSection').classList.contains('active')) {
-                displayQuestion();
-            }
         }
         
         // リセット関数
@@ -792,24 +823,23 @@
         // 言語変更イベントをリッスン
         document.addEventListener('languageChanged', function() {
             updatePageContent();
-            // 質問データを再読み込み
-            sharedQuestions = getSharedQuestions();
-            test.questions = sharedQuestions;
-            // 現在の質問を再表示
-            if (document.getElementById('questionSection').classList.contains('active')) {
-                displayQuestion();
-            }
-            if (document.getElementById('resultSection').classList.contains('active')) {
-                const activeTab = getActiveResultTabId();
-                let results;
-                try {
-                    results = test.calculateResults();
-                } catch (error) {
-                    console.error('Result recalculation error:', error);
-                    return;
+            refreshQuestionsForLanguage().then(() => {
+                // 現在の質問を再表示
+                if (document.getElementById('questionSection').classList.contains('active')) {
+                    displayQuestion();
                 }
-                renderResults(results, activeTab);
-            }
+                if (document.getElementById('resultSection').classList.contains('active')) {
+                    const activeTab = getActiveResultTabId();
+                    let results;
+                    try {
+                        results = test.calculateResults();
+                    } catch (error) {
+                        console.error('Result recalculation error:', error);
+                        return;
+                    }
+                    renderResults(results, activeTab);
+                }
+            });
         });
 
         // 質問を表示
@@ -1095,14 +1125,14 @@
                 // 未ログインの場合、保存提案を表示
                 saveOptionDiv.innerHTML = `
                     <div class="save-option-card">
-                        <h3>AIで診断したいなら</h3>
-                        <p>アカウントを作成してアプリからログインすると、AIで診断できるよ。</p>
+                        <h3>${i18n.t('saveOptionTitle')}</h3>
+                        <p>${i18n.t('saveOptionMessage')}</p>
                         <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
-                            アカウントを作成すると、診断結果をSupabaseに保存し、複数のデバイスでアクセスできるようになります。
+                            ${i18n.t('saveOptionDescription')}
                         </p>
-                        <button class="save-btn" onclick="showRegisterModal()">アカウントを作成</button>
-                        <button class="save-btn" onclick="showLoginModal()" style="background: #f0f0f0; color: #333; margin-left: 10px;">ログイン</button>
-                        <button class="skip-btn" onclick="hideSaveOption()">今はしない</button>
+                        <button class="save-btn" onclick="showRegisterModal()">${i18n.t('createAccount')}</button>
+                        <button class="save-btn" onclick="showLoginModal()" style="background: #f0f0f0; color: #333; margin-left: 10px;">${i18n.t('login')}</button>
+                        <button class="skip-btn" onclick="hideSaveOption()">${i18n.t('skipForNow')}</button>
                     </div>
                 `;
             }
@@ -1771,6 +1801,8 @@
                     }
                 }
             }
+            
+            await refreshQuestionsForLanguage();
             
             // LocalStorageから解答を読み込み
             test.loadAnswers();
