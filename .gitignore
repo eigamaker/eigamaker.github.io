@@ -1,0 +1,50 @@
+# セキュリティ関連ファイル
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+
+# 一時ファイル
+*.tmp
+*.temp
+*.log
+*.cache
+
+# OS関連
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# エディタ関連
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node.js関連
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+# package-lock.json と yarn.lock は含める（依存関係の再現性のため）
+# package.json は含める（依存関係の管理のため）
+
+# ビルド成果物（もし使用する場合）
+dist/
+build/
+*.min.js.map
+
+# テスト関連
+coverage/
+.nyc_output/
+
+# ローカル開発用ファイル
+local-config.js
+dev-config.js
+secrets.js
+

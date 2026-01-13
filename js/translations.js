@@ -140,6 +140,16 @@ const translations = {
     question28: "対立を避けることを好みますか？",
     question29: "迅速に判断することを好みますか？",
     question30: "複数の方法を組み合わせて学ぶことを好みますか？",
+    question31: "長期的な目標を設定して、それに向かって努力しますか？",
+    question32: "他人の意見を聞いてから判断することを好みますか？",
+    question33: "新しい技術やツールを積極的に試しますか？",
+    question34: "感情よりも事実に基づいて判断しますか？",
+    question35: "時間をかけて深く考えることを好みますか？",
+    question36: "変化を恐れず、適応することを好みますか？",
+    question37: "他人をサポートし、助けることを好みますか？",
+    question38: "競争的な環境で力を発揮しますか？",
+    question39: "細かい作業を丁寧に行うことを好みますか？",
+    question40: "バランスの取れた生活を大切にしますか？",
     
     // inquiry-form.html
     inquiryTitle: "お問い合わせ | Profilecode",
@@ -297,6 +307,16 @@ const translations = {
     question28: "Do you prefer to avoid conflicts?",
     question29: "Do you prefer to make quick decisions?",
     question30: "Do you prefer to combine multiple methods when learning?",
+    question31: "Do you set long-term goals and work towards them?",
+    question32: "Do you prefer to listen to others' opinions before making decisions?",
+    question33: "Do you actively try new technologies or tools?",
+    question34: "Do you make decisions based on facts rather than emotions?",
+    question35: "Do you prefer to take time to think deeply?",
+    question36: "Do you prefer to adapt without fearing change?",
+    question37: "Do you prefer to support and help others?",
+    question38: "Do you perform well in competitive environments?",
+    question39: "Do you prefer to do detailed work carefully?",
+    question40: "Do you value a balanced lifestyle?",
     
     // inquiry-form.html
     inquiryTitle: "Contact Us | Profilecode",

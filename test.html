@@ -10,6 +10,14 @@
     <script src="js/translations.js"></script>
     <script src="js/i18n.js"></script>
     
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/sync-from-supabase.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/account-migration.js"></script>
+    <script src="js/supabase-save.js"></script>
+    
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-8RSCZGH62Y"></script>
     <script>
@@ -416,6 +424,175 @@
         .btn-retry:hover {
             background: #e0e0e0;
         }
+        
+        /* 保存提案UI */
+        .save-option-card {
+            background: #f9f9f9;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        .save-option-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        .save-option-card p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        .save-option-card.success {
+            background: #e8f5e9;
+            border-color: #4caf50;
+        }
+        .save-option-card.error {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+        .save-option-card.info {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+        .save-btn, .skip-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+        .save-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .skip-btn {
+            background: #f0f0f0;
+            color: #333;
+        }
+        .skip-btn:hover {
+            background: #e0e0e0;
+        }
+        
+        /* モーダル */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2em;
+            font-weight: bold;
+            color: #999;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .modal-close:hover {
+            color: #333;
+        }
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+        .modal-content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .error-message {
+            color: #f44336;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #ffebee;
+            border-radius: 5px;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+        .btn-primary {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transition: all 0.3s;
+        }
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .btn-secondary {
+            padding: 12px 30px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            background: white;
+            color: #333;
+            transition: all 0.3s;
+        }
+        .btn-secondary:hover {
+            background: #f0f0f0;
+        }
+        
         .lang-switcher {
             position: absolute;
             top: 20px;
@@ -465,9 +642,9 @@
         </div>
         
         <!-- 進捗バー -->
-        <div class="progress-text" id="progressText">質問 1 / 30</div>
+        <div class="progress-text" id="progressText">質問 1 / 40</div>
         <div class="progress-bar">
-            <div class="progress-fill" id="progressFill" style="width: 3.33%"></div>
+            <div class="progress-fill" id="progressFill" style="width: 2.5%"></div>
         </div>
 
         <!-- 質問セクション -->
@@ -488,10 +665,61 @@
             <h1 class="result-title" data-i18n="results">診断結果</h1>
             <div class="result-tabs" id="resultTabs"></div>
             <div id="results"></div>
+            <div id="saveOption"></div>
             <div class="action-buttons">
                 <a href="/" class="action-btn btn-retry" onclick="gtag('event', 'back_to_top', {'event_category': 'ナビゲーション', 'event_label': 'トップに戻る'});" data-i18n="backToTopButton">トップに戻る</a>
                 <a href="https://apps.apple.com/jp/app/profilecode-codes/id6747016000" class="action-btn btn-app" target="_blank" onclick="gtag('event', 'app_link_clicked', {'event_category': 'コンバージョン', 'event_label': 'App Store', 'value': 1});" data-i18n="viewInApp">アプリで詳しく見る</a>
                 <button class="action-btn btn-retry" onclick="gtag('event', 'test_restarted', {'event_category': '診断', 'event_label': '再診断'}); test.resetAndRestart();" data-i18n="retakeTest">もう一度診断する</button>
+            </div>
+        </div>
+        
+        <!-- メールアドレス登録モーダル -->
+        <div id="registerModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="modal-close" onclick="hideRegisterModal()">&times;</span>
+                <h2>診断結果を保存する</h2>
+                <p>メールアドレスとパスワードを登録すると、診断結果をSupabaseに保存し、複数のデバイスでアクセスできるようになります。</p>
+                <div class="form-group">
+                    <label for="registerEmail">メールアドレス</label>
+                    <input type="email" id="registerEmail" placeholder="example@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">パスワード（6文字以上）</label>
+                    <input type="password" id="registerPassword" placeholder="パスワード" required minlength="6" onkeypress="if(event.key === 'Enter') handleRegister();">
+                </div>
+                <div id="registerError" class="error-message" style="display: none;"></div>
+                <div class="modal-buttons">
+                    <button id="registerSubmitBtn" class="btn-primary" onclick="handleRegister()">登録</button>
+                    <button class="btn-secondary" onclick="hideRegisterModal()">キャンセル</button>
+                </div>
+                <p style="margin-top: 20px; text-align: center; font-size: 0.9em;">
+                    <a href="#" onclick="event.preventDefault(); hideRegisterModal(); showLoginModal();" style="color: #667eea;">既にアカウントをお持ちの方はこちら</a>
+                </p>
+            </div>
+        </div>
+        
+        <!-- ログインモーダル -->
+        <div id="loginModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="modal-close" onclick="hideLoginModal()">&times;</span>
+                <h2>ログイン</h2>
+                <p>メールアドレスとパスワードでログインすると、診断結果をSupabaseに保存し、複数のデバイスでアクセスできるようになります。</p>
+                <div class="form-group">
+                    <label for="loginEmail">メールアドレス</label>
+                    <input type="email" id="loginEmail" placeholder="example@example.com" required onkeypress="if(event.key === 'Enter') document.getElementById('loginPassword').focus();">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">パスワード</label>
+                    <input type="password" id="loginPassword" placeholder="パスワード" required onkeypress="if(event.key === 'Enter') handleLogin();">
+                </div>
+                <div id="loginError" class="error-message" style="display: none;"></div>
+                <div class="modal-buttons">
+                    <button id="loginSubmitBtn" class="btn-primary" onclick="handleLogin()">ログイン</button>
+                    <button class="btn-secondary" onclick="hideLoginModal()">キャンセル</button>
+                </div>
+                <p style="margin-top: 20px; text-align: center; font-size: 0.9em;">
+                    <a href="#" onclick="event.preventDefault(); hideLoginModal(); showRegisterModal();" style="color: #667eea;">アカウントをお持ちでない方はこちら</a>
+                </p>
             </div>
         </div>
     </div>
@@ -749,7 +977,7 @@
         }
 
         // 結果を表示
-        function showResults() {
+        async function showResults() {
             document.getElementById('questionSection').classList.remove('active');
             document.getElementById('resultSection').classList.add('active');
 
@@ -803,7 +1031,387 @@
                 'event_label': 'DISC',
                 'disc_style': results.disc.primaryStyle
             });
+            
             renderResults(results);
+            
+            // ログイン状態をチェックして保存提案UIを表示
+            await showSaveOption(results);
+        }
+        
+        // 保存提案UIを表示
+        async function showSaveOption(results) {
+            const saveOptionDiv = document.getElementById('saveOption');
+            if (!saveOptionDiv) return;
+            
+            // ログイン状態をチェック
+            const authStatus = await checkAuthStatus();
+            
+            if (authStatus.isLoggedIn) {
+                // ログイン済みの場合、自動保存を試みる
+                saveOptionDiv.innerHTML = `
+                    <div class="save-option-card">
+                        <p>診断結果をSupabaseに保存しています...</p>
+                    </div>
+                `;
+                
+                try {
+                    const saveResult = await saveDiagnosisResultsToSupabase(
+                        results,
+                        test.answers,
+                        test.questions
+                    );
+                    
+                    if (saveResult.success) {
+                        saveOptionDiv.innerHTML = `
+                            <div class="save-option-card success">
+                                <p>✅ 診断結果をSupabaseに保存しました。</p>
+                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">ログアウト</button>
+                            </div>
+                        `;
+                    } else if (saveResult.code === 'DUPLICATE') {
+                        saveOptionDiv.innerHTML = `
+                            <div class="save-option-card info">
+                                <p>ℹ️ この診断結果は既に保存されています。</p>
+                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">ログアウト</button>
+                            </div>
+                        `;
+                    } else {
+                        saveOptionDiv.innerHTML = `
+                            <div class="save-option-card error">
+                                <p>❌ 保存に失敗しました: ${saveResult.error}</p>
+                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">ログアウト</button>
+                            </div>
+                        `;
+                    }
+                } catch (error) {
+                    console.error('保存エラー:', error);
+                    saveOptionDiv.innerHTML = `
+                        <div class="save-option-card error">
+                            <p>❌ 保存に失敗しました: ${error.message}</p>
+                        </div>
+                    `;
+                }
+            } else {
+                // 未ログインの場合、保存提案を表示
+                saveOptionDiv.innerHTML = `
+                    <div class="save-option-card">
+                        <h3>AIで診断したいなら</h3>
+                        <p>アカウントを作成してアプリからログインすると、AIで診断できるよ。</p>
+                        <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                            アカウントを作成すると、診断結果をSupabaseに保存し、複数のデバイスでアクセスできるようになります。
+                        </p>
+                        <button class="save-btn" onclick="showRegisterModal()">アカウントを作成</button>
+                        <button class="save-btn" onclick="showLoginModal()" style="background: #f0f0f0; color: #333; margin-left: 10px;">ログイン</button>
+                        <button class="skip-btn" onclick="hideSaveOption()">今はしない</button>
+                    </div>
+                `;
+            }
+        }
+        
+        // 保存提案を非表示
+        function hideSaveOption() {
+            const saveOptionDiv = document.getElementById('saveOption');
+            if (saveOptionDiv) {
+                saveOptionDiv.innerHTML = '';
+            }
+        }
+        
+        // メールアドレス登録モーダルを表示
+        function showRegisterModal() {
+            const modal = document.getElementById('registerModal');
+            if (modal) {
+                modal.style.display = 'flex';
+                // フォームをリセット
+                const emailInput = document.getElementById('registerEmail');
+                const passwordInput = document.getElementById('registerPassword');
+                const errorDiv = document.getElementById('registerError');
+                if (emailInput) emailInput.value = '';
+                if (passwordInput) passwordInput.value = '';
+                if (errorDiv) {
+                    errorDiv.style.display = 'none';
+                    errorDiv.textContent = '';
+                }
+            }
+        }
+        
+        // メールアドレス登録モーダルを非表示
+        function hideRegisterModal() {
+            const modal = document.getElementById('registerModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        // ログインモーダルを表示
+        function showLoginModal() {
+            const modal = document.getElementById('loginModal');
+            if (modal) {
+                modal.style.display = 'flex';
+                // フォームをリセット
+                const emailInput = document.getElementById('loginEmail');
+                const passwordInput = document.getElementById('loginPassword');
+                const errorDiv = document.getElementById('loginError');
+                if (emailInput) emailInput.value = '';
+                if (passwordInput) passwordInput.value = '';
+                if (errorDiv) {
+                    errorDiv.style.display = 'none';
+                    errorDiv.textContent = '';
+                }
+            }
+        }
+        
+        // ログインモーダルを非表示
+        function hideLoginModal() {
+            const modal = document.getElementById('loginModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        // ログイン処理
+        async function handleLogin() {
+            const emailInput = document.getElementById('loginEmail');
+            const passwordInput = document.getElementById('loginPassword');
+            const errorDiv = document.getElementById('loginError');
+            const submitBtn = document.getElementById('loginSubmitBtn');
+            
+            if (!emailInput || !passwordInput) return;
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            
+            if (!email || !password) {
+                if (errorDiv) {
+                    errorDiv.textContent = 'メールアドレスとパスワードを入力してください。';
+                    errorDiv.style.display = 'block';
+                }
+                return;
+            }
+            
+            // ボタンを無効化
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'ログイン中...';
+            }
+            
+            if (errorDiv) {
+                errorDiv.style.display = 'none';
+            }
+            
+            try {
+                // ログイン
+                const loginResult = await loginWithEmail(email, password);
+                
+                if (!loginResult.success) {
+                    if (errorDiv) {
+                        errorDiv.textContent = loginResult.error || 'ログインに失敗しました。';
+                        errorDiv.style.display = 'block';
+                    }
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'ログイン';
+                    }
+                    return;
+                }
+                
+                // ログイン成功後、Supabaseから解答履歴を同期
+                if (typeof syncAnswersFromSupabase === 'function') {
+                    try {
+                        const syncResult = await syncAnswersFromSupabase();
+                        if (syncResult.success && syncResult.answers && syncResult.answers.length > 0) {
+                            // 解答履歴を同期した場合、testオブジェクトを更新
+                            test.answers = syncResult.answers;
+                            test.currentQuestionIndex = syncResult.answers.length;
+                            localStorage.setItem('personalityTestAnswers', JSON.stringify(syncResult.answers));
+                            console.log('Supabaseから解答履歴を同期しました:', syncResult.answers.length, '件');
+                        }
+                    } catch (e) {
+                        console.warn('解答履歴の同期に失敗しました:', e);
+                    }
+                }
+                
+                // 診断結果を保存（解答履歴がある場合）
+                if (test.answers.length > 0) {
+                    const results = test.calculateResults();
+                    const saveResult = await saveDiagnosisResultsToSupabase(
+                        results,
+                        test.answers,
+                        test.questions
+                    );
+                }
+                
+                // モーダルを閉じて、保存完了メッセージを表示
+                hideLoginModal();
+                
+                const saveOptionDiv = document.getElementById('saveOption');
+                if (saveOptionDiv) {
+                    if (saveResult.success) {
+                        saveOptionDiv.innerHTML = `
+                            <div class="save-option-card success">
+                                <p>✅ ログインしました。診断結果をSupabaseに保存しました。</p>
+                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">ログアウト</button>
+                            </div>
+                        `;
+                    } else if (saveResult.code === 'DUPLICATE') {
+                        saveOptionDiv.innerHTML = `
+                            <div class="save-option-card info">
+                                <p>✅ ログインしました。この診断結果は既に保存されています。</p>
+                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">ログアウト</button>
+                            </div>
+                        `;
+                    } else {
+                        saveOptionDiv.innerHTML = `
+                            <div class="save-option-card info">
+                                <p>✅ ログインしました。診断結果の保存に失敗しましたが、後で再試行できます。</p>
+                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">ログアウト</button>
+                            </div>
+                        `;
+                    }
+                }
+            } catch (error) {
+                console.error('ログイン処理エラー:', error);
+                if (errorDiv) {
+                    errorDiv.textContent = error.message || 'ログイン処理中にエラーが発生しました。';
+                    errorDiv.style.display = 'block';
+                }
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'ログイン';
+                }
+            }
+        }
+        
+        // ログアウト処理
+        async function handleLogout() {
+            try {
+                const result = await logout();
+                if (result.success) {
+                    // 保存提案UIを更新
+                    const saveOptionDiv = document.getElementById('saveOption');
+                    if (saveOptionDiv) {
+                        const results = test.calculateResults();
+                        await showSaveOption(results);
+                    }
+                }
+            } catch (error) {
+                console.error('ログアウト処理エラー:', error);
+                alert('ログアウトに失敗しました: ' + error.message);
+            }
+        }
+        
+        // メールアドレス登録処理
+        async function handleRegister() {
+            const emailInput = document.getElementById('registerEmail');
+            const passwordInput = document.getElementById('registerPassword');
+            const errorDiv = document.getElementById('registerError');
+            const submitBtn = document.getElementById('registerSubmitBtn');
+            
+            if (!emailInput || !passwordInput) return;
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            
+            if (!email || !password) {
+                if (errorDiv) {
+                    errorDiv.textContent = 'メールアドレスとパスワードを入力してください。';
+                    errorDiv.style.display = 'block';
+                }
+                return;
+            }
+            
+            if (password.length < 6) {
+                if (errorDiv) {
+                    errorDiv.textContent = 'パスワードは6文字以上で入力してください。';
+                    errorDiv.style.display = 'block';
+                }
+                return;
+            }
+            
+            // ボタンを無効化
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = '登録中...';
+            }
+            
+            if (errorDiv) {
+                errorDiv.style.display = 'none';
+            }
+            
+            try {
+                // 1. アカウント作成
+                const registerResult = await registerWithEmail(email, password);
+                
+                if (!registerResult.success) {
+                    if (errorDiv) {
+                        errorDiv.textContent = registerResult.error || 'アカウント作成に失敗しました。';
+                        errorDiv.style.display = 'block';
+                    }
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = '登録';
+                    }
+                    return;
+                }
+                
+                // 2. データ移行
+                const results = test.calculateResults();
+                const migrateResult = await migrateLocalStorageToSupabase(
+                    registerResult.user.id,
+                    test.answers,
+                    test.questions
+                );
+                
+                if (migrateResult.success && migrateResult.migrated) {
+                    // 3. スコアを保存
+                    const externalResponseId = crypto.randomUUID();
+                    await saveDiagnosisScoresToSupabase(
+                        registerResult.user.id,
+                        externalResponseId,
+                        test.answers,
+                        test.questions,
+                        results
+                    );
+                }
+                
+                // 4. 診断結果を保存
+                const saveResult = await saveDiagnosisResultsToSupabase(
+                    results,
+                    test.answers,
+                    test.questions
+                );
+                
+                // 5. モーダルを閉じて、保存完了メッセージを表示
+                hideRegisterModal();
+                
+                const saveOptionDiv = document.getElementById('saveOption');
+                if (saveOptionDiv) {
+                    if (saveResult.success) {
+                        saveOptionDiv.innerHTML = `
+                            <div class="save-option-card success">
+                                <p>✅ アカウントを作成し、診断結果をSupabaseに保存しました。</p>
+                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">ログアウト</button>
+                            </div>
+                        `;
+                    } else {
+                        saveOptionDiv.innerHTML = `
+                            <div class="save-option-card info">
+                                <p>✅ アカウントを作成しました。診断結果の保存に失敗しましたが、後で再試行できます。</p>
+                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">ログアウト</button>
+                            </div>
+                        `;
+                    }
+                }
+            } catch (error) {
+                console.error('登録処理エラー:', error);
+                if (errorDiv) {
+                    errorDiv.textContent = error.message || '登録処理中にエラーが発生しました。';
+                    errorDiv.style.display = 'block';
+                }
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '登録';
+                }
+            }
         }
 
         // タブ切り替え
@@ -1145,23 +1753,46 @@
         // 診断開始イベント（初回のみ）
         let testStartedTracked = false;
         
-        // 初期化
-        test.loadAnswers();
-        
-        // ページコンテンツを初期化
-        updatePageContent();
-        
-        // 診断開始をトラッキング（初回質問表示時）
-        if (test.answers.length === 0 && !testStartedTracked) {
-            gtag('event', 'test_started', {
-                'event_category': '診断',
-                'event_label': '性格診断',
-                'value': 1
-            });
-            testStartedTracked = true;
+        // 初期化（ログイン時はSupabaseから解答履歴を同期）
+        async function initializeTest() {
+            // ログイン状態をチェック
+            const authStatus = await checkAuthStatus();
+            
+            if (authStatus.isLoggedIn) {
+                // ログイン済みの場合、Supabaseから解答履歴を同期
+                if (typeof syncAnswersFromSupabase === 'function') {
+                    try {
+                        const syncResult = await syncAnswersFromSupabase();
+                        if (syncResult.success && syncResult.answers && syncResult.answers.length > 0) {
+                            console.log('Supabaseから解答履歴を同期しました:', syncResult.answers.length, '件');
+                        }
+                    } catch (e) {
+                        console.warn('解答履歴の同期に失敗しました:', e);
+                    }
+                }
+            }
+            
+            // LocalStorageから解答を読み込み
+            test.loadAnswers();
+            
+            // ページコンテンツを初期化
+            updatePageContent();
+            
+            // 診断開始をトラッキング（初回質問表示時）
+            if (test.answers.length === 0 && !testStartedTracked) {
+                gtag('event', 'test_started', {
+                    'event_category': '診断',
+                    'event_label': '性格診断',
+                    'value': 1
+                });
+                testStartedTracked = true;
+            }
+            
+            displayQuestion();
         }
         
-        displayQuestion();
+        // 初期化を実行
+        initializeTest();
     </script>
 </body>
 </html>

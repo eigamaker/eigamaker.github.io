@@ -182,6 +182,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="js/supabase-config.js"></script>
   <script>
     // 言語切り替え関数
     function switchLanguage(lang) {
@@ -244,10 +245,8 @@
     }
   </script>
   <script>
-    const supabaseClient = supabase.createClient(
-      'https://jehpkwqaphfcxnuzpavi.supabase.co',   // ← Replace with your Supabase URL
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImplaHBrd3FhcGhmY3hudXpwYXZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjg1NDA3MTMsImV4cCI6MjA0NDExNjcxM30.A5xe0cFzRPjNIIGcTINjK1Yi9K0O7Aw67RDxbLyVstY'                          // ← Replace with your Supabase anon key
-    );
+    // 共通設定ファイルからSupabaseクライアントを取得
+    const supabaseClient = getSupabaseClient();
 
     document.getElementById('inquiry-form').addEventListener('submit', async (e) => {
       e.preventDefault();
