@@ -263,8 +263,19 @@
 <body>
     <div class="container">
         <div class="lang-switcher">
-            <button class="lang-btn" data-lang="ja" onclick="switchLanguage('ja')" data-i18n="japanese">日本語</button>
-            <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')" data-i18n="english">English</button>
+            <button class="lang-btn" data-lang="ar" onclick="switchLanguage('ar')">العربية</button>
+            <button class="lang-btn" data-lang="de" onclick="switchLanguage('de')">Deutsch</button>
+            <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">English</button>
+            <button class="lang-btn" data-lang="es" onclick="switchLanguage('es')">Español</button>
+            <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">Français</button>
+            <button class="lang-btn" data-lang="hi" onclick="switchLanguage('hi')">हिन्दी</button>
+            <button class="lang-btn" data-lang="id" onclick="switchLanguage('id')">Bahasa Indonesia</button>
+            <button class="lang-btn" data-lang="it" onclick="switchLanguage('it')">Italiano</button>
+            <button class="lang-btn" data-lang="ja" onclick="switchLanguage('ja')">日本語</button>
+            <button class="lang-btn" data-lang="ko" onclick="switchLanguage('ko')">한국어</button>
+            <button class="lang-btn" data-lang="pt" onclick="switchLanguage('pt')">Português</button>
+            <button class="lang-btn" data-lang="zh" onclick="switchLanguage('zh')">简体中文</button>
+            <button class="lang-btn" data-lang="zh_hant" onclick="switchLanguage('zh_hant')">繁體中文</button>
         </div>
         
         <h1 data-i18n="title">Profilecode</h1>
@@ -307,8 +318,8 @@
         </div>
         
         <div class="footer">
-            <a href="/privacy-policy.html" data-i18n="privacyPolicy">プライバシーポリシー</a>
-            <a href="/eula.html" data-i18n="eula">利用規約</a>
+            <a href="/privacy-policy.html" data-i18n="privacyPolicy" data-link-type="privacy-policy">プライバシーポリシー</a>
+            <a href="/eula.html" data-i18n="eula" data-link-type="eula">利用規約</a>
             <a href="/contact" data-i18n="contact">お問い合わせ</a>
         </div>
     </div>
@@ -318,6 +329,48 @@
         function switchLanguage(lang) {
             i18n.setLanguage(lang);
             updatePageContent();
+        }
+        
+        // EULA/PPのリンクを言語に応じて更新
+        function updateEULAAndPPLinks() {
+            const lang = i18n.getCurrentLanguage();
+            
+            // 言語コードのマッピング
+            const langPathMap = {
+                'en': '',
+                'ar': '/ar',
+                'de': '/de',
+                'es': '/es',
+                'fr': '/fr',
+                'hi': '/hi',
+                'id': '/id',
+                'it': '/it',
+                'ja': '/ja',
+                'ko': '/ko',
+                'pt': '/pt',
+                'zh': '/zh',
+                'zh_hant': '/zh_hant'
+            };
+            
+            const langPath = langPathMap[lang] || '';
+            
+            // EULA/PPのリンクを更新
+            document.querySelectorAll('[data-link-type]').forEach(element => {
+                const linkType = element.getAttribute('data-link-type');
+                if (linkType === 'eula') {
+                    if (lang === 'en') {
+                        element.href = '/eula.html';
+                    } else {
+                        element.href = `/eula${langPath}.html`;
+                    }
+                } else if (linkType === 'privacy-policy') {
+                    if (lang === 'en') {
+                        element.href = '/privacy-policy.html';
+                    } else {
+                        element.href = `/privacy-policy${langPath}.html`;
+                    }
+                }
+            });
         }
         
         // ページコンテンツを更新
@@ -334,6 +387,9 @@
                     element.innerHTML = translation;
                 }
             });
+            
+            // EULA/PPのリンクを更新
+            updateEULAAndPPLinks();
             
             // 言語ボタンの状態を更新
             i18n.updateLanguageButtons();

@@ -3,8 +3,10 @@
 
 // 質問データを取得する関数（多言語対応）
 function getSharedQuestions() {
-  const lang = typeof i18n !== 'undefined' ? i18n.getCurrentLanguage() : 'ja';
-  const t = typeof i18n !== 'undefined' ? (key) => i18n.t(key) : (key) => translations['ja'][key] || key;
+  const fallbackLang = 'en';
+  const t = typeof i18n !== 'undefined'
+    ? (key) => i18n.t(key)
+    : (key) => (typeof translations !== 'undefined' && translations[fallbackLang] && translations[fallbackLang][key]) || key;
   
   return [
   {
@@ -1289,16 +1291,6 @@ function getSharedQuestions() {
 }
 
 // 後方互換性のため、グローバル変数としても提供
-let sharedQuestions = getSharedQuestions();
-
-// 言語変更時に質問データを更新
-if (typeof document !== 'undefined') {
-  document.addEventListener('languageChanged', function() {
-    sharedQuestions = getSharedQuestions();
-    // PersonalityTestインスタンスが存在する場合は質問を更新
-    if (typeof test !== 'undefined' && test) {
-      test.questions = sharedQuestions;
-    }
-  });
-}
+// 1～40の質問のみを返す（スターター質問）
+let sharedQuestions = getSharedQuestions().filter(q => q.id >= 1 && q.id <= 40);
 
