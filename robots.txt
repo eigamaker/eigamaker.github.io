@@ -1,2 +1,4 @@
-User-agent: Google-adstxt
-Disallow: 
+User-agent: *
+Disallow:
+
+Sitemap: https://profilecode.codes/sitemap.xml 

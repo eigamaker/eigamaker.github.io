@@ -1011,6 +1011,32 @@
             document.getElementById('questionSection').classList.remove('active');
             document.getElementById('resultSection').classList.add('active');
 
+            // SEO: 結果ページにnoindex,followを追加
+            let robotsMeta = document.querySelector('meta[name="robots"]');
+            if (!robotsMeta) {
+                robotsMeta = document.createElement('meta');
+                robotsMeta.setAttribute('name', 'robots');
+                document.head.appendChild(robotsMeta);
+            }
+            robotsMeta.setAttribute('content', 'noindex,follow');
+            
+            let googlebotMeta = document.querySelector('meta[name="googlebot"]');
+            if (!googlebotMeta) {
+                googlebotMeta = document.createElement('meta');
+                googlebotMeta.setAttribute('name', 'googlebot');
+                document.head.appendChild(googlebotMeta);
+            }
+            googlebotMeta.setAttribute('content', 'noindex,follow');
+            
+            // canonicalを追加
+            let canonicalLink = document.querySelector('link[rel="canonical"]');
+            if (!canonicalLink) {
+                canonicalLink = document.createElement('link');
+                canonicalLink.setAttribute('rel', 'canonical');
+                document.head.appendChild(canonicalLink);
+            }
+            canonicalLink.setAttribute('href', 'https://profilecode.codes/test.html');
+
             let results;
             try {
                 results = test.calculateResults();
