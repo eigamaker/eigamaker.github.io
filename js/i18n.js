@@ -38,12 +38,14 @@ class I18n {
   detectLanguage() {
     const supportedLanguages = this.getSupportedLanguages();
     
-    // 1. URLパラメータ ?lang= を最優先
+    // 1. URLパラメータ ?lang= を最優先（localStorageより優先）
     const urlParams = new URLSearchParams(window.location.search);
     const urlLang = urlParams.get('lang');
     if (urlLang) {
       const normalizedUrlLang = this.normalizeLanguage(urlLang);
       if (normalizedUrlLang && supportedLanguages.includes(normalizedUrlLang)) {
+        // URLパラメータがある場合は、localStorageも上書き
+        localStorage.setItem('preferredLanguage', normalizedUrlLang);
         return normalizedUrlLang;
       }
     }
