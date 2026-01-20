@@ -1,0 +1,108 @@
+{
+  "supportedLanguages": [
+    "ar",
+    "de",
+    "es",
+    "fr",
+    "hi",
+    "id",
+    "it",
+    "ja",
+    "ko",
+    "pt",
+    "zh",
+    "zh_hant"
+  ],
+  "languageNames": {
+    "ar": "العربية",
+    "de": "Deutsch",
+    "es": "Español",
+    "fr": "Français",
+    "hi": "हिन्दी",
+    "id": "Bahasa Indonesia",
+    "it": "Italiano",
+    "ja": "日本語",
+    "ko": "한국어",
+    "pt": "Português",
+    "zh": "简体中文",
+    "zh_hant": "繁體中文"
+  },
+  "copy": {
+    "home": {
+      "title": {
+        "ar": "Profilecode — اختبارات شخصية مجانية",
+        "de": "Profilecode – Kostenlose Persönlichkeitstests",
+        "es": "Profilecode — Tests de personalidad gratis",
+        "fr": "Profilecode — Tests de personnalité gratuits",
+        "hi": "Profilecode — निःशुल्क व्यक्तित्व परीक्षण",
+        "id": "Profilecode — Tes Kepribadian Gratis",
+        "it": "Profilecode — Test di personalità gratuiti",
+        "ja": "Profilecode - あなたのプロフィールを診断",
+        "ko": "Profilecode — 무료 성격 테스트",
+        "pt": "Profilecode — Testes de personalidade gratuitos",
+        "zh": "Profilecode — 免费性格测试",
+        "zh_hant": "Profilecode — 免費性格測試"
+      },
+      "desc": {
+        "ar": "اختبارات شخصية مجانية (MBTI و16 نوعًا والإنياجرام). اللغة الافتراضية هي الإنجليزية.",
+        "de": "Kostenlose Persönlichkeitstests (MBTI, 16 Types, Enneagram). Standardsprache ist Englisch.",
+        "es": "Tests de personalidad gratis (MBTI, 16 tipos, Enneagrama). El idioma predeterminado es inglés.",
+        "fr": "Tests de personnalité gratuits (MBTI, 16 types, Ennéagramme). La langue par défaut est l’anglais.",
+        "hi": "निःशुल्क व्यक्तित्व परीक्षण (MBTI, 16 प्रकार, एनीग्राम)। डिफ़ॉल्ट भाषा अंग्रेज़ी है।",
+        "id": "Tes kepribadian gratis (MBTI, 16 Tipe, Enneagram). Bahasa default adalah Inggris.",
+        "it": "Test di personalità gratuiti (MBTI, 16 tipi, Enneagram). La lingua predefinita è l’inglese.",
+        "ja": "無料の性格診断（MBTI／16タイプ／エニアグラム）。デフォルト言語は英語です。",
+        "ko": "무료 성격 테스트(MBTI, 16가지, 에니어그램). 기본 언어는 영어입니다.",
+        "pt": "Testes de personalidade gratuitos (MBTI, 16 tipos, Eneagrama). O idioma padrão é inglês.",
+        "zh": "免费性格测试（MBTI、16类型、九型人格）。默认语言为英语。",
+        "zh_hant": "免費性格測試（MBTI、16類型、九型人格）。預設語言為英文。"
+      }
+    },
+    "stub": {
+      "heading": {
+        "ar": "هذه الصفحة متاحة كلغة إضافية",
+        "de": "Diese Seite ist als zusätzliche Sprache verfügbar",
+        "es": "Esta página está disponible como idioma adicional",
+        "fr": "Cette page est disponible en langue supplémentaire",
+        "hi": "यह पेज अतिरिक्त भाषा के रूप में उपलब्ध है",
+        "id": "Halaman ini tersedia sebagai bahasa tambahan",
+        "it": "Questa pagina è disponibile come lingua aggiuntiva",
+        "ja": "このページは多言語ページとして提供されています",
+        "ko": "이 페이지는 추가 언어로 제공됩니다",
+        "pt": "Esta página está disponível como idioma adicional",
+        "zh": "此页面提供多语言版本",
+        "zh_hant": "此頁面提供多語言版本"
+      },
+      "body": {
+        "ar": "النسخة المرجعية (canonical) هي صفحة الإنجليزية. يمكنك المتابعة بالإنجليزية أو استخدام صفحات هذا اللغة للتصفح.",
+        "de": "Die kanonische Version ist die englische Seite. Du kannst auf Englisch fortfahren oder diese Sprachseiten zum Browsen nutzen.",
+        "es": "La versión canónica es la página en inglés. Puedes continuar en inglés o usar estas páginas para navegar.",
+        "fr": "La version canonique est la page en anglais. Vous pouvez continuer en anglais ou utiliser ces pages pour naviguer.",
+        "hi": "कैनोनिकल संस्करण अंग्रेज़ी पेज है। आप अंग्रेज़ी में जारी रख सकते हैं या इन भाषा पेजों से ब्राउज़ कर सकते हैं।",
+        "id": "Versi kanonis adalah halaman bahasa Inggris. Anda bisa melanjutkan dalam bahasa Inggris atau menggunakan halaman bahasa ini untuk menjelajah.",
+        "it": "La versione canonica è la pagina in inglese. Puoi continuare in inglese oppure usare queste pagine per navigare.",
+        "ja": "canonical は英語ページです。英語版へ進むか、この言語ページから閲覧できます。",
+        "ko": "canonical은 영어 페이지입니다. 영어로 진행하거나 이 언어 페이지로 탐색할 수 있습니다.",
+        "pt": "A versão canônica é a página em inglês. Você pode continuar em inglês ou usar estas páginas para navegar.",
+        "zh": "规范版本（canonical）为英文页面。你可以继续使用英文，或使用此语言页面进行浏览。",
+        "zh_hant": "規範版本（canonical）為英文頁面。你可以繼續使用英文，或使用此語言頁面瀏覽。"
+      },
+      "goEnglish": {
+        "ar": "الانتقال إلى الإنجليزية",
+        "de": "Zur englischen Version",
+        "es": "Ir a inglés",
+        "fr": "Aller en anglais",
+        "hi": "अंग्रेज़ी पर जाएँ",
+        "id": "Ke versi Inggris",
+        "it": "Vai alla versione inglese",
+        "ja": "英語版へ",
+        "ko": "영어로 이동",
+        "pt": "Ir para inglês",
+        "zh": "前往英文版",
+        "zh_hant": "前往英文版"
+      }
+    }
+  }
+}
+
+
