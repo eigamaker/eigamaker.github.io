@@ -12,8 +12,33 @@
     
     <!-- i18n scripts -->
     <script src="js/translations.js"></script>
-    <script src="js/translations-id.js"></script>
-    <script src="js/translations-extra.js"></script>
+    <!-- URLパラメータ ?lang= を最優先で適用（初期レンダリング前） -->
+    <script>
+      (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlLang = urlParams.get('lang');
+        if (urlLang) {
+          // サポートされている言語リスト
+          const supportedLanguages = ['ar', 'de', 'en', 'es', 'fr', 'hi', 'id', 'it', 'ja', 'ko', 'pt', 'zh', 'zh_hant'];
+          const normalizedLang = urlLang.toLowerCase().replace('_', '-');
+          const langMap = {
+            'zh-cn': 'zh',
+            'zh-hans': 'zh',
+            'zh-tw': 'zh_hant',
+            'zh-hant': 'zh_hant',
+            'zh-hk': 'zh_hant'
+          };
+          const baseLang = normalizedLang.split('-')[0];
+          const finalLang = langMap[normalizedLang] || langMap[baseLang] || baseLang;
+          if (supportedLanguages.includes(finalLang)) {
+            // localStorageを上書き（URLパラメータ優先）
+            localStorage.setItem('preferredLanguage', finalLang);
+            // HTMLのlang属性を即座に設定（初期レンダリング前）
+            document.documentElement.lang = finalLang;
+          }
+        }
+      })();
+    </script>
     <script src="js/i18n.js"></script>
     
     <!-- Supabase -->
