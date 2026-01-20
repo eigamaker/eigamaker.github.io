@@ -1,0 +1,7 @@
+# Ensure robots.txt and sitemap.xml use LF line endings and UTF-8 encoding
+robots.txt text eol=lf
+sitemap.xml text eol=lf
+
+# Ensure HTML files use UTF-8
+*.html text charset=utf-8
+
