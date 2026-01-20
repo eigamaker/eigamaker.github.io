@@ -6,6 +6,11 @@
     <title>Profilecode - あなたのプロフィールを診断</title>
     <meta name="description" content="Profilecodeは、あなたの性格を診断し、より深い自己理解を提供します。MBTI診断や16PF診断を利用できます。">
     
+    <!-- hreflang -->
+    <link rel="alternate" hreflang="ja" href="https://profilecode.codes/" />
+    <link rel="alternate" hreflang="en" href="https://profilecode.codes/en/" />
+    <link rel="alternate" hreflang="x-default" href="https://profilecode.codes/en/" />
+    
     <!-- i18n scripts -->
     <script src="js/translations.js"></script>
     <script src="js/i18n.js"></script>
@@ -126,6 +131,13 @@
             padding: 20px;
             background: #f9f9f9;
             border-radius: 10px;
+            display: block;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+        .feature:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background: #f0f0f0;
         }
         .feature h3 {
             margin-bottom: 10px;
@@ -151,22 +163,94 @@
             top: 20px;
             right: 20px;
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            flex-wrap: wrap;
+            max-width: 300px;
+            justify-content: flex-end;
         }
         .lang-btn {
-            padding: 8px 16px;
+            padding: 8px 12px;
             border: 2px solid #667eea;
             border-radius: 5px;
             background: white;
             color: #667eea;
-            font-size: 0.9em;
+            font-size: 0.85em;
             cursor: pointer;
             transition: all 0.3s;
+            white-space: nowrap;
+            min-width: fit-content;
         }
         .lang-btn:hover {
             background: #f8f9ff;
+            transform: translateY(-1px);
         }
         .lang-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+        .lang-btn-more {
+            padding: 8px 12px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            background: white;
+            color: #666;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .lang-btn-more:hover {
+            background: #f5f5f5;
+            border-color: #667eea;
+            color: #667eea;
+        }
+        .lang-more-icon {
+            font-size: 1em;
+        }
+        .lang-more-text {
+            display: inline;
+        }
+        @media (max-width: 480px) {
+            .lang-more-text {
+                display: none;
+            }
+        }
+        .lang-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 8px;
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 180px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        .lang-dropdown.show {
+            display: flex;
+        }
+        .lang-dropdown .lang-btn {
+            width: 100%;
+            text-align: left;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 12px;
+            font-size: 0.9em;
+        }
+        .lang-dropdown .lang-btn:hover {
+            background: #f8f9ff;
+        }
+        .lang-dropdown .lang-btn.active {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
@@ -222,11 +306,22 @@
                 right: auto;
                 justify-content: center;
                 margin-bottom: 20px;
+                max-width: 100%;
             }
             .lang-btn {
-                padding: 10px 18px;
+                padding: 10px 14px;
                 font-size: 0.85em;
                 min-height: 44px; /* タッチターゲットサイズ */
+            }
+            .lang-dropdown {
+                position: fixed;
+                top: auto;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                right: auto;
+                max-width: calc(100% - 40px);
+                max-height: 50vh;
             }
             .footer {
                 margin-top: 40px;
@@ -263,19 +358,30 @@
 <body>
     <div class="container">
         <div class="lang-switcher">
-            <button class="lang-btn" data-lang="ar" onclick="switchLanguage('ar')">العربية</button>
-            <button class="lang-btn" data-lang="de" onclick="switchLanguage('de')">Deutsch</button>
-            <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">English</button>
-            <button class="lang-btn" data-lang="es" onclick="switchLanguage('es')">Español</button>
-            <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">Français</button>
-            <button class="lang-btn" data-lang="hi" onclick="switchLanguage('hi')">हिन्दी</button>
-            <button class="lang-btn" data-lang="id" onclick="switchLanguage('id')">Bahasa Indonesia</button>
-            <button class="lang-btn" data-lang="it" onclick="switchLanguage('it')">Italiano</button>
+            <!-- 主要言語（常時表示） -->
             <button class="lang-btn" data-lang="ja" onclick="switchLanguage('ja')">日本語</button>
-            <button class="lang-btn" data-lang="ko" onclick="switchLanguage('ko')">한국어</button>
-            <button class="lang-btn" data-lang="pt" onclick="switchLanguage('pt')">Português</button>
-            <button class="lang-btn" data-lang="zh" onclick="switchLanguage('zh')">简体中文</button>
-            <button class="lang-btn" data-lang="zh_hant" onclick="switchLanguage('zh_hant')">繁體中文</button>
+            <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">English</button>
+            
+            <!-- その他の言語（ドロップダウン） -->
+            <div style="position: relative;">
+                <button class="lang-btn-more" onclick="toggleLangDropdown()" aria-label="More languages">
+                    <span class="lang-more-icon">🌐</span>
+                    <span class="lang-more-text">More</span>
+                </button>
+                <div class="lang-dropdown" id="langDropdown">
+                    <button class="lang-btn" data-lang="ar" onclick="switchLanguage('ar')">العربية</button>
+                    <button class="lang-btn" data-lang="de" onclick="switchLanguage('de')">Deutsch</button>
+                    <button class="lang-btn" data-lang="es" onclick="switchLanguage('es')">Español</button>
+                    <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">Français</button>
+                    <button class="lang-btn" data-lang="hi" onclick="switchLanguage('hi')">हिन्दी</button>
+                    <button class="lang-btn" data-lang="id" onclick="switchLanguage('id')">Bahasa Indonesia</button>
+                    <button class="lang-btn" data-lang="it" onclick="switchLanguage('it')">Italiano</button>
+                    <button class="lang-btn" data-lang="ko" onclick="switchLanguage('ko')">한국어</button>
+                    <button class="lang-btn" data-lang="pt" onclick="switchLanguage('pt')">Português</button>
+                    <button class="lang-btn" data-lang="zh" onclick="switchLanguage('zh')">简体中文</button>
+                    <button class="lang-btn" data-lang="zh_hant" onclick="switchLanguage('zh_hant')">繁體中文</button>
+                </div>
+            </div>
         </div>
         
         <h1 data-i18n="title">Profilecode</h1>
@@ -302,18 +408,18 @@
         <div class="features">
             <h2 data-i18n="features">主な機能</h2>
             <div class="feature-grid">
-                <div class="feature">
+                <a href="/mbti/" class="feature" style="text-decoration: none; color: inherit;">
                     <h3 data-i18n="featureMBTI">MBTI診断</h3>
                     <p data-i18n="featureMBTIDesc">16の性格タイプからあなたのタイプを診断します。</p>
-                </div>
-                <div class="feature">
+                </a>
+                <a href="/16-personality-test/" class="feature" style="text-decoration: none; color: inherit;">
                     <h3 data-i18n="feature16PF">16PF診断</h3>
                     <p data-i18n="feature16PFDesc">16の性格因子から詳細な分析を提供します。</p>
-                </div>
-                <div class="feature">
-                    <h3 data-i18n="featureShare">結果の共有</h3>
-                    <p data-i18n="featureShareDesc">診断結果を他のユーザーと共有できます。</p>
-                </div>
+                </a>
+                <a href="/enneagram/" class="feature" style="text-decoration: none; color: inherit;">
+                    <h3>Enneagram診断</h3>
+                    <p>9つの性格タイプからあなたのタイプを診断します。</p>
+                </a>
             </div>
         </div>
         
@@ -325,10 +431,30 @@
     </div>
     
     <script>
+        // 言語ドロップダウンの表示/非表示
+        function toggleLangDropdown() {
+            const dropdown = document.getElementById('langDropdown');
+            dropdown.classList.toggle('show');
+        }
+        
+        // ドロップダウン外をクリックしたら閉じる
+        document.addEventListener('click', function(event) {
+            const langSwitcher = document.querySelector('.lang-switcher');
+            const dropdown = document.getElementById('langDropdown');
+            if (langSwitcher && dropdown && !langSwitcher.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+        
         // 言語切り替え関数
         function switchLanguage(lang) {
             i18n.setLanguage(lang);
             updatePageContent();
+            // ドロップダウンを閉じる
+            const dropdown = document.getElementById('langDropdown');
+            if (dropdown) {
+                dropdown.classList.remove('show');
+            }
         }
         
         // EULA/PPのリンクを言語に応じて更新
