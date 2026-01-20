@@ -789,23 +789,23 @@
         <div id="registerModal" class="modal" style="display: none;">
             <div class="modal-content">
                 <span class="modal-close" onclick="hideRegisterModal()">&times;</span>
-                <h2>診断結果を保存する</h2>
-                <p>メールアドレスとパスワードを登録すると、診断結果をSupabaseに保存し、複数のデバイスでアクセスできるようになります。</p>
+                <h2 data-i18n="registerTitle">診断結果を保存する</h2>
+                <p data-i18n="registerDescription">メールアドレスとパスワードを登録すると、診断結果をSupabaseに保存し、複数のデバイスでアクセスできるようになります。</p>
                 <div class="form-group">
-                    <label for="registerEmail">メールアドレス</label>
+                    <label for="registerEmail" data-i18n="emailLabel">メールアドレス</label>
                     <input type="email" id="registerEmail" placeholder="example@example.com" required>
                 </div>
                 <div class="form-group">
-                    <label for="registerPassword">パスワード（6文字以上）</label>
-                    <input type="password" id="registerPassword" placeholder="パスワード" required minlength="6" onkeypress="if(event.key === 'Enter') handleRegister();">
+                    <label for="registerPassword" data-i18n="passwordLabelMin">パスワード（6文字以上）</label>
+                    <input type="password" id="registerPassword" placeholder="パスワード" data-i18n="passwordPlaceholder" required minlength="6" onkeypress="if(event.key === 'Enter') handleRegister();">
                 </div>
                 <div id="registerError" class="error-message" style="display: none;"></div>
                 <div class="modal-buttons">
-                    <button id="registerSubmitBtn" class="btn-primary" onclick="handleRegister()">登録</button>
-                    <button class="btn-secondary" onclick="hideRegisterModal()">キャンセル</button>
+                    <button id="registerSubmitBtn" class="btn-primary" onclick="handleRegister()" data-i18n="createAccount">登録</button>
+                    <button class="btn-secondary" onclick="hideRegisterModal()" data-i18n="cancel">キャンセル</button>
                 </div>
                 <p style="margin-top: 20px; text-align: center; font-size: 0.9em;">
-                    <a href="#" onclick="event.preventDefault(); hideRegisterModal(); showLoginModal();" style="color: #667eea;">既にアカウントをお持ちの方はこちら</a>
+                    <a href="#" onclick="event.preventDefault(); hideRegisterModal(); showLoginModal();" style="color: #667eea;" data-i18n="switchToLogin">既にアカウントをお持ちの方はこちら</a>
                 </p>
             </div>
         </div>
@@ -814,23 +814,23 @@
         <div id="loginModal" class="modal" style="display: none;">
             <div class="modal-content">
                 <span class="modal-close" onclick="hideLoginModal()">&times;</span>
-                <h2>ログイン</h2>
-                <p>メールアドレスとパスワードでログインすると、診断結果をSupabaseに保存し、複数のデバイスでアクセスできるようになります。</p>
+                <h2 data-i18n="login">ログイン</h2>
+                <p data-i18n="loginDescription">メールアドレスとパスワードでログインすると、診断結果をSupabaseに保存し、複数のデバイスでアクセスできるようになります。</p>
                 <div class="form-group">
-                    <label for="loginEmail">メールアドレス</label>
+                    <label for="loginEmail" data-i18n="emailLabel">メールアドレス</label>
                     <input type="email" id="loginEmail" placeholder="example@example.com" required onkeypress="if(event.key === 'Enter') document.getElementById('loginPassword').focus();">
                 </div>
                 <div class="form-group">
-                    <label for="loginPassword">パスワード</label>
-                    <input type="password" id="loginPassword" placeholder="パスワード" required onkeypress="if(event.key === 'Enter') handleLogin();">
+                    <label for="loginPassword" data-i18n="passwordLabel">パスワード</label>
+                    <input type="password" id="loginPassword" placeholder="パスワード" data-i18n="passwordPlaceholder" required onkeypress="if(event.key === 'Enter') handleLogin();">
                 </div>
                 <div id="loginError" class="error-message" style="display: none;"></div>
                 <div class="modal-buttons">
-                    <button id="loginSubmitBtn" class="btn-primary" onclick="handleLogin()">ログイン</button>
-                    <button class="btn-secondary" onclick="hideLoginModal()">キャンセル</button>
+                    <button id="loginSubmitBtn" class="btn-primary" onclick="handleLogin()" data-i18n="login">ログイン</button>
+                    <button class="btn-secondary" onclick="hideLoginModal()" data-i18n="cancel">キャンセル</button>
                 </div>
                 <p style="margin-top: 20px; text-align: center; font-size: 0.9em;">
-                    <a href="#" onclick="event.preventDefault(); hideLoginModal(); showRegisterModal();" style="color: #667eea;">アカウントをお持ちでない方はこちら</a>
+                    <a href="#" onclick="event.preventDefault(); hideLoginModal(); showRegisterModal();" style="color: #667eea;" data-i18n="switchToRegister">アカウントをお持ちでない方はこちら</a>
                 </p>
             </div>
         </div>
@@ -1223,7 +1223,7 @@
                 // ログイン済みの場合、自動保存を試みる
                 saveOptionDiv.innerHTML = `
                     <div class="save-option-card">
-                        <p>診断結果をSupabaseに保存しています...</p>
+                        <p>${t('saveInProgress')}</p>
                     </div>
                 `;
                 
@@ -1237,30 +1237,32 @@
                     if (saveResult.success) {
                         saveOptionDiv.innerHTML = `
                             <div class="save-option-card success">
-                                <p>✅ 診断結果をSupabaseに保存しました。</p>
-                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">ログアウト</button>
+                                <p>${t('saveSuccess')}</p>
+                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">${t('logout')}</button>
                             </div>
                         `;
                     } else if (saveResult.code === 'DUPLICATE') {
                         saveOptionDiv.innerHTML = `
                             <div class="save-option-card info">
-                                <p>ℹ️ この診断結果は既に保存されています。</p>
-                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">ログアウト</button>
+                                <p>${t('saveExists')}</p>
+                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">${t('logout')}</button>
                             </div>
                         `;
                     } else {
+                        const saveErrorMessage = saveResult.error ? `: ${saveResult.error}` : '';
                         saveOptionDiv.innerHTML = `
                             <div class="save-option-card error">
-                                <p>❌ 保存に失敗しました: ${saveResult.error}</p>
-                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">ログアウト</button>
+                                <p>${t('saveFailed', { error: saveErrorMessage })}</p>
+                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">${t('logout')}</button>
                             </div>
                         `;
                     }
                 } catch (error) {
-                    console.error('保存エラー:', error);
+                    console.error('?????:', error);
+                    const errorMessage = error && error.message ? `: ${error.message}` : '';
                     saveOptionDiv.innerHTML = `
                         <div class="save-option-card error">
-                            <p>❌ 保存に失敗しました: ${error.message}</p>
+                            <p>${t('saveFailed', { error: errorMessage })}</p>
                         </div>
                     `;
                 }
@@ -1355,7 +1357,7 @@
             
             if (!email || !password) {
                 if (errorDiv) {
-                    errorDiv.textContent = 'メールアドレスとパスワードを入力してください。';
+                    errorDiv.textContent = t('loginErrorMissing');
                     errorDiv.style.display = 'block';
                 }
                 return;
@@ -1364,7 +1366,7 @@
             // ボタンを無効化
             if (submitBtn) {
                 submitBtn.disabled = true;
-                submitBtn.textContent = 'ログイン中...';
+                submitBtn.textContent = t('loginProcessing');
             }
             
             if (errorDiv) {
@@ -1377,12 +1379,12 @@
                 
                 if (!loginResult.success) {
                     if (errorDiv) {
-                        errorDiv.textContent = loginResult.error || 'ログインに失敗しました。';
+                        errorDiv.textContent = loginResult.error || t('loginError');
                         errorDiv.style.display = 'block';
                     }
                     if (submitBtn) {
                         submitBtn.disabled = false;
-                        submitBtn.textContent = 'ログイン';
+                        submitBtn.textContent = t('login');
                     }
                     return;
                 }
@@ -1403,10 +1405,11 @@
                     }
                 }
                 
-                // 診断結果を保存（解答履歴がある場合）
+                // ??????????????????
+                let saveResult = { success: false };
                 if (test.answers.length > 0) {
                     const results = test.calculateResults();
-                    const saveResult = await saveDiagnosisResultsToSupabase(
+                    saveResult = await saveDiagnosisResultsToSupabase(
                         results,
                         test.answers,
                         test.questions
@@ -1421,22 +1424,22 @@
                     if (saveResult.success) {
                         saveOptionDiv.innerHTML = `
                             <div class="save-option-card success">
-                                <p>✅ ログインしました。診断結果をSupabaseに保存しました。</p>
-                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">ログアウト</button>
+                                <p>${t('loginSuccessSaved')}</p>
+                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">${t('logout')}</button>
                             </div>
                         `;
                     } else if (saveResult.code === 'DUPLICATE') {
                         saveOptionDiv.innerHTML = `
                             <div class="save-option-card info">
-                                <p>✅ ログインしました。この診断結果は既に保存されています。</p>
-                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">ログアウト</button>
+                                <p>${t('loginSuccessExists')}</p>
+                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">${t('logout')}</button>
                             </div>
                         `;
                     } else {
                         saveOptionDiv.innerHTML = `
                             <div class="save-option-card info">
-                                <p>✅ ログインしました。診断結果の保存に失敗しましたが、後で再試行できます。</p>
-                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">ログアウト</button>
+                                <p>${t('loginSuccessSaveFailed')}</p>
+                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">${t('logout')}</button>
                             </div>
                         `;
                     }
@@ -1444,12 +1447,12 @@
             } catch (error) {
                 console.error('ログイン処理エラー:', error);
                 if (errorDiv) {
-                    errorDiv.textContent = error.message || 'ログイン処理中にエラーが発生しました。';
+                    errorDiv.textContent = error.message || t('loginErrorGeneric');
                     errorDiv.style.display = 'block';
                 }
                 if (submitBtn) {
                     submitBtn.disabled = false;
-                    submitBtn.textContent = 'ログイン';
+                    submitBtn.textContent = t('login');
                 }
             }
         }
@@ -1468,7 +1471,7 @@
                 }
             } catch (error) {
                 console.error('ログアウト処理エラー:', error);
-                alert('ログアウトに失敗しました: ' + error.message);
+                alert(t('logoutFailed', { error: error.message }));
             }
         }
         
@@ -1486,7 +1489,7 @@
             
             if (!email || !password) {
                 if (errorDiv) {
-                    errorDiv.textContent = 'メールアドレスとパスワードを入力してください。';
+                    errorDiv.textContent = t('registerErrorMissing');
                     errorDiv.style.display = 'block';
                 }
                 return;
@@ -1494,7 +1497,7 @@
             
             if (password.length < 6) {
                 if (errorDiv) {
-                    errorDiv.textContent = 'パスワードは6文字以上で入力してください。';
+                    errorDiv.textContent = t('registerErrorPasswordLength');
                     errorDiv.style.display = 'block';
                 }
                 return;
@@ -1503,7 +1506,7 @@
             // ボタンを無効化
             if (submitBtn) {
                 submitBtn.disabled = true;
-                submitBtn.textContent = '登録中...';
+                submitBtn.textContent = t('registerProcessing');
             }
             
             if (errorDiv) {
@@ -1516,12 +1519,12 @@
                 
                 if (!registerResult.success) {
                     if (errorDiv) {
-                        errorDiv.textContent = registerResult.error || 'アカウント作成に失敗しました。';
+                        errorDiv.textContent = registerResult.error || t('registerError');
                         errorDiv.style.display = 'block';
                     }
                     if (submitBtn) {
                         submitBtn.disabled = false;
-                        submitBtn.textContent = '登録';
+                        submitBtn.textContent = t('createAccount');
                     }
                     return;
                 }
@@ -1561,15 +1564,15 @@
                     if (saveResult.success) {
                         saveOptionDiv.innerHTML = `
                             <div class="save-option-card success">
-                                <p>✅ アカウントを作成し、診断結果をSupabaseに保存しました。</p>
-                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">ログアウト</button>
+                                <p>${t('registerSuccessSaved')}</p>
+                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">${t('logout')}</button>
                             </div>
                         `;
                     } else {
                         saveOptionDiv.innerHTML = `
                             <div class="save-option-card info">
-                                <p>✅ アカウントを作成しました。診断結果の保存に失敗しましたが、後で再試行できます。</p>
-                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">ログアウト</button>
+                                <p>${t('registerSuccessSaveFailed')}</p>
+                                <button class="skip-btn" onclick="handleLogout()" style="margin-top: 10px;">${t('logout')}</button>
                             </div>
                         `;
                     }
@@ -1577,12 +1580,12 @@
             } catch (error) {
                 console.error('登録処理エラー:', error);
                 if (errorDiv) {
-                    errorDiv.textContent = error.message || '登録処理中にエラーが発生しました。';
+                    errorDiv.textContent = error.message || t('registerErrorGeneric');
                     errorDiv.style.display = 'block';
                 }
                 if (submitBtn) {
                     submitBtn.disabled = false;
-                    submitBtn.textContent = '登録';
+                    submitBtn.textContent = t('createAccount');
                 }
             }
         }
