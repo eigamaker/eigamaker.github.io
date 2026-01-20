@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://profilecode.codes/en/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://profilecode.codes/mbti</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -116,82 +121,47 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://profilecode.codes/16-personality-test/types/intj</loc>
+    <loc>https://profilecode.codes/enneagram/types/1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://profilecode.codes/16-personality-test/types/intp</loc>
+    <loc>https://profilecode.codes/enneagram/types/2</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://profilecode.codes/16-personality-test/types/entj</loc>
+    <loc>https://profilecode.codes/enneagram/types/3</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://profilecode.codes/16-personality-test/types/entp</loc>
+    <loc>https://profilecode.codes/enneagram/types/4</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://profilecode.codes/16-personality-test/types/infj</loc>
+    <loc>https://profilecode.codes/enneagram/types/5</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://profilecode.codes/16-personality-test/types/infp</loc>
+    <loc>https://profilecode.codes/enneagram/types/6</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://profilecode.codes/16-personality-test/types/enfj</loc>
+    <loc>https://profilecode.codes/enneagram/types/7</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://profilecode.codes/16-personality-test/types/enfp</loc>
+    <loc>https://profilecode.codes/enneagram/types/8</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://profilecode.codes/16-personality-test/types/istj</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://profilecode.codes/16-personality-test/types/isfj</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://profilecode.codes/16-personality-test/types/estj</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://profilecode.codes/16-personality-test/types/esfj</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://profilecode.codes/16-personality-test/types/istp</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://profilecode.codes/16-personality-test/types/isfp</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://profilecode.codes/16-personality-test/types/estp</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://profilecode.codes/16-personality-test/types/esfp</loc>
+    <loc>https://profilecode.codes/enneagram/types/9</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

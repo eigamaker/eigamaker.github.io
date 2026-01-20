@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profilecode - Discover Your Personality Type | Free MBTI & Enneagram Test</title>
+    <meta name="description" content="Take free personality tests including MBTI, 16 Personality Test, and Enneagram. Discover your type, strengths, weaknesses, careers, and relationships.">
+    <link rel="canonical" href="https://profilecode.codes/en/">
+    
+    <!-- hreflang -->
+    <link rel="alternate" hreflang="en" href="https://profilecode.codes/en/">
+    <link rel="alternate" hreflang="ja" href="https://profilecode.codes/">
+    <link rel="alternate" hreflang="x-default" href="https://profilecode.codes/en/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://profilecode.codes/en/">
+    <meta property="og:title" content="Profilecode - Discover Your Personality Type">
+    <meta property="og:description" content="Free MBTI, 16 Personality Test, and Enneagram tests. Discover your type and get detailed insights.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://profilecode.codes/en/">
+    <meta property="twitter:title" content="Profilecode - Discover Your Personality Type">
+    <meta property="twitter:description" content="Free MBTI, 16 Personality Test, and Enneagram tests.">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8RSCZGH62Y"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8RSCZGH62Y');
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: #667eea;
+        }
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 18px 40px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        .section {
+            margin-bottom: 60px;
+        }
+        .section h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #333;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .card h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        .card p {
+            margin-bottom: 20px;
+            color: #666;
+        }
+        .card-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .card-link:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            background: #333;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        .lang-switcher {
+            margin-top: 20px;
+        }
+        .lang-switcher a {
+            color: #ccc;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .lang-switcher a:hover {
+            color: white;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero h1 {
+                font-size: 2em;
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Profilecode</div>
+            <ul class="nav-links">
+                <li><a href="/en/">Home</a></li>
+                <li><a href="/mbti">MBTI</a></li>
+                <li><a href="/16-personality-test">16 Personality Test</a></li>
+                <li><a href="/enneagram">Enneagram</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <section class="hero">
+        <h1>Discover Your Personality Type</h1>
+        <p>Take free personality tests and gain deep insights into yourself</p>
+        <a href="/16-personality-test" class="cta-button">Start Free Test</a>
+    </section>
+    
+    <div class="container">
+        <section class="section">
+            <h2>Our Personality Tests</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>MBTI Test</h3>
+                    <p>Discover your Myers-Briggs Type Indicator (MBTI) personality type. Explore all 16 types including INTJ, ENFP, INFJ, and more.</p>
+                    <a href="/mbti" class="card-link">Learn More →</a>
+                </div>
+                <div class="card">
+                    <h3>16 Personality Test</h3>
+                    <p>Take our comprehensive 16 personality test based on MBTI. Get detailed results about your strengths, weaknesses, careers, and relationships.</p>
+                    <a href="/16-personality-test" class="card-link">Take Test →</a>
+                </div>
+                <div class="card">
+                    <h3>Enneagram Test</h3>
+                    <p>Discover your Enneagram type (1-9) and understand your core motivations, fears, and growth paths.</p>
+                    <a href="/enneagram" class="card-link">Learn More →</a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2>Why Profilecode?</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Free & Comprehensive</h3>
+                    <p>All our personality tests are completely free. No registration required. Get detailed results instantly.</p>
+                </div>
+                <div class="card">
+                    <h3>Science-Based</h3>
+                    <p>Our tests are based on established personality frameworks like MBTI and Enneagram, used by millions worldwide.</p>
+                </div>
+                <div class="card">
+                    <h3>Detailed Insights</h3>
+                    <p>Get comprehensive analysis including strengths, weaknesses, career matches, relationship insights, and growth tips.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="/mbti">MBTI</a>
+            <a href="/16-personality-test">16 Personality Test</a>
+            <a href="/enneagram">Enneagram</a>
+            <a href="/privacy-policy.html">Privacy Policy</a>
+            <a href="/eula.html">EULA</a>
+            <a href="/contact">Contact</a>
+        </div>
+        <div class="lang-switcher">
+            <a href="/">日本語</a>
+            <a href="/en/">English</a>
+        </div>
+        <p style="margin-top: 20px; color: #999;">© 2024 Profilecode. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+
