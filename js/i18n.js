@@ -36,21 +36,38 @@ class I18n {
 
   // ブラウザの言語設定を検出
   detectLanguage() {
-    // LocalStorageから保存された言語設定を取得
     const supportedLanguages = this.getSupportedLanguages();
+    
+    // 1. URLパラメータ ?lang= を最優先
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = urlParams.get('lang');
+    if (urlLang) {
+      const normalizedUrlLang = this.normalizeLanguage(urlLang);
+      if (normalizedUrlLang && supportedLanguages.includes(normalizedUrlLang)) {
+        return normalizedUrlLang;
+      }
+    }
+    
+    // 2. Referer が /en/ 配下なら英語を優先
+    const referer = document.referrer;
+    if (referer && referer.includes('/en/')) {
+      return 'en';
+    }
+    
+    // 3. LocalStorageから保存された言語設定を取得
     const savedLang = this.normalizeLanguage(localStorage.getItem('preferredLanguage'));
     if (savedLang && supportedLanguages.includes(savedLang)) {
       return savedLang;
     }
 
-    // ブラウザの言語設定を取得
+    // 4. ブラウザの言語設定を取得
     const browserLang = navigator.language || navigator.userLanguage;
     const normalizedLang = this.normalizeLanguage(browserLang);
     if (normalizedLang && supportedLanguages.includes(normalizedLang)) {
       return normalizedLang;
     }
 
-    // デフォルトは英語
+    // 5. デフォルトは英語
     return this.getDefaultLanguage();
   }
 
