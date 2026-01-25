@@ -3,14 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
+    <title>404 - Page Not Found | Profilecode</title>
+    <meta name="description" content="The page you are looking for could not be found. Return to Profilecode home page.">
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="canonical" href="https://profilecode.codes/404.html">
     <script>
-        // 404ページにアクセスがあった場合、index.htmlにリダイレクト
-        window.location.href = '/';
+        // 404ページにアクセスがあった場合、3秒後にホームページにリダイレクト
+        setTimeout(function() {
+            window.location.href = '/en/';
+        }, 3000);
     </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+        }
+        h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        a {
+            color: white;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        a:hover {
+            opacity: 0.8;
+        }
+    </style>
 </head>
 <body>
-    <h1>Redirecting...</h1>
-    <p>If you are not redirected, <a href="/">click here</a>.</p>
+    <div class="container">
+        <h1>404</h1>
+        <p>ページが見つかりませんでした</p>
+        <p>3秒後にホームページにリダイレクトされます。</p>
+        <p>リダイレクトされない場合は、<a href="/en/">こちらをクリック</a>してください。</p>
+    </div>
 </body>
 </html>
