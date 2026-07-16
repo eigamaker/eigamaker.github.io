@@ -32,7 +32,7 @@ const OG_OVERRIDES = new Map([
 ]);
 
 const LEGACY_GTAG_RE =
-  /[ \t]*<!--\s*Google tag \(gtag\.js\)\s*-->\s*\r?\n?[ \t]*<script async src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-8RSCZGH62Y"><\/script>\s*\r?\n[ \t]*<script>[\s\S]*?gtag\('config',\s*'G-8RSCZGH62Y'\);?\s*\r?\n?[ \t]*<\/script>\r?\n?/g;
+  /(?:[ \t]*<!--\s*Google tag \(gtag\.js\)\s*-->\s*\r?\n)?[ \t]*<script async src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-8RSCZGH62Y"><\/script>\s*\r?\n[ \t]*<script>[\s\S]*?gtag\('config',\s*'G-8RSCZGH62Y'\);?\s*\r?\n?[ \t]*<\/script>\r?\n?/g;
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
