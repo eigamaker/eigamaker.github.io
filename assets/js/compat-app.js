@@ -8,8 +8,59 @@
 
   var INCOMING_KEY = 'pcCompatIncoming';
   var NAME_KEY = 'pcCompatMyName';
+  var TOKEN_KEY = 'pcCompatMyToken';
+  var TOKEN_VALID_DAYS = 14;
   var APP_URL_IOS = 'https://apps.apple.com/jp/app/profilecode-codes/id6747016000';
   var APP_URL_ANDROID = 'https://play.google.com/store/apps/details?id=com.profilecode.profilecode';
+
+  // ---- ログイン連携(tier b): share_tokens による恒久リンク --------------------
+  async function authUser() {
+    if (typeof checkAuthStatus !== 'function') return null;
+    try {
+      var st = await checkAuthStatus();
+      return st.isLoggedIn ? st.user : null;
+    } catch (e) { return null; }
+  }
+
+  // ログイン済み送信者用: トークンを発行(セッション内で再利用)。
+  // このトークン入りリンクを開いた相手は personal_targets に自動登録され、
+  // アプリの友達リストにも反映される。
+  async function getOrMintToken(userId) {
+    try {
+      var cached = JSON.parse(sessionStorage.getItem(TOKEN_KEY) || 'null');
+      if (cached && cached.userId === userId && cached.exp > Date.now()) return cached.token;
+    } catch (e) { /* fall through */ }
+    try {
+      var supabase = getSupabaseClient();
+      var res = await supabase.rpc('generate_personal_link', {
+        user_id: userId,
+        valid_days: TOKEN_VALID_DAYS,
+      });
+      if (res.error || !res.data) return null;
+      sessionStorage.setItem(TOKEN_KEY, JSON.stringify({
+        userId: userId,
+        token: res.data,
+        exp: Date.now() + (TOKEN_VALID_DAYS - 1) * 86400000,
+      }));
+      track('compat_permlink_created');
+      return res.data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // 受信者がログイン済みで ?t= がある場合: 検証+friend登録(RPC側で自動)
+  async function consumeToken(token) {
+    try {
+      var supabase = getSupabaseClient();
+      var res = await supabase.rpc('validate_share_token', { token: token });
+      if (res.error || !res.data) return null;
+      track('compat_permlink_opened');
+      return res.data; // {user_id, group_id, user_name, group_name}
+    } catch (e) {
+      return null;
+    }
+  }
 
   function myAnswers() {
     try {
@@ -53,8 +104,15 @@
   }
 
   // ---- 送信モード -------------------------------------------------------------
-  function renderSender(container, answers) {
+  // token あり(ログイン済み)ならハイブリッドリンク ?t=<token>#c=<payload> を生成:
+  // トークンが友達関係(アプリ連携)、フラグメントが比較データを運ぶ。
+  function renderSender(container, answers, token) {
     var savedName = localStorage.getItem(NAME_KEY) || '';
+    var lang = (typeof i18n !== 'undefined' && i18n.getCurrentLanguage()) || 'en';
+    var accountNote = token
+      ? '<p class="cp-account-note cp-account-note--ok">' + ct('permlinkNote') + '</p>'
+      : '<p class="cp-account-note">' + ct('loginHint') +
+        ' <a href="/test.html?lang=' + lang + '" onclick="pcTrack(\'compat_signup_from_compat\')">' + ct('loginHintLink') + '</a></p>';
     container.innerHTML =
       '<div class="cp-card">' +
       '<h2>' + ct('senderHeading') + '</h2>' +
@@ -68,12 +126,15 @@
       '<button class="pc-btn pc-btn--ghost" id="cpQrToggle">' + ct('showQr') + '</button>' +
       '</div>' +
       '<div class="cp-qr" id="cpQr" style="display:none;"></div>' +
+      accountNote +
       '</div>' +
       appCtaHtml() + footerLinks();
 
     function currentUrl() {
       var name = el('cpName').value.trim();
-      return PcCompat.buildShareUrl(answers, name || null);
+      var payload = PcCompat.encodeAnswers(answers, name || null);
+      return location.origin + '/compatibility/' +
+        (token ? '?t=' + encodeURIComponent(token) : '') + '#c=' + payload;
     }
     function refresh() {
       el('cpLink').value = currentUrl();
@@ -154,7 +215,8 @@
       '</div>';
   }
 
-  function renderReport(container, mine, incoming) {
+  function renderReport(container, mine, incoming, ctx) {
+    ctx = ctx || {};
     var result;
     try {
       result = PcCompatEngine.compare(mine, incoming.answers, sharedQuestions);
@@ -164,6 +226,15 @@
       return;
     }
     track('compat_compared', { overall: result.overall, band: result.band });
+
+    // 友達リンク(トークン)の状態表示
+    var connectNote = '';
+    if (ctx.connected) {
+      var who = ctx.connected.user_name ? esc(ctx.connected.user_name) : ct('partner');
+      connectNote = '<p class="cp-account-note cp-account-note--ok">' + who + ct('connectedNote') + '</p>';
+    } else if (ctx.token && !ctx.user) {
+      connectNote = '<p class="cp-account-note">' + ct('connectLoginHint') + '</p>';
+    }
 
     var bands = ctBands();
     var lang = (typeof i18n !== 'undefined' && i18n.getCurrentLanguage()) || 'en';
@@ -188,6 +259,7 @@
       '<span class="cp-avatar-label">' + partnerLabel + '</span></div>' +
       '</div>' +
       '<h2 style="text-align:center;margin:0 0 4px;">' + heading + '</h2>' +
+      connectNote +
       '<div class="cp-overall"><div class="cp-overall-score">' + result.overall + '%</div>' +
       '<span class="cp-overall-band">' + bands[result.band].name + '</span></div>' +
       '<div class="cp-card">' +
@@ -213,13 +285,33 @@
     });
   }
 
+  // ---- トークンのみのリンク(比較データなし) ----------------------------------
+  function renderTokenOnly(container, connected, user) {
+    var lang = (typeof i18n !== 'undefined' && i18n.getCurrentLanguage()) || 'en';
+    var body;
+    if (connected) {
+      var who = connected.user_name ? esc(connected.user_name) : ct('partner');
+      body = '<h2>' + who + ct('connectedNote') + '</h2><p>' + ct('tokenOnlyDesc') + '</p>';
+    } else if (!user) {
+      body = '<h2>' + ct('incomingHeadingAnon') + '</h2><p>' + ct('connectLoginHint') + '</p>';
+    } else {
+      body = '<p>' + ct('invalidLink') + '</p>';
+    }
+    container.innerHTML =
+      '<div class="cp-card">' + body +
+      '<div class="cp-buttons"><a class="pc-btn pc-btn--primary" href="/test.html?lang=' + lang + '&return=compat">' +
+      ct('takeTest') + '</a></div></div>' + footerLinks();
+  }
+
   // ---- 起動 ----------------------------------------------------------------------
-  function init() {
+  async function init() {
     var container = el('cpMain');
     var incoming = PcCompat.parseShareFragment();
+    var token = new URLSearchParams(location.search).get('t');
 
     if (incoming) {
-      // フラグメントは遷移で失われるため退避
+      // フラグメントは遷移で失われるため退避(友達リンクのトークンも一緒に)
+      if (token) incoming.token = token;
       sessionStorage.setItem(INCOMING_KEY, JSON.stringify(incoming));
       track('compat_link_opened');
     } else if (location.hash.indexOf('#c=') === 0) {
@@ -230,17 +322,29 @@
       var stashed = sessionStorage.getItem(INCOMING_KEY);
       if (stashed) {
         try { incoming = JSON.parse(stashed); } catch (e) { incoming = null; }
+        if (incoming && incoming.token) token = incoming.token;
       }
     }
 
     var mine = myAnswers();
+    var user = await authUser();
+
+    // ログイン済み受信者: トークン検証で友達関係を自動登録(アプリ連携)
+    var connected = null;
+    if (token && user) connected = await consumeToken(token);
 
     if (incoming) {
-      if (mine) renderReport(container, mine, incoming);
+      if (mine) renderReport(container, mine, incoming, { connected: connected, token: token, user: user });
       else renderGate(container, incoming.name);
+    } else if (token) {
+      renderTokenOnly(container, connected, user);
     } else {
-      if (mine) renderSender(container, mine);
-      else renderNoResult(container);
+      if (mine) {
+        var myToken = user ? await getOrMintToken(user.id) : null;
+        renderSender(container, mine, myToken);
+      } else {
+        renderNoResult(container);
+      }
     }
   }
 
