@@ -42,6 +42,7 @@ export function classifyPage(relPath, content) {
   // Root-level real pages.
   const ROOT_FULL = new Set([
     'test.html',
+    'compatibility/index.html',
     '404.html',
     'contact.html',
     'inquiry-form.html',

@@ -1165,12 +1165,26 @@ function renderShareCard(results) {
     if (!el) return;
     window.__pcLastResults = results;
     const canShare = typeof navigator.share === 'function';
+
+    // 相性診断への導線: ?return=compat で来た場合は「相性診断にもどる」を最優先表示
+    const returnCompat = new URLSearchParams(location.search).get('return') === 'compat';
+    const compatReturnHtml = returnCompat ? `
+        <div class="share-card share-card--compat">
+            <h3>${t('compatReturnTitle')}</h3>
+            <p>${t('compatReturnDesc')}</p>
+            <div class="share-card-buttons">
+                <a class="action-btn btn-share" href="/compatibility/" onclick="pcTrack('compat_gate_test_started', {step: 'returned'})">${t('compatReturnButton')}</a>
+            </div>
+        </div>` : '';
+
     el.innerHTML = `
+        ${compatReturnHtml}
         <div class="share-card">
             <h3>${t('shareResultTitle')}</h3>
             <p>${t('shareResultDesc')}</p>
             <div class="share-card-buttons">
-                ${canShare ? `<button class="action-btn btn-share" onclick="shareResult()">${t('shareButton')}</button>` : ''}
+                <a class="action-btn btn-share" href="/compatibility/" onclick="pcTrack('compat_share_opened', {method: 'result_card'})">${t('compatOpenButton')}</a>
+                ${canShare ? `<button class="action-btn btn-share-copy" onclick="shareResult()">${t('shareButton')}</button>` : ''}
                 <button class="action-btn btn-share-copy" onclick="copyResultSummary(this)">${t('copyButton')}</button>
             </div>
         </div>`;
