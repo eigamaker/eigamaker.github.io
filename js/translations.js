@@ -1,6 +1,12 @@
 // 翻訳データ
 const translations = {
   ja: {
+    // 結果共有カード
+    shareResultTitle: "結果をシェアする",
+    shareResultDesc: "友達に診断結果をシェアして、性格タイプを比べてみましょう。",
+    shareButton: "シェアする",
+    copyButton: "結果をコピー",
+    copiedToast: "コピーしました!",
     // index.html
     title: "Profilecode",
     pageTitle: "Profilecode - あなたのプロフィールを診断",
@@ -206,6 +212,12 @@ const translations = {
     logoutFailed: "ログアウトに失敗しました: {error}"
   },
   en: {
+    // result share card
+    shareResultTitle: "Share your result",
+    shareResultDesc: "Share your result with friends and compare personality types.",
+    shareButton: "Share",
+    copyButton: "Copy result",
+    copiedToast: "Copied!",
     // index.html
     title: "Profilecode",
     pageTitle: "Profilecode - Diagnose Your Profile",

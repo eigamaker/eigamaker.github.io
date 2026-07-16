@@ -356,7 +356,8 @@ async function showResults() {
     });
     
     renderResults(results);
-    
+    renderShareCard(results);
+
     // ログイン状態をチェックして保存提案UIを表示
     await showSaveOption(results);
 }
@@ -742,6 +743,9 @@ async function handleRegister() {
 
 // タブ切り替え
 function switchTab(tabId) {
+    if (typeof pcTrack === 'function') {
+        pcTrack('result_tab_viewed', { tab: tabId });
+    }
     // タブボタンの状態を更新
     const tabIndexMap = {
         'profilecode': 0,
@@ -774,8 +778,16 @@ function generateProfilecodeResult(profilecodeResults) {
     const learning = profilecodeResults.learning;
     const careerAdvice = career.typeInfo.advice || t('careerAdviceFallback');
     const learningAdvice = learning.typeInfo.advice || t('learningAdviceFallback');
-    
+
     return `
+        <div class="result-hero t-career-${career.type}">
+            <img class="result-hero-avatar" src="/assets/img/characters/career-${career.type}.svg" alt="" width="150" height="150">
+            <div class="result-hero-text">
+                <div class="result-hero-label">${t('careerAptitude')}</div>
+                <h2 class="result-hero-name">${career.typeInfo.name}</h2>
+                <span class="result-hero-sub">${t('learningStyle')}: ${learning.typeInfo.name}</span>
+            </div>
+        </div>
         <div class="result-card">
             <h3>${t('careerAptitude')}: ${career.typeInfo.name}</h3>
             <p style="font-size: 1.1em; margin-bottom: 20px;">${career.typeInfo.description}</p>
@@ -828,10 +840,16 @@ function generateMBTIResult(mbtiResults) {
     const thinkingFeelingLabel = `${t('thinking')} / ${t('feeling')}`;
     const judgingPerceivingLabel = `${t('judging')} / ${t('perceiving')}`;
 
+    const mbtiKey = mbtiResults.type.toLowerCase();
     return `
         <div class="reference-result">
-            <h4>${t('mbtiResult')}</h4>
-            <p style="font-size: 1.3em; font-weight: bold; margin: 20px 0;">${t('mbtiType')}: ${mbtiResults.type} (${mbtiResults.typeName})</p>
+            <div class="result-hero result-hero--compact t-mbti-${mbtiKey}">
+                <img class="result-hero-avatar" src="/assets/img/characters/mbti-${mbtiKey}.svg" alt="" width="110" height="110">
+                <div class="result-hero-text">
+                    <div class="result-hero-label">${t('mbtiResult')}</div>
+                    <h2 class="result-hero-name">${mbtiResults.type} (${mbtiResults.typeName})</h2>
+                </div>
+            </div>
             
             <h4 style="margin-top: 25px; color: #ff8c00;">${t('fourIndicators')}</h4>
             <div class="bar-chart" style="margin: 20px 0;">
@@ -1117,6 +1135,68 @@ async function initializeTest() {
     }
     
     displayQuestion();
+}
+
+// キーボード 1-5 で回答を選択(質問画面のみ)
+document.addEventListener('keydown', (e) => {
+    if (!document.getElementById('questionSection').classList.contains('active')) return;
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    const n = parseInt(e.key, 10);
+    if (n >= 1 && n <= 5) {
+        const btns = document.querySelectorAll('#options .option-btn');
+        if (btns[n - 1]) btns[n - 1].click();
+    }
+});
+
+// 結果の共有カード(P5で相性診断リンクに拡張予定)
+function buildResultSummary(results) {
+    const lines = [
+        `Profilecode ${t('results')}`,
+        `${t('careerAptitude')}: ${results.profilecode.career.typeInfo.name}`,
+        `${t('learningStyle')}: ${results.profilecode.learning.typeInfo.name}`,
+        `MBTI: ${results.mbti.type} (${results.mbti.typeName})`,
+        'https://profilecode.codes/'
+    ];
+    return lines.join('\n');
+}
+
+function renderShareCard(results) {
+    const el = document.getElementById('shareCard');
+    if (!el) return;
+    window.__pcLastResults = results;
+    const canShare = typeof navigator.share === 'function';
+    el.innerHTML = `
+        <div class="share-card">
+            <h3>${t('shareResultTitle')}</h3>
+            <p>${t('shareResultDesc')}</p>
+            <div class="share-card-buttons">
+                ${canShare ? `<button class="action-btn btn-share" onclick="shareResult()">${t('shareButton')}</button>` : ''}
+                <button class="action-btn btn-share-copy" onclick="copyResultSummary(this)">${t('copyButton')}</button>
+            </div>
+        </div>`;
+}
+
+async function shareResult() {
+    if (!window.__pcLastResults) return;
+    if (typeof pcTrack === 'function') pcTrack('compat_share_opened', { method: 'webshare' });
+    try {
+        await navigator.share({ text: buildResultSummary(window.__pcLastResults) });
+    } catch (e) {
+        /* user cancelled */
+    }
+}
+
+async function copyResultSummary(btn) {
+    if (!window.__pcLastResults) return;
+    if (typeof pcTrack === 'function') pcTrack('compat_share_opened', { method: 'copy' });
+    try {
+        await navigator.clipboard.writeText(buildResultSummary(window.__pcLastResults));
+        const original = btn.textContent;
+        btn.textContent = t('copiedToast');
+        setTimeout(() => { btn.textContent = original; }, 1600);
+    } catch (e) {
+        /* clipboard unavailable (http) — silently ignore */
+    }
 }
 
 // 初期化を実行
