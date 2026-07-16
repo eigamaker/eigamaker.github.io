@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="career-organizational_manager">
+  <circle cx="120" cy="120" r="112" fill="hsl(215, 50%, 93%)"/>
+  <ellipse cx="95" cy="205" rx="15" ry="8" fill="hsl(215, 55%, 40%)"/>
+  <ellipse cx="145" cy="205" rx="15" ry="8" fill="hsl(215, 55%, 40%)"/>
+  <g fill="hsl(215, 62%, 56%)"><rect x="54" y="78" width="132" height="126" rx="42"/></g>
+  <circle cx="82" cy="144" r="8" fill="#fff" opacity="0.3"/>
+  <circle cx="158" cy="144" r="8" fill="#fff" opacity="0.3"/>
+  
+    <path d="M84 112 L106 118" stroke="#33304A" stroke-width="5" stroke-linecap="round"/>
+    <path d="M156 112 L134 118" stroke="#33304A" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="96" cy="128" r="7" fill="#33304A"/><circle cx="144" cy="128" r="7" fill="#33304A"/>
+    <path d="M108 152 Q120 159 132 151" stroke="#33304A" stroke-width="5" fill="none" stroke-linecap="round"/>
+  
+    <g transform="translate(120 168)">
+      <path d="M-14 -2 L0 4 L-4 -6 Z" fill="#fff" opacity="0.9"/>
+      <path d="M14 -2 L0 4 L4 -6 Z" fill="#fff" opacity="0.9"/>
+      <rect x="-5" y="2" width="10" height="7" rx="2" fill="hsl(215, 55%, 40%)"/>
+      <path d="M-5 9 L5 9 L3 24 L0 28 L-3 24 Z" fill="hsl(215, 55%, 40%)"/>
+    </g>
+</svg>

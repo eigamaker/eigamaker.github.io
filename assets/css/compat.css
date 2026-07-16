@@ -1,0 +1,254 @@
+/* 相性診断ページ(/compatibility/)のスタイル。tokens.css/site.css に依存。 */
+
+body {
+  font-family: var(--pc-font);
+  line-height: var(--pc-lh);
+  color: var(--pc-text);
+  background: var(--pc-gradient);
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+}
+
+.cp-container {
+  max-width: 720px;
+  margin: 0 auto;
+  background: var(--pc-surface);
+  border-radius: 24px;
+  box-shadow: var(--pc-shadow-lg);
+  padding: 36px 32px;
+}
+
+.cp-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.cp-header h1 {
+  margin: 0 0 8px;
+  font-size: var(--pc-fs-xl);
+  background: var(--pc-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cp-header p {
+  color: var(--pc-text-soft);
+  margin: 0;
+}
+
+.cp-card {
+  background: var(--pc-surface-alt);
+  border-radius: var(--pc-radius-md);
+  padding: 24px;
+  margin: 20px 0;
+}
+.cp-card h2 {
+  margin: 0 0 10px;
+  font-size: 1.25em;
+  color: var(--pc-brand-dark);
+}
+.cp-card p { margin: 0 0 14px; color: var(--pc-text-soft); }
+
+.cp-name-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.cp-name-row label { font-weight: 600; font-size: var(--pc-fs-sm); }
+.cp-name-row input {
+  flex: 1;
+  min-width: 160px;
+  padding: 10px 14px;
+  border: 2px solid var(--pc-border);
+  border-radius: var(--pc-radius);
+  font-family: inherit;
+  font-size: 1em;
+}
+
+.cp-link-box {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.cp-link-box input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid var(--pc-border);
+  border-radius: var(--pc-radius);
+  font-family: monospace;
+  font-size: 0.85em;
+  color: var(--pc-text-soft);
+  background: #fff;
+}
+
+.cp-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cp-qr {
+  text-align: center;
+  margin-top: 16px;
+}
+.cp-qr svg, .cp-qr img { width: 200px; height: 200px; }
+
+/* --- 相性レポート --- */
+.cp-versus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin: 22px 0;
+}
+.cp-versus .cp-avatar {
+  text-align: center;
+}
+.cp-versus .cp-avatar img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: var(--pc-brand-soft);
+}
+.cp-versus .cp-avatar .cp-avatar-label {
+  display: block;
+  font-size: var(--pc-fs-sm);
+  font-weight: 700;
+  margin-top: 6px;
+}
+.cp-versus .cp-heart {
+  font-size: 2em;
+}
+
+.cp-overall {
+  text-align: center;
+  margin: 10px 0 26px;
+}
+.cp-overall .cp-overall-score {
+  font-size: 4em;
+  font-weight: 800;
+  line-height: 1.1;
+  background: var(--pc-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cp-overall .cp-overall-band {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 6px 18px;
+  border-radius: 999px;
+  background: var(--pc-brand-soft);
+  color: var(--pc-brand-dark);
+  font-weight: 700;
+}
+
+.cp-theory {
+  margin-bottom: 22px;
+}
+.cp-theory-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+.cp-theory-head h3 { margin: 0; font-size: 1.05em; }
+.cp-theory-head .cp-theory-score { font-weight: 800; color: var(--pc-brand-dark); }
+.cp-theory-bar {
+  height: 12px;
+  background: var(--pc-border);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.cp-theory-bar > div {
+  height: 100%;
+  background: var(--pc-gradient);
+  border-radius: 999px;
+  transition: width 0.7s ease;
+}
+.cp-theory p { margin: 0; font-size: var(--pc-fs-sm); color: var(--pc-text-soft); }
+.cp-theory .cp-pair {
+  font-size: var(--pc-fs-sm);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.cp-highlights {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.cp-highlights div {
+  flex: 1;
+  min-width: 200px;
+  background: #fff;
+  border-radius: var(--pc-radius);
+  padding: 10px 14px;
+  font-size: var(--pc-fs-sm);
+}
+.cp-highlights b { color: var(--pc-brand-dark); }
+
+.cp-app-cta {
+  background: var(--pc-gradient);
+  color: #fff;
+  border-radius: var(--pc-radius-md);
+  padding: 26px;
+  text-align: center;
+  margin: 26px 0 6px;
+}
+.cp-app-cta h2 { margin: 0 0 8px; }
+.cp-app-cta p { margin: 0 0 16px; opacity: 0.92; }
+.cp-app-cta .pc-btn { background: #fff; color: var(--pc-brand-dark); }
+
+.cp-disclaimer {
+  margin-top: 22px;
+  font-size: 0.78em;
+  color: var(--pc-text-muted);
+  text-align: center;
+}
+
+.cp-footer-links {
+  margin-top: 18px;
+  text-align: center;
+  font-size: var(--pc-fs-sm);
+}
+.cp-footer-links a {
+  color: var(--pc-brand);
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  body { padding: 10px; }
+  .cp-container { padding: 24px 18px; border-radius: 16px; }
+  .cp-versus { gap: 10px; }
+  .cp-versus .cp-avatar img { width: 88px; height: 88px; }
+  .cp-overall .cp-overall-score { font-size: 3.2em; }
+  .cp-buttons .pc-btn { width: 100%; }
+}
+
+/* アカウント/友達リンク状態の注記 */
+.cp-account-note {
+  margin: 14px 0 0;
+  padding: 12px 16px;
+  border-radius: var(--pc-radius);
+  background: #fff;
+  border: 1px dashed var(--pc-border);
+  font-size: 0.85em;
+  color: var(--pc-text-soft);
+}
+.cp-account-note--ok {
+  border-style: solid;
+  border-color: #bfe3c8;
+  background: #f0faf2;
+  color: #256b39;
+}
+.cp-account-note a {
+  color: var(--pc-brand);
+  font-weight: 600;
+}

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="enneagram-3">
+  <circle cx="120" cy="120" r="112" fill="hsl(45, 50%, 93%)"/>
+  <ellipse cx="95" cy="213" rx="15" ry="8" fill="hsl(45, 55%, 40%)"/>
+  <ellipse cx="145" cy="213" rx="15" ry="8" fill="hsl(45, 55%, 40%)"/>
+  <g fill="hsl(45, 62%, 56%)"><ellipse cx="120" cy="138" rx="60" ry="74"/></g>
+  <circle cx="82" cy="144" r="8" fill="#fff" opacity="0.3"/>
+  <circle cx="158" cy="144" r="8" fill="#fff" opacity="0.3"/>
+  
+    <circle cx="96" cy="125" r="8" fill="#33304A"/><circle cx="144" cy="125" r="8" fill="#33304A"/>
+    <path d="M102 148 Q120 170 138 148 Z" fill="#33304A"/>
+  
+    <g transform="translate(154 72)">
+      <path d="M-9 -12 L9 -12 L7 2 Q0 9 -7 2 Z" fill="#F6C445"/>
+      <path d="M-9 -10 Q-16 -8 -10 -1 M9 -10 Q16 -8 10 -1" stroke="#F6C445" stroke-width="3" fill="none"/>
+      <rect x="-2.5" y="6" width="5" height="6" fill="#F6C445"/>
+      <rect x="-7" y="12" width="14" height="4" rx="2" fill="#F6C445"/>
+    </g>
+</svg>

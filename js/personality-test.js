@@ -16,14 +16,16 @@ class PersonalityTest {
     return this.questions[this.currentQuestionIndex];
   }
 
-  // 回答を保存
+  // 回答を保存(同じ質問への再回答は上書き。追記だと戻って回答し直した際に
+  // 重複が溜まり、スコア計算で二重カウントされるバグがあった)
   saveAnswer(value) {
     const question = this.getCurrentQuestion();
+    this.answers = this.answers.filter(a => a.questionId !== question.id);
     this.answers.push({
       questionId: question.id,
       value: value
     });
-    
+
     // LocalStorageに保存
     localStorage.setItem('personalityTestAnswers', JSON.stringify(this.answers));
   }
@@ -96,11 +98,14 @@ class PersonalityTest {
     localStorage.removeItem('personalityTestAnswers');
   }
 
-  // 保存された回答を読み込み
+  // 保存された回答を読み込み(旧バージョンが残した重複は最後の回答を有効として除去)
   loadAnswers() {
     const saved = localStorage.getItem('personalityTestAnswers');
     if (saved) {
-      this.answers = JSON.parse(saved);
+      const raw = JSON.parse(saved);
+      const byId = {};
+      raw.forEach(a => { byId[a.questionId] = a; });
+      this.answers = Object.values(byId);
       this.currentQuestionIndex = this.answers.length;
     }
   }

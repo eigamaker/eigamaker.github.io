@@ -35,15 +35,21 @@ const SUPABASE_CONFIG = {
  * const { data, error } = await supabaseClient.from('table_name').select('*');
  * ```
  */
+let __pcSupabaseClient = null;
 function getSupabaseClient() {
+  if (__pcSupabaseClient) return __pcSupabaseClient;
+
   if (typeof supabase === 'undefined') {
     throw new Error('Supabaseライブラリが読み込まれていません。HTMLに以下を追加してください:\n<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>');
   }
-  
-  return supabase.createClient(
+
+  // クライアントは1つだけ生成して使い回す(呼び出しごとの生成は
+  // GoTrueインスタンスの重複警告や状態の不整合を招く)
+  __pcSupabaseClient = supabase.createClient(
     SUPABASE_CONFIG.url,
     SUPABASE_CONFIG.anonKey
   );
+  return __pcSupabaseClient;
 }
 
 // グローバルに公開（既存のコードとの互換性のため）

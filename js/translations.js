@@ -1,6 +1,16 @@
 // 翻訳データ
 const translations = {
   ja: {
+    // 結果共有カード
+    shareResultTitle: "友達と相性診断",
+    shareResultDesc: "診断結果をリンクで交換すると、友達との相性がその場で分かります。",
+    shareButton: "シェアする",
+    copyButton: "結果をコピー",
+    copiedToast: "コピーしました!",
+    compatOpenButton: "相性診断リンクを作る",
+    compatReturnTitle: "相性診断のつづき",
+    compatReturnDesc: "診断が完了しました! 届いていた相性診断リンクの結果を見られます。",
+    compatReturnButton: "相性結果を見る",
     // index.html
     title: "Profilecode",
     pageTitle: "Profilecode - あなたのプロフィールを診断",
@@ -206,6 +216,16 @@ const translations = {
     logoutFailed: "ログアウトに失敗しました: {error}"
   },
   en: {
+    // result share card
+    shareResultTitle: "Compatibility with friends",
+    shareResultDesc: "Exchange result links with a friend to see your compatibility instantly.",
+    shareButton: "Share",
+    copyButton: "Copy result",
+    copiedToast: "Copied!",
+    compatOpenButton: "Create compatibility link",
+    compatReturnTitle: "Back to your compatibility check",
+    compatReturnDesc: "Test complete! You can now view the compatibility result from the link you received.",
+    compatReturnButton: "View compatibility result",
     // index.html
     title: "Profilecode",
     pageTitle: "Profilecode - Diagnose Your Profile",

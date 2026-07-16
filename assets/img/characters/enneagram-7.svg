@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="enneagram-7">
+  <circle cx="120" cy="120" r="112" fill="hsl(28, 50%, 93%)"/>
+  <ellipse cx="95" cy="207" rx="15" ry="8" fill="hsl(28, 55%, 40%)"/>
+  <ellipse cx="145" cy="207" rx="15" ry="8" fill="hsl(28, 55%, 40%)"/>
+  <g fill="hsl(28, 62%, 56%)"><ellipse cx="120" cy="140" rx="70" ry="66"/></g>
+  <circle cx="82" cy="144" r="8" fill="#fff" opacity="0.3"/>
+  <circle cx="158" cy="144" r="8" fill="#fff" opacity="0.3"/>
+  
+    <path d="M86 126 Q96 132 106 126" stroke="#33304A" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <circle cx="144" cy="126" r="7.5" fill="#33304A"/>
+    <path d="M106 148 Q120 162 134 148" stroke="#33304A" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="127" cy="157" rx="6" ry="4" fill="#F0648C"/>
+  <g transform="translate(154 82)"><path d="M11.0 0.0 L16.0 0.0" stroke="#FFD84D" stroke-width="4" stroke-linecap="round"/><path d="M7.8 7.8 L11.3 11.3" stroke="#FFD84D" stroke-width="4" stroke-linecap="round"/><path d="M0.0 11.0 L0.0 16.0" stroke="#FFD84D" stroke-width="4" stroke-linecap="round"/><path d="M-7.8 7.8 L-11.3 11.3" stroke="#FFD84D" stroke-width="4" stroke-linecap="round"/><path d="M-11.0 0.0 L-16.0 0.0" stroke="#FFD84D" stroke-width="4" stroke-linecap="round"/><path d="M-7.8 -7.8 L-11.3 -11.3" stroke="#FFD84D" stroke-width="4" stroke-linecap="round"/><path d="M-0.0 -11.0 L-0.0 -16.0" stroke="#FFD84D" stroke-width="4" stroke-linecap="round"/><path d="M7.8 -7.8 L11.3 -11.3" stroke="#FFD84D" stroke-width="4" stroke-linecap="round"/><circle r="8" fill="#FFD84D"/></g>
+</svg>

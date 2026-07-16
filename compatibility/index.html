@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>相性診断 | Profilecode</title>
+    <meta name="description" content="診断結果をリンクで交換して、ふたりの相性をその場でチェック。アカウント登録不要の無料相性診断。">
+    <link rel="canonical" href="https://profilecode.codes/compatibility/">
+    <!-- 共有リンクの着地ページ(ツール画面)なのでnoindex -->
+    <meta name="robots" content="noindex,follow">
+
+    <!-- i18n -->
+    <script src="/js/translations.js"></script>
+    <script>
+      // URLパラメータ ?lang= を最優先で適用(test.htmlと同じブートストラップ)
+      (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlLang = urlParams.get('lang');
+        if (urlLang) {
+          const supportedLanguages = ['ar', 'de', 'en', 'es', 'fr', 'hi', 'id', 'it', 'ja', 'ko', 'pt', 'zh', 'zh_hant'];
+          const normalizedLang = urlLang.toLowerCase().replace('_', '-');
+          const langMap = { 'zh-cn': 'zh', 'zh-hans': 'zh', 'zh-tw': 'zh_hant', 'zh-hant': 'zh_hant', 'zh-hk': 'zh_hant' };
+          const baseLang = normalizedLang.split('-')[0];
+          const finalLang = langMap[normalizedLang] || langMap[baseLang] || baseLang;
+          if (supportedLanguages.includes(finalLang)) {
+            localStorage.setItem('preferredLanguage', finalLang);
+            document.documentElement.lang = finalLang;
+          }
+        }
+      })();
+    </script>
+    <script src="/js/i18n.js"></script>
+
+    <!-- Supabase(ログイン時の恒久リンク/友達リスト連携に使用。未ログインでも動作) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/supabase-config.js"></script>
+    <script src="/js/auth.js"></script>
+
+    <link rel="stylesheet" href="/assets/css/compat.css">
+  <!-- pc:head v1 -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#667eea">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <meta property="og:image" content="https://profilecode.codes/assets/img/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://profilecode.codes/assets/img/og/og-default.png">
+  <script src="/assets/js/analytics.js"></script>
+  <!-- /pc:head -->
+</head>
+<body>
+    <div class="cp-container">
+        <div class="cp-header">
+            <h1 id="cpHeading">相性診断</h1>
+            <p id="cpIntro"></p>
+        </div>
+        <div id="cpMain"></div>
+    </div>
+
+    <!-- データ・計算機(test.htmlと同一チェーン) -->
+    <script src="/js/questions.js"></script>
+    <script src="/js/result-translations.js"></script>
+    <script src="/js/result-translations-id.js"></script>
+    <script src="/js/result-details-en.js"></script>
+    <script src="/js/result-details-id.js"></script>
+    <script src="/js/result-translations-fallback.js"></script>
+    <script src="/js/calculators/profilecode-calculator.js"></script>
+    <script src="/js/calculators/four-indicator-calculator.js"></script>
+    <script src="/js/calculators/sixteen-factor-calculator.js"></script>
+    <script src="/js/calculators/disc-calculator.js"></script>
+    <!-- 相性診断 -->
+    <script src="/assets/js/vendor/qrcode-generator.js"></script>
+    <script src="/assets/js/compat-codec.js"></script>
+    <script src="/assets/js/compat-translations.js"></script>
+    <script src="/assets/js/compat-engine.js"></script>
+    <script>
+      // 見出しとタイトルを言語に合わせて更新
+      document.addEventListener('DOMContentLoaded', function () {
+        document.title = ct('pageTitle');
+        document.getElementById('cpHeading').textContent = ct('heading');
+        document.getElementById('cpIntro').textContent = ct('intro');
+      });
+      document.addEventListener('languageChanged', function () {
+        document.title = ct('pageTitle');
+        document.getElementById('cpHeading').textContent = ct('heading');
+        document.getElementById('cpIntro').textContent = ct('intro');
+      });
+    </script>
+    <script src="/assets/js/compat-app.js"></script>
+</body>
+</html>
