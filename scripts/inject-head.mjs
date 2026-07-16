@@ -17,6 +17,7 @@ import { readdirSync, readFileSync, writeFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { classifyPage } from './lib/page-classifier.mjs';
+import { TYPES } from './characters/type-meta.mjs';
 
 const ROOT = join(fileURLToPath(import.meta.url), '..', '..');
 const DRY = process.argv.includes('--dry');
@@ -25,11 +26,20 @@ const SITE = 'https://profilecode.codes';
 const BLOCK_START = '<!-- pc:head v1 -->';
 const BLOCK_END = '<!-- /pc:head -->';
 
-// Per-page og:image overrides (repo-relative dir → image path).
-// Filled in by Phase 2 (per-type OG images); everything else gets the default.
-const OG_OVERRIDES = new Map([
-  // e.g. ['en/mbti/intj/index.html', '/assets/img/og/mbti-intj.png'],
-]);
+// Per-page og:image overrides (repo-relative path → image path), derived from
+// the character type metadata. Everything else gets the default OG image.
+const OG_OVERRIDES = new Map();
+for (const { id } of TYPES) {
+  const [system, key] = [id.slice(0, id.indexOf('-')), id.slice(id.indexOf('-') + 1)];
+  if (system === 'mbti') {
+    OG_OVERRIDES.set(`en/mbti/${key}/index.html`, `/assets/img/og/${id}.png`);
+    OG_OVERRIDES.set(`ja/mbti/${key}/index.html`, `/assets/img/og/${id}.png`);
+  } else if (system === 'enneagram') {
+    OG_OVERRIDES.set(`en/enneagram/${key}/index.html`, `/assets/img/og/${id}.png`);
+    OG_OVERRIDES.set(`ja/enneagram/${key}/index.html`, `/assets/img/og/${id}.png`);
+  }
+  // career-* images are consumed by the test result / compatibility pages.
+}
 
 const LEGACY_GTAG_RE =
   /(?:[ \t]*<!--\s*Google tag \(gtag\.js\)\s*-->\s*\r?\n)?[ \t]*<script async src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-8RSCZGH62Y"><\/script>\s*\r?\n[ \t]*<script>[\s\S]*?gtag\('config',\s*'G-8RSCZGH62Y'\);?\s*\r?\n?[ \t]*<\/script>\r?\n?/g;

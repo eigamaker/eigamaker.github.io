@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="mbti-infp">
+  <circle cx="120" cy="120" r="112" fill="hsl(145, 50%, 93%)"/>
+  <ellipse cx="95" cy="207" rx="15" ry="8" fill="hsl(145, 55%, 40%)"/>
+  <ellipse cx="145" cy="207" rx="15" ry="8" fill="hsl(145, 55%, 40%)"/>
+  <g fill="hsl(145, 62%, 56%)"><ellipse cx="120" cy="140" rx="70" ry="66"/></g>
+  <circle cx="82" cy="144" r="8" fill="#fff" opacity="0.3"/>
+  <circle cx="158" cy="144" r="8" fill="#fff" opacity="0.3"/>
+  
+    <rect x="88" y="123" width="16" height="5" rx="2.5" fill="#33304A"/>
+    <rect x="136" y="123" width="16" height="5" rx="2.5" fill="#33304A"/>
+    <path d="M110 152 Q120 160 130 152" stroke="#33304A" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <g transform="translate(154 82)"><circle cx="0.0" cy="-9.0" r="6.5" fill="#F78FB3"/><circle cx="8.6" cy="-2.8" r="6.5" fill="#F78FB3"/><circle cx="5.3" cy="7.3" r="6.5" fill="#F78FB3"/><circle cx="-5.3" cy="7.3" r="6.5" fill="#F78FB3"/><circle cx="-8.6" cy="-2.8" r="6.5" fill="#F78FB3"/><circle r="5" fill="#F6C445"/></g>
+</svg>
