@@ -31,7 +31,7 @@ export function classifyPage(relPath, content) {
   const langMatch = p.match(/^([a-z_]+)\//);
   if (langMatch && LANGS.includes(langMatch[1])) {
     const lang = langMatch[1];
-    if (lang === 'en') return { cls: 'full' };
+    if (lang === 'en' || lang === 'ja') return { cls: 'full' }; // real content languages
     if (p === `${lang}/index.html`) return { cls: 'full' }; // localized landing
     return { cls: 'stub' }; // placeholder type pages
   }
