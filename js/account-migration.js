@@ -3,13 +3,7 @@
  * LocalStorageからSupabaseへのデータ移行機能を提供
  */
 
-// Supabaseクライアントを取得
-function getSupabaseClient() {
-  if (typeof window.getSupabaseClient === 'function') {
-    return window.getSupabaseClient();
-  }
-  throw new Error('Supabaseクライアントが初期化されていません。supabase-config.jsを読み込んでください。');
-}
+// Supabaseクライアントは supabase-config.js の getSupabaseClient() を使用
 
 /**
  * LocalStorageからSupabaseへのデータ移行

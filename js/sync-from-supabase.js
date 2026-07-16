@@ -3,13 +3,9 @@
  * ログイン時にSupabaseから解答履歴を取得してLocalStorageに保存
  */
 
-// Supabaseクライアントを取得
-function getSupabaseClient() {
-  if (typeof window.getSupabaseClient === 'function') {
-    return window.getSupabaseClient();
-  }
-  throw new Error('Supabaseクライアントが初期化されていません。supabase-config.jsを読み込んでください。');
-}
+// Supabaseクライアントは supabase-config.js の getSupabaseClient() を使用
+// (かつてここにあった同名ラッパーは window.getSupabaseClient を自身で
+//  上書きして無限再帰するバグがあったため削除)
 
 /**
  * Supabaseから解答履歴を取得してLocalStorageに同期
