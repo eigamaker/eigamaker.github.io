@@ -790,40 +790,40 @@ function generateProfilecodeResult(profilecodeResults) {
         </div>
         <div class="result-card">
             <h3>${t('careerAptitude')}: ${career.typeInfo.name}</h3>
-            <p style="font-size: 1.1em; margin-bottom: 20px;">${career.typeInfo.description}</p>
+            <p class="rr-lead">${career.typeInfo.description}</p>
             
-            <h4 style="margin-top: 25px; color: #667eea;">${t('suitableJobs')}</h4>
-            <ul style="margin-left: 20px; margin-bottom: 20px;">
+            <h4>${t('suitableJobs')}</h4>
+            <ul>
                 ${career.typeInfo.jobTypes.map(job => `<li>${job}</li>`).join('')}
             </ul>
             
-            <h4 style="margin-top: 25px; color: #667eea;">${t('workStyle')}</h4>
-            <p style="margin-bottom: 20px;">${career.typeInfo.workStyle}</p>
+            <h4>${t('workStyle')}</h4>
+            <p>${career.typeInfo.workStyle}</p>
             
-            <h4 style="margin-top: 25px; color: #667eea;">${t('values')}</h4>
-            <p style="margin-bottom: 20px;">${career.typeInfo.values}</p>
+            <h4>${t('values')}</h4>
+            <p>${career.typeInfo.values}</p>
             
-            <h4 style="margin-top: 25px; color: #667eea;">${t('careerAdvice')}</h4>
-            <p style="margin-bottom: 20px;">${careerAdvice}</p>
+            <h4>${t('careerAdvice')}</h4>
+            <p>${careerAdvice}</p>
         </div>
         
-        <div class="result-card" style="margin-top: 30px;">
+        <div class="result-card">
             <h3>${t('learningStyle')}: ${learning.typeInfo.name}</h3>
-            <p style="font-size: 1.1em; margin-bottom: 20px;">${learning.typeInfo.description}</p>
+            <p class="rr-lead">${learning.typeInfo.description}</p>
             
-            <h4 style="margin-top: 25px; color: #667eea;">${t('optimalLearning')}</h4>
-            <ul style="margin-left: 20px; margin-bottom: 20px;">
+            <h4>${t('optimalLearning')}</h4>
+            <ul>
                 ${learning.typeInfo.methods.map(method => `<li>${method}</li>`).join('')}
             </ul>
             
-            <h4 style="margin-top: 25px; color: #667eea;">${t('learningEnvironment')}</h4>
-            <p style="margin-bottom: 20px;">${learning.typeInfo.environment}</p>
+            <h4>${t('learningEnvironment')}</h4>
+            <p>${learning.typeInfo.environment}</p>
             
-            <h4 style="margin-top: 25px; color: #667eea;">${t('learningTips')}</h4>
-            <p style="margin-bottom: 20px;">${learning.typeInfo.tips}</p>
+            <h4>${t('learningTips')}</h4>
+            <p>${learning.typeInfo.tips}</p>
             
-            <h4 style="margin-top: 25px; color: #667eea;">${t('learningAdvice')}</h4>
-            <p style="margin-bottom: 20px;">${learningAdvice}</p>
+            <h4>${t('learningAdvice')}</h4>
+            <p>${learningAdvice}</p>
         </div>
     `;
 }
@@ -851,8 +851,8 @@ function generateMBTIResult(mbtiResults) {
                 </div>
             </div>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('fourIndicators')}</h4>
-            <div class="bar-chart" style="margin: 20px 0;">
+            <h4>${t('fourIndicators')}</h4>
+            <div class="bar-chart">
                 <div class="bar-item">
                     <div class="bar-label">
                         <span class="bar-label-name">${extroIntroLabel}</span>
@@ -861,7 +861,7 @@ function generateMBTIResult(mbtiResults) {
                     <div class="bar-container">
                         <div class="bar-fill" style="width: ${(mbtiResults.scores.E / (mbtiResults.scores.E + mbtiResults.scores.I)) * 100}%;">E</div>
                     </div>
-                    <div class="bar-container" style="margin-top: 5px;">
+                    <div class="bar-container">
                         <div class="bar-fill" style="width: ${(mbtiResults.scores.I / (mbtiResults.scores.E + mbtiResults.scores.I)) * 100}%;">I</div>
                     </div>
                 </div>
@@ -873,7 +873,7 @@ function generateMBTIResult(mbtiResults) {
                     <div class="bar-container">
                         <div class="bar-fill" style="width: ${(mbtiResults.scores.S / (mbtiResults.scores.S + mbtiResults.scores.N)) * 100}%;">S</div>
                     </div>
-                    <div class="bar-container" style="margin-top: 5px;">
+                    <div class="bar-container">
                         <div class="bar-fill" style="width: ${(mbtiResults.scores.N / (mbtiResults.scores.S + mbtiResults.scores.N)) * 100}%;">N</div>
                     </div>
                 </div>
@@ -885,7 +885,7 @@ function generateMBTIResult(mbtiResults) {
                     <div class="bar-container">
                         <div class="bar-fill" style="width: ${(mbtiResults.scores.T / (mbtiResults.scores.T + mbtiResults.scores.F)) * 100}%;">T</div>
                     </div>
-                    <div class="bar-container" style="margin-top: 5px;">
+                    <div class="bar-container">
                         <div class="bar-fill" style="width: ${(mbtiResults.scores.F / (mbtiResults.scores.T + mbtiResults.scores.F)) * 100}%;">F</div>
                     </div>
                 </div>
@@ -897,28 +897,28 @@ function generateMBTIResult(mbtiResults) {
                     <div class="bar-container">
                         <div class="bar-fill" style="width: ${(mbtiResults.scores.J / (mbtiResults.scores.J + mbtiResults.scores.P)) * 100}%;">J</div>
                     </div>
-                    <div class="bar-container" style="margin-top: 5px;">
+                    <div class="bar-container">
                         <div class="bar-fill" style="width: ${(mbtiResults.scores.P / (mbtiResults.scores.J + mbtiResults.scores.P)) * 100}%;">P</div>
                     </div>
                 </div>
             </div>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('typeCharacteristics')}</h4>
-            <p style="margin: 20px 0; line-height: 1.8;">${typeDescription}</p>
+            <h4>${t('typeCharacteristics')}</h4>
+            <p>${typeDescription}</p>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('strengths')}</h4>
-            <p style="margin: 20px 0; line-height: 1.8;">${strengths}</p>
+            <h4>${t('strengths')}</h4>
+            <p>${strengths}</p>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('growthTips')}</h4>
-            <p style="margin: 20px 0; line-height: 1.8;">${growthTips}</p>
+            <h4>${t('growthTips')}</h4>
+            <p>${growthTips}</p>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('careerAdvice')}</h4>
-            <p style="margin: 20px 0; line-height: 1.8;">${careerAdvice}</p>
+            <h4>${t('careerAdvice')}</h4>
+            <p>${careerAdvice}</p>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('relationships')}</h4>
-            <p style="margin: 20px 0; line-height: 1.8;">${relationships}</p>
+            <h4>${t('relationships')}</h4>
+            <p>${relationships}</p>
             
-            <p class="trademark-notice" style="margin-top: 30px;">⚠️ ${mbtiResults.trademark}</p>
+            <p class="trademark-notice">⚠️ ${mbtiResults.trademark}</p>
         </div>
     `;
 }
@@ -934,19 +934,19 @@ function generateSixteenFactorResult(sixteenFactorResults) {
         const isHigh = factor.score >= 60;
         const barClass = factor.score >= 60 ? 'high' : factor.score >= 40 ? 'medium' : 'low';
         return `
-            <div style="margin-bottom: 25px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
-                <div class="bar-label" style="margin-bottom: 10px;">
-                    <span class="bar-label-name" style="font-size: 1.1em;">${factor.name}</span>
-                    <span class="bar-label-value" style="font-size: 1.1em;">${getScoreLabel(factor.score)}</span>
+            <div class="factor-card">
+                <div class="bar-label">
+                    <span class="bar-label-name">${factor.name}</span>
+                    <span class="bar-label-value">${getScoreLabel(factor.score)}</span>
                 </div>
-                <div class="bar-container" style="margin-bottom: 10px;">
+                <div class="bar-container">
                     <div class="bar-fill ${barClass}" style="width: ${factor.score}%;">${factor.score}</div>
                 </div>
-                <p style="margin: 10px 0 5px 0; font-size: 0.95em; color: #666;">${factor.description}</p>
-                <p style="margin: 10px 0; padding: 10px; background-color: #fff; border-radius: 5px; font-size: 0.9em; border-left: 3px solid ${isHigh ? '#4CAF50' : '#2196F3'};">
+                <p class="factor-desc">${factor.description}</p>
+                <p class="factor-interp ${isHigh ? 'is-high' : 'is-low'}">
                     ${isHigh ? factor.high : factor.low}
                 </p>
-                <p style="margin: 10px 0; padding: 10px; background-color: #e8f4f8; border-radius: 5px; font-size: 0.9em;">
+                <p class="factor-advice">
                     <strong>${t('adviceLabel')}:</strong> ${factor.advice}
                 </p>
             </div>
@@ -956,14 +956,14 @@ function generateSixteenFactorResult(sixteenFactorResults) {
     return `
         <div class="reference-result">
             <h4>${t('sixteenFactorResult')}</h4>
-            <p style="margin: 20px 0; line-height: 1.8;">${t('sixteenFactorOverview')}</p>
+            <p>${t('sixteenFactorOverview')}</p>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('topFactors')}</h4>
-            <ul style="margin: 20px 0; line-height: 1.8; list-style: none; padding: 0;">
+            <h4>${t('topFactors')}</h4>
+            <div class="factor-list">
                 ${topFactorsList}
-            </ul>
+            </div>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('allFactorsChart')}</h4>
+            <h4>${t('allFactorsChart')}</h4>
             <div class="radar-container">
                 ${sixteenFactorResults.allFactors.map(factor => {
                     const radarClass = factor.score >= 60 ? 'high' : factor.score >= 40 ? 'medium' : 'low';
@@ -972,7 +972,7 @@ function generateSixteenFactorResult(sixteenFactorResults) {
                             <div class="radar-name">${factor.name}</div>
                             <div class="radar-score">${factor.score}</div>
                             <div class="radar-description">${factor.description}</div>
-                            <div class="bar-container" style="margin-top: 15px;">
+                            <div class="bar-container">
                                 <div class="bar-fill ${radarClass}" style="width: ${factor.score}%;">${getScoreLabel(factor.score)}</div>
                             </div>
                         </div>
@@ -980,8 +980,8 @@ function generateSixteenFactorResult(sixteenFactorResults) {
                 }).join('')}
             </div>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('allFactorsBar')}</h4>
-            <div class="bar-chart" style="margin: 20px 0;">
+            <h4>${t('allFactorsBar')}</h4>
+            <div class="bar-chart">
                 ${sixteenFactorResults.allFactors.map(factor => {
                     const barClass = factor.score >= 60 ? 'high' : factor.score >= 40 ? 'medium' : 'low';
                     return `
@@ -998,10 +998,10 @@ function generateSixteenFactorResult(sixteenFactorResults) {
                 }).join('')}
             </div>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('howToUse')}</h4>
-            <p style="margin: 20px 0; line-height: 1.8;">${t('sixteenFactorHowToUseDetail')}</p>
+            <h4>${t('howToUse')}</h4>
+            <p>${t('sixteenFactorHowToUseDetail')}</p>
             
-            <p class="trademark-notice" style="margin-top: 30px;">⚠️ ${sixteenFactorResults.trademark}</p>
+            <p class="trademark-notice">⚠️ ${sixteenFactorResults.trademark}</p>
         </div>
     `;
 }
@@ -1015,10 +1015,10 @@ function generateDISCRresult(discResults) {
     return `
         <div class="reference-result">
             <h4>${t('discResult')}</h4>
-            <p style="font-size: 1.3em; font-weight: bold; margin: 20px 0;">${t('primaryStyle')}: ${discResults.styleInfo.name}</p>
-            <p style="margin: 20px 0; line-height: 1.8;">${discResults.styleInfo.description}</p>
+            <p class="rr-lead">${t('primaryStyle')}: ${discResults.styleInfo.name}</p>
+            <p>${discResults.styleInfo.description}</p>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('fourStyles')}</h4>
+            <h4>${t('fourStyles')}</h4>
             <div class="disc-chart">
                 ${discResults.allStyles.map(style => `
                     <div class="disc-item">
@@ -1028,7 +1028,7 @@ function generateDISCRresult(discResults) {
                     </div>
                 `).join('')}
             </div>
-            <div class="bar-chart" style="margin: 20px 0;">
+            <div class="bar-chart">
                 ${discResults.allStyles.map(style => {
                     const barClass = style.score >= 70 ? 'high' : style.score >= 50 ? 'medium' : 'low';
                     return `
@@ -1045,41 +1045,41 @@ function generateDISCRresult(discResults) {
                 }).join('')}
             </div>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('styleCharacteristics')}</h4>
-            <p style="margin: 20px 0; line-height: 1.8;"><strong>${t('traits')}:</strong> ${joinList(discResults.styleInfo.traits)}</p>
+            <h4>${t('styleCharacteristics')}</h4>
+            <p><strong>${t('traits')}:</strong> ${joinList(discResults.styleInfo.traits)}</p>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('strengths')}</h4>
-            <ul style="margin: 20px 0; line-height: 1.8;">
+            <h4>${t('strengths')}</h4>
+            <ul>
                 ${discResults.styleInfo.strengths.map(s => `<li>${s}</li>`).join('')}
             </ul>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('weaknesses')}</h4>
-            <ul style="margin: 20px 0; line-height: 1.8;">
+            <h4>${t('weaknesses')}</h4>
+            <ul>
                 ${discResults.styleInfo.weaknesses.map(w => `<li>${w}</li>`).join('')}
             </ul>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('workStyle')}</h4>
-            <p style="margin: 20px 0; line-height: 1.8;">${discResults.styleInfo.workStyle}</p>
+            <h4>${t('workStyle')}</h4>
+            <p>${discResults.styleInfo.workStyle}</p>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('communicationStyle')}</h4>
-            <p style="margin: 20px 0; line-height: 1.8;">${discResults.styleInfo.communication}</p>
+            <h4>${t('communicationStyle')}</h4>
+            <p>${discResults.styleInfo.communication}</p>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('careerAdvice')}</h4>
-            <p style="margin: 20px 0; line-height: 1.8;">${discResults.styleInfo.careerAdvice}</p>
+            <h4>${t('careerAdvice')}</h4>
+            <p>${discResults.styleInfo.careerAdvice}</p>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('relationships')}</h4>
-            <p style="margin: 20px 0; line-height: 1.8;">${discResults.styleInfo.relationships}</p>
+            <h4>${t('relationships')}</h4>
+            <p>${discResults.styleInfo.relationships}</p>
             
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('growthTips')}</h4>
-            <p style="margin: 20px 0; line-height: 1.8;">${discResults.styleInfo.growthTips}</p>
+            <h4>${t('growthTips')}</h4>
+            <p>${discResults.styleInfo.growthTips}</p>
             
             ${discResults.secondaryStyleInfo ? `
-            <h4 style="margin-top: 25px; color: #ff8c00;">${t('secondaryStyle')}</h4>
-            <p style="margin: 20px 0; line-height: 1.8;"><strong>${discResults.secondaryStyleInfo.name}:</strong> ${discResults.secondaryStyleInfo.description}</p>
-            <p style="margin: 20px 0; line-height: 1.8;">${t('discSecondaryStyleNote')}</p>
+            <h4>${t('secondaryStyle')}</h4>
+            <p><strong>${discResults.secondaryStyleInfo.name}:</strong> ${discResults.secondaryStyleInfo.description}</p>
+            <p>${t('discSecondaryStyleNote')}</p>
             ` : ''}
             
-            <p class="trademark-notice" style="margin-top: 30px;">⚠️ ${discResults.trademark}</p>
+            <p class="trademark-notice">⚠️ ${discResults.trademark}</p>
         </div>
     `;
 }

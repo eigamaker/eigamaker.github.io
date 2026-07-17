@@ -3,25 +3,28 @@
    Loaded before site.css on every "full" page. */
 :root {
   /* Brand */
-  --pc-grad-a: #667eea;
-  --pc-grad-b: #764ba2;
+  --pc-grad-a: #6a5cf0;
+  --pc-grad-b: #7c3aed;
   --pc-gradient: linear-gradient(135deg, var(--pc-grad-a) 0%, var(--pc-grad-b) 100%);
-  --pc-brand: #667eea;
-  --pc-brand-dark: #5568d3;
-  --pc-brand-soft: #f0f4ff;
+  --pc-brand: #6a5cf0;
+  --pc-brand-dark: #4f3fc9;
+  --pc-brand-soft: #eef0ff;
+  --pc-accent-1: #a78bfa;
+  --pc-accent-2: #22d3ee;
+  --pc-accent-tint: #f1eefe;
 
   /* Neutrals */
-  --pc-text: #333;
-  --pc-text-soft: #555;
-  --pc-text-muted: #767676;
-  --pc-bg: #f5f5f5;
-  --pc-surface: #fff;
-  --pc-surface-alt: #f9f9f9;
-  --pc-border: #e0e0e0;
+  --pc-text: #16181f;
+  --pc-text-soft: #4b5065;
+  --pc-text-muted: #6f7488;
+  --pc-bg: #f6f7fb;
+  --pc-surface: #ffffff;
+  --pc-surface-alt: #f9f9fd;
+  --pc-border: #e4e6f0;
 
   /* Feedback */
-  --pc-success: #2e9e5b;
-  --pc-danger: #d64545;
+  --pc-success: #178a54;
+  --pc-danger: #d13b3b;
 
   /* Spacing scale */
   --pc-sp-1: 4px;
@@ -34,24 +37,24 @@
   --pc-sp-10: 40px;
   --pc-sp-15: 60px;
 
-  /* Radii (existing site uses 10/14/20) */
-  --pc-radius-sm: 8px;
-  --pc-radius: 10px;
-  --pc-radius-md: 14px;
-  --pc-radius-lg: 20px;
+  /* Radii */
+  --pc-radius-sm: 10px;
+  --pc-radius: 14px;
+  --pc-radius-md: 18px;
+  --pc-radius-lg: 24px;
   --pc-radius-pill: 999px;
 
-  /* Shadows */
-  --pc-shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.1);
-  --pc-shadow-md: 0 6px 25px rgba(0, 0, 0, 0.1);
-  --pc-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
+  /* Shadows (layered, soft) */
+  --pc-shadow-sm: 0 1px 2px rgba(20, 20, 43, 0.06), 0 2px 8px rgba(20, 20, 43, 0.05);
+  --pc-shadow-md: 0 4px 12px rgba(20, 20, 43, 0.07), 0 8px 24px rgba(20, 20, 43, 0.08);
+  --pc-shadow-lg: 0 12px 32px rgba(20, 20, 43, 0.14), 0 24px 60px rgba(20, 20, 43, 0.16);
 
   /* Typography */
-  --pc-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  --pc-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
-  --pc-fs-sm: 0.875rem;
-  --pc-fs-base: 1rem;
-  --pc-fs-md: 1.125rem;
+  --pc-fs-sm: clamp(0.85rem, 0.82rem + 0.15vw, 0.9rem);
+  --pc-fs-base: clamp(0.95rem, 0.92rem + 0.2vw, 1.05rem);
+  --pc-fs-md: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
   --pc-fs-lg: clamp(1.25rem, 1.1rem + 0.8vw, 1.5rem);
   --pc-fs-xl: clamp(1.6rem, 1.3rem + 1.6vw, 2.2rem);
   --pc-fs-hero: clamp(2rem, 1.5rem + 2.5vw, 3rem);
