@@ -52,6 +52,7 @@ body {
 }
 .tp-content {
   background: var(--pc-surface);
+  border: 1px solid var(--pc-border);
   border-radius: var(--pc-radius-lg);
   box-shadow: var(--pc-shadow-sm);
   padding: 40px;
@@ -126,17 +127,31 @@ body {
 .tp-grid-card {
   display: block;
   background: var(--pc-surface);
+  border: 1px solid var(--pc-border);
   border-radius: var(--pc-radius-md);
   box-shadow: var(--pc-shadow-sm);
   padding: 20px 14px;
   text-align: center;
   text-decoration: none;
   color: var(--pc-text);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 .tp-grid-card:hover {
   transform: translateY(-3px);
   box-shadow: var(--pc-shadow-md);
+  border-color: var(--pc-accent-1);
+}
+.tp-grid-card:focus-visible,
+.tp-breadcrumb a:focus-visible,
+.tp-links a:focus-visible,
+.tp-footer a:focus-visible {
+  outline: 3px solid var(--pc-accent-2);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tp-grid-card { transition: none; }
+  .tp-grid-card:hover { transform: none; }
 }
 .tp-grid-card img {
   width: 96px;

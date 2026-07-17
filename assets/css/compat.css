@@ -14,9 +14,17 @@ body {
   max-width: 720px;
   margin: 0 auto;
   background: var(--pc-surface);
-  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--pc-radius-lg);
   box-shadow: var(--pc-shadow-lg);
   padding: 36px 32px;
+}
+
+.cp-name-row input:focus-visible,
+.cp-link-box input:focus-visible {
+  outline: 3px solid var(--pc-accent-2);
+  outline-offset: 2px;
+  border-color: var(--pc-brand);
 }
 
 .cp-header {

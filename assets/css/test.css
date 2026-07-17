@@ -141,27 +141,34 @@ body {
 }
 .result-tabs {
     display: flex;
-    gap: 10px;
+    gap: 4px;
     margin-bottom: 30px;
-    border-bottom: 2px solid #e0e0e0;
+    padding: 5px;
+    background: var(--pc-brand-soft);
+    border-radius: var(--pc-radius-pill);
+    flex-wrap: wrap;
 }
 .result-tab {
-    padding: 15px 30px;
+    flex: 1 1 auto;
+    min-width: max-content;
+    padding: 10px 18px;
     background: transparent;
     border: none;
-    border-bottom: 3px solid transparent;
+    border-radius: var(--pc-radius-pill);
     cursor: pointer;
-    font-size: 1.1em;
-    font-weight: bold;
-    color: #666;
-    transition: all 0.3s;
+    font-size: 0.98em;
+    font-weight: 600;
+    color: var(--pc-text-soft);
+    white-space: nowrap;
+    transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 .result-tab:hover {
-    color: #667eea;
+    color: var(--pc-brand);
 }
 .result-tab.active {
-    color: #667eea;
-    border-bottom-color: #667eea;
+    background: var(--pc-surface);
+    color: var(--pc-brand);
+    box-shadow: var(--pc-shadow-sm);
 }
 .result-tab-content {
     display: none;
@@ -173,53 +180,97 @@ body {
     font-size: 2em;
     text-align: center;
     margin-bottom: 30px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--pc-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
+
+/* Result container cards — career/learning (.result-card) and the
+   reference tabs (.reference-result) share one coherent surface look. */
 .result-card {
-    background: #f9f9f9;
-    border-radius: 10px;
-    padding: 30px;
+    background: var(--pc-surface-alt);
+    border: 1px solid var(--pc-border);
+    border-radius: var(--pc-radius-md);
+    padding: 28px;
     margin-bottom: 30px;
 }
 .result-card h3 {
     font-size: 1.5em;
     margin-bottom: 15px;
-    color: #667eea;
-}
-.result-card p {
-    margin-bottom: 10px;
-    line-height: 1.8;
-}
-.result-card ul {
-    margin-left: 20px;
-    margin-top: 10px;
-}
-.result-card li {
-    margin-bottom: 5px;
+    color: var(--pc-brand);
 }
 .reference-result {
-    background: #fff9e6;
-    border-left: 4px solid #ffa500;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-}
-.reference-result h4 {
-    margin-bottom: 10px;
-    color: #ff8c00;
-}
-.trademark-notice {
-    font-size: 0.85em;
-    color: #666;
-    margin-top: 10px;
-    padding: 10px;
-    background: #fff;
+    background: var(--pc-surface);
+    border: 1px solid var(--pc-border);
+    border-radius: var(--pc-radius-lg);
+    box-shadow: var(--pc-shadow-md);
+    padding: 28px;
+    margin-bottom: 24px;
 }
 
-/* バーグラフスタイル */
+/* Shared heading rhythm + brand gradient accent bar */
+.result-card h4,
+.reference-result h4 {
+    position: relative;
+    margin: 28px 0 12px;
+    padding-left: 14px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--pc-text);
+}
+.result-card h4::before,
+.reference-result h4::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.18em;
+    bottom: 0.18em;
+    width: 4px;
+    border-radius: var(--pc-radius-pill);
+    background: var(--pc-gradient);
+}
+.reference-result > h4:first-child {
+    margin-top: 0;
+}
+
+/* Body rhythm */
+.result-card p,
+.reference-result p {
+    margin: 14px 0;
+    line-height: 1.8;
+    color: var(--pc-text-soft);
+}
+.result-card ul,
+.reference-result ul {
+    margin: 14px 0 14px 20px;
+    line-height: 1.8;
+    color: var(--pc-text-soft);
+}
+.result-card li,
+.reference-result li {
+    margin-bottom: 6px;
+}
+.result-card .rr-lead,
+.reference-result .rr-lead {
+    margin: 6px 0 18px;
+    font-size: 1.12em;
+    font-weight: 600;
+    line-height: 1.7;
+    color: var(--pc-text);
+}
+.reference-result .trademark-notice {
+    font-size: 0.85em;
+    color: var(--pc-text-muted);
+    margin-top: 28px;
+    padding: 12px 14px;
+    background: var(--pc-surface-alt);
+    border-radius: var(--pc-radius-sm);
+    line-height: 1.7;
+}
+
+/* Bar charts */
 .bar-chart {
     margin: 20px 0;
 }
@@ -229,48 +280,56 @@ body {
 .bar-label {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
     font-size: 0.9em;
 }
 .bar-label-name {
     font-weight: 600;
+    color: var(--pc-text);
 }
 .bar-label-value {
-    color: #667eea;
-    font-weight: bold;
+    color: var(--pc-brand);
+    font-weight: 700;
 }
 .bar-container {
     width: 100%;
-    height: 25px;
-    background-color: #f0f0f0;
-    border-radius: 12px;
+    height: 26px;
+    background: var(--pc-brand-soft);
+    border-radius: var(--pc-radius-pill);
     overflow: hidden;
     position: relative;
 }
+.bar-container + .bar-container {
+    margin-top: 6px;
+}
 .bar-fill {
     height: 100%;
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-    border-radius: 12px;
-    transition: width 0.5s ease;
+    background: linear-gradient(90deg, var(--pc-grad-a) 0%, var(--pc-grad-b) 100%);
+    border-radius: var(--pc-radius-pill);
+    transition: width 0.6s ease;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding-right: 8px;
-    color: white;
-    font-size: 0.75em;
-    font-weight: bold;
+    padding-right: 10px;
+    color: #fff;
+    font-size: 0.78em;
+    font-weight: 700;
+    white-space: nowrap;
 }
+/* On-brand intensity scale (replaces the traffic-light green/amber/red) */
 .bar-fill.low {
-    background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);
+    background: linear-gradient(90deg, #e0e4f6 0%, #cfd5f0 100%);
+    color: var(--pc-text);
 }
 .bar-fill.medium {
-    background: linear-gradient(90deg, #FFC107 0%, #ff9800 100%);
+    background: linear-gradient(90deg, #9aa0ec 0%, #8079dc 100%);
 }
 .bar-fill.high {
-    background: linear-gradient(90deg, #f44336 0%, #d32f2f 100%);
+    background: linear-gradient(90deg, var(--pc-grad-a) 0%, var(--pc-grad-b) 100%);
 }
 
-/* DISC円グラフ風 */
+/* DISC circles — four functional hues, refined + brand-compatible.
+   Ring via soft box-shadow tint instead of a heavy drop shadow. */
 .disc-chart {
     display: flex;
     justify-content: space-around;
@@ -284,44 +343,50 @@ body {
     min-width: 150px;
 }
 .disc-circle {
-    width: 120px;
-    height: 120px;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
-    margin: 0 auto 10px;
+    margin: 6px auto 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 2em;
-    font-weight: bold;
-    color: white;
+    font-weight: 800;
+    color: #fff;
     position: relative;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 .disc-circle.D {
-    background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+    background: linear-gradient(135deg, #ec6284 0%, #d6486d 100%);
+    box-shadow: 0 0 0 6px rgba(214, 72, 109, 0.14);
 }
 .disc-circle.I {
-    background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+    background: linear-gradient(135deg, #f3b64f 0%, #e59a2b 100%);
+    box-shadow: 0 0 0 6px rgba(229, 154, 43, 0.18);
+    color: #4d3208;
 }
 .disc-circle.S {
-    background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+    background: linear-gradient(135deg, #2ba79b 0%, #157f76 100%);
+    box-shadow: 0 0 0 6px rgba(21, 127, 118, 0.16);
 }
 .disc-circle.C {
-    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+    background: linear-gradient(135deg, #5482ec 0%, #3f66db 100%);
+    box-shadow: 0 0 0 6px rgba(63, 102, 219, 0.16);
 }
 .disc-label {
-    font-weight: bold;
+    font-weight: 700;
     margin-top: 5px;
     font-size: 0.9em;
+    color: var(--pc-text);
 }
 .disc-score {
     font-size: 1.2em;
-    color: #667eea;
+    color: var(--pc-brand);
     margin-top: 5px;
-    font-weight: bold;
+    font-weight: 700;
 }
 
-/* レーダーチャート風の表示 */
+/* Radar grid — neutral surface cards; intensity shown via a tinted
+   left accent + the big brand-colored score, not loud pastel fills. */
 .radar-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -329,39 +394,97 @@ body {
     margin: 30px 0;
 }
 .radar-item {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    background: var(--pc-surface);
     padding: 20px;
-    border-radius: 15px;
-    border: 2px solid #dee2e6;
+    border: 1px solid var(--pc-border);
+    border-left: 4px solid var(--pc-border);
+    border-radius: var(--pc-radius-md);
+    box-shadow: var(--pc-shadow-sm);
     text-align: center;
 }
 .radar-item.high {
-    border-color: #4CAF50;
-    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    border-left-color: var(--pc-brand);
 }
 .radar-item.medium {
-    border-color: #FFC107;
-    background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+    border-left-color: #8079dc;
 }
 .radar-item.low {
-    border-color: #2196F3;
-    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border-left-color: #b6bce0;
+}
+.radar-item .bar-container {
+    margin-top: 12px;
 }
 .radar-score {
     font-size: 2.5em;
-    font-weight: bold;
-    color: #667eea;
-    margin: 15px 0;
+    font-weight: 800;
+    color: var(--pc-brand);
+    margin: 12px 0;
 }
 .radar-name {
     font-size: 1.2em;
-    font-weight: bold;
+    font-weight: 700;
     margin-bottom: 10px;
+    color: var(--pc-text);
 }
 .radar-description {
     font-size: 0.9em;
-    color: #666;
+    color: var(--pc-text-soft);
     margin-top: 10px;
+}
+
+/* 16PF top-factor cards (nested inside .reference-result) */
+.factor-list {
+    margin: 20px 0;
+    padding: 0;
+    list-style: none;
+}
+.factor-card {
+    background: var(--pc-surface-alt);
+    border: 1px solid var(--pc-border);
+    border-radius: var(--pc-radius-md);
+    padding: 16px 18px;
+    margin-bottom: 18px;
+}
+.factor-card .bar-label {
+    margin-bottom: 8px;
+}
+.factor-card .bar-label-name,
+.factor-card .bar-label-value {
+    font-size: 1.05em;
+}
+.factor-card .bar-container {
+    margin-bottom: 10px;
+}
+.factor-card .factor-desc {
+    margin: 10px 0 6px;
+    font-size: 0.95em;
+    line-height: 1.7;
+    color: var(--pc-text-soft);
+}
+.factor-card .factor-interp {
+    margin: 10px 0;
+    padding: 10px 12px;
+    background: var(--pc-surface);
+    border-radius: var(--pc-radius-sm);
+    border-left: 3px solid var(--pc-border);
+    font-size: 0.9em;
+    line-height: 1.7;
+    color: var(--pc-text-soft);
+}
+.factor-card .factor-interp.is-high {
+    border-left-color: var(--pc-success);
+}
+.factor-card .factor-interp.is-low {
+    border-left-color: var(--pc-brand);
+}
+.factor-card .factor-advice {
+    margin: 10px 0 0;
+    padding: 10px 12px;
+    background: var(--pc-brand-soft);
+    border-radius: var(--pc-radius-sm);
+    font-size: 0.9em;
+    line-height: 1.7;
+    color: var(--pc-text);
 }
 .action-buttons {
     display: flex;
@@ -763,30 +886,6 @@ body {
     color: #fff;
 }
 
-/* --- result tabs: underline style --- */
-.result-tabs {
-    border-bottom: 2px solid #ececf3;
-    gap: 4px;
-}
-.result-tab {
-    background: none;
-    border: none;
-    border-bottom: 3px solid transparent;
-    border-radius: 0;
-    margin-bottom: -2px;
-    color: #767690;
-    font-weight: 600;
-}
-.result-tab:hover {
-    color: #667eea;
-    background: none;
-}
-.result-tab.active {
-    background: none;
-    color: #667eea;
-    border-bottom-color: #667eea;
-}
-
 /* --- result hero (career / MBTI character) --- */
 .result-hero {
     display: flex;
@@ -869,4 +968,16 @@ body {
     background: #fff;
     color: #667eea;
     border: 2px solid #667eea;
+}
+
+/* --- respect reduced-motion preference --- */
+@media (prefers-reduced-motion: reduce) {
+    .bar-fill,
+    .progress-fill,
+    .option-btn,
+    .result-tab,
+    .nav-btn,
+    .action-btn {
+        transition: none;
+    }
 }

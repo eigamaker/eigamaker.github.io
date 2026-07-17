@@ -261,6 +261,63 @@
             .footer { margin-top: 40px; padding-top: 20px; font-size: 0.85em; text-align: center; }
             .footer a { display: block; margin: 10px 0; }
         }
+
+        /* --- P4 refine layer: modern indigo/violet, glass card, focus rings --- */
+        body {
+            background:
+                radial-gradient(circle at 15% 10%, rgba(255, 255, 255, 0.16), transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(255, 255, 255, 0.12), transparent 50%),
+                linear-gradient(135deg, #6a5cf0 0%, #7c3aed 100%);
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 24px;
+            box-shadow: 0 12px 32px rgba(20, 20, 43, 0.14), 0 24px 60px rgba(20, 20, 43, 0.18);
+        }
+        h1 {
+            background: linear-gradient(135deg, #6a5cf0 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+        .btn {
+            border-radius: 999px;
+            min-height: 48px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #6a5cf0 0%, #7c3aed 100%);
+        }
+        .feature {
+            background: #f7f7fd;
+            border: 1px solid #e4e6f0;
+            border-radius: 16px;
+        }
+        .feature:hover {
+            border-color: #a78bfa;
+        }
+        .feature h3 { color: #6a5cf0; }
+        .lang-btn, .lang-btn-more { border-radius: 999px; }
+        .lang-btn { border-color: #6a5cf0; color: #6a5cf0; }
+        .lang-btn.active,
+        .lang-dropdown .lang-btn.active {
+            background: linear-gradient(135deg, #6a5cf0 0%, #7c3aed 100%);
+        }
+        .lang-dropdown { border-color: #6a5cf0; }
+        .footer a, .feature h3 { color: #6a5cf0; }
+        a:focus-visible, button:focus-visible {
+            outline: 3px solid #22d3ee;
+            outline-offset: 2px;
+            border-radius: 8px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                transition-duration: 0.001ms !important;
+                animation-duration: 0.001ms !important;
+            }
+            .btn:hover, .feature:hover, .store-badge:hover, .lang-btn:hover {
+                transform: none !important;
+            }
+        }
     </style>
   <!-- pc:head v1 -->
   <link rel="icon" href="/favicon.ico" sizes="32x32">
